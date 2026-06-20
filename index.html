@@ -239,16 +239,18 @@
 
 /* Ajusta el buscador */
 #search-bar {
-    width: 200px;
-    padding: 12px;
+    width: 100%;
+    max-width: 400px;
+    padding: 15px 20px;
     background: #111;
-    border: 1px solid #c48b22ce;
+    border: 1px solid var(--gold-premium);
     color: white;
-    /* Esto es lo que necesitas para que no estén pegados */
-    margin-bottom: 60px; 
+    margin-top: 30px;
     display: block;
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
+    letter-spacing: 2px;
 }
 
         .section-title {
@@ -290,23 +292,33 @@
         }
 
         .product-image-container {
-            height: 280px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 35px;
-        }
+    height: 250px; /* Define una altura fija para todos los contenedores */
+    width: 100%;   /* Asegura que ocupe todo el ancho de la tarjeta */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 35px;
+    background-color: rgba(255, 255, 255, 0); /* Opcional: añade un fondo sutil si quieres ver el marco */
+    overflow: hidden; /* Evita que imágenes muy grandes se salgan del marco */
+}
 
-        .product-img {
-            max-width: 85%;
-            max-height: 100%;
-            object-fit: contain;
-            transition: transform 0.8s ease;
-        }
+.product-img {
+    max-width: 90%;
+    max-height: 90%; /* Ajusta esto para dar un poco de margen interno */
+    object-fit: contain; /* Esto es clave: mantiene la proporción sin deformar la imagen */
+    transition: transform 0.8s ease;
+}
 
-        .product-card:hover .product-img {
-            transform: scale(1.06);
-        }
+.product-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    padding: 30px; /* Ajusta el padding si es necesario */
+    text-align: center;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;        /* Activamos flexbox */
+    flex-direction: column; /* Apilamos contenido verticalmente */
+    justify-content: space-between; /* Empuja el precio hacia abajo si fuera necesario */
+}
 
         .product-name-link {
             color: var(--white);
@@ -539,8 +551,8 @@
         <h2 class="section-title">Modelos Disponibles</h2>
         <div class="section-divider"></div>
         
-        <input type="text" id="search-bar" placeholder="Buscar por nombre de modelo..." 
-               onkeyup="filterProducts()" style="margin-top: 20px; padding: 10px; width: 300px; background: #111; border: 1px solid #c48b22ce; color: white;">
+        <input type="text" id="search-bar" placeholder="Buscar modelo..." onkeyup="filterProducts()">
+            
     </div>
     
     <div class="grid-products" id="product-grid"></div>
@@ -692,10 +704,15 @@ function openProductDetail(id) {
 }
 
 function closeProductDetail() {
-    console.log("Cerrando detalle..."); // Para depurar en la consola si no funciona
+    // 1. Ocultar detalle
     document.getElementById('product-detail-view').style.display = 'none';
+    
+    // 2. Mostrar Home y Header
     document.getElementById('home-view').style.display = 'block';
     document.getElementById('header-container').style.display = 'block';
+    
+    // 3. Opcional: Volver al top del catálogo
+    document.getElementById('coleccion').scrollIntoView();
 }
 
 function moveSlide(direction) {
