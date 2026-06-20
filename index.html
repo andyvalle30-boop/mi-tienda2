@@ -53,10 +53,11 @@
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--white);
-            overflow-x: hidden;
-        }
+    background-color: var(--bg-dark);
+    color: var(--white);
+    overflow-x: hidden; /* Esto elimina cualquier scroll lateral no deseado */
+    width: 100%;
+}
 
         /* BARRA DE ANUNCIO CON ANIMACIÓN */
         .promo-bar {
@@ -228,9 +229,17 @@
 }
 
         .section-header {
-            text-align: center;
-            margin-bottom: 90px;
-        }
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra el buscador y el título */
+}
+
+#search-bar {
+    width: 90% !important; /* El buscador no debe ser más ancho que la pantalla */
+    max-width: 400px;
+    margin: 20px auto;
+}
 
         .section-title {
             font-size: 2rem;
@@ -248,12 +257,13 @@
         }
 
         .grid-products {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Reducimos el minmax para móviles */
+    gap: 30px;
+    max-width: 90%; /* Esto evita que toque los bordes laterales */
+    margin: 0 auto; /* ¡Esto es lo que centra la cuadrícula! */
+    justify-items: center; /* Esto centra las tarjetas dentro de la cuadrícula */
+}
 
         .product-card {
             background: var(--card-bg);
