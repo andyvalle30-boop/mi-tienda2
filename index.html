@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ESTA ES LA LÍNEA MÁGICA QUE PONE EL LOGO EN LA PESTAÑA (FAVICON) -->
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <title>Neo Chronos | Premium Timepieces</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #0a0b0d;        
+            --card-bg: #161616de;      
+            --gold-premium: #c48b22ce; 
+            --white: #ffffff;
+            --text-gray: #e6e6edb5;    
+        }
+        #gallery-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#gallery-container img.slide {
+    max-width: 100%;
+    max-height: 400px; /* Ajusta este valor al alto que prefieras */
+    object-fit: contain;
+}
+
+#coleccion {
+    padding: 140px 60px;
+    background-color: var(--bg-dark);
+    /* Esta es la línea mágica */
+    scroll-margin-top: -300px; 
+}
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* BARRA DE ANUNCIO CON ANIMACIÓN */
+        .promo-bar {
+            background-color: var(--gold-premium);
+            color: var(--bg-dark);
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: pulseText 3s ease-in-out infinite;
+            display: block;
+        }
+
+        @keyframes pulseText {
+            0% { transform: scale(1); letter-spacing: 2px; }
+            50% { transform: scale(1.03); letter-spacing: 2.5px; }
+            100% { transform: scale(1); letter-spacing: 2px; }
+        }
+
+        /* NAVBAR Y HEADER */
+        .header-wrapper {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: transform 0.4s ease;
+        }
+
+        header {
+            width: 100%;
+            padding: 20px 60px; 
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            background: transparent;
+            transition: all 0.4s ease;
+        }
+
+        .header-wrapper.scrolled {
+            transform: translateY(-33px);
+        }
+
+        .header-wrapper.scrolled header {
+            background: rgba(11, 11, 11, 0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 12px 60px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        /* TEXTO A LA IZQUIERDA */
+        .logo-text {
+            color: var(--white);
+            font-weight: 300;
+            font-size: 1.2rem;
+            letter-spacing: 5px;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .logo-text span {
+            color: var(--gold-premium);
+            font-weight: 400;
+            font-size: 0.65rem;
+            display: block;
+            letter-spacing: 2px;
+            margin-top: 4px;
+        }
+
+        /* IMAGEN DEL LOGO A LA DERECHA (Limpia y sin fondo) */
+        .header-img-logo {
+            height: 60px; 
+            width: auto;
+            object-fit: contain;
+            transition: all 0.4s ease;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); /* Sombra sutil para resaltar el oro */
+        }
+
+        .header-wrapper.scrolled .header-img-logo {
+            height: 45px; 
+        }
+
+        /* HERO VIDEO */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(10,11,13,0.2) 0%, rgba(10,11,13,0.85) 100%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 0.2s;
+        }
+
+        .hero-title {
+            font-size: 3.8rem;
+            font-weight: 200;
+            letter-spacing: 10px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .hero-subtitle {
+            font-size: 0.85rem;
+            color: var(--gold-premium);
+            letter-spacing: 6px;
+            margin-bottom: 45px;
+            text-transform: uppercase;
+        }
+
+        .btn-premium {
+            padding: 16px 45px;
+            border: 1px solid var(--white);
+            color: var(--white);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            transition: all 0.4s ease;
+        }
+
+        .btn-premium:hover {
+            background-color: var(--white);
+            color: var(--bg-dark);
+        }
+
+        /* VITRINA GRÁFICA */
+        .products-section {
+            padding: 140px 60px;
+            background-color: var(--bg-dark);
+        }
+        .product-card {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Opcional: añade esto al CSS para que se vea bien */
+#search-bar:focus {
+    outline: none;
+    border-color: white;
+}
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 90px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 200;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .section-divider {
+            width: 50px;
+            height: 1px;
+            background-color: var(--gold-premium);
+            margin: 0 auto;
+        }
+
+        .grid-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            padding: 50px 35px;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .product-card:hover {
+            border-color: rgba(196, 139, 34, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .product-image-container {
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 35px;
+        }
+
+        .product-img {
+            max-width: 85%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.8s ease;
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.06);
+        }
+
+        .product-name-link {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-name-link:hover {
+            color: var(--gold-premium);
+        }
+
+        .product-tag {
+            font-size: 0.68rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 25px;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            color: var(--gold-premium);
+            margin-bottom: 35px;
+            font-weight: 300;
+        }
+
+        /* VISTA DE DETALLE INTERNA */
+        .product-detail-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--bg-dark);
+            z-index: 2000;
+            display: none; 
+            overflow-y: auto;
+            padding: 120px 60px 60px 60px;
+        }
+
+        .btn-back {
+            position: absolute;
+            top: 40px;
+            left: 60px;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-back:hover {
+            color: var(--gold-premium);
+        }
+
+        .detail-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .detail-gallery {
+    position: relative; /* Necesario para posicionar botones */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+        .detail-main-img {
+            max-width: 90%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .detail-info h2 {
+            font-size: 2.2rem;
+            font-weight: 300;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .detail-price {
+            font-size: 1.8rem;
+            color: var(--gold-premium);
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        .specs-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--white);
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .specs-list {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .specs-list li {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            line-height: 1.8;
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .specs-list li::before {
+            content: "•";
+            color: var(--gold-premium);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .btn-action-whatsapp {
+            display: inline-block;
+            width: 100%;
+            padding: 18px;
+            background-color: transparent;
+            border: 1px solid var(--gold-premium);
+            color: var(--gold-premium);
+            text-decoration: none;
+            text-transform: uppercase;
+            text-align: center;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            font-weight: 700;
+            transition: all 0.4s ease;
+        }
+
+        .btn-action-whatsapp:hover {
+            background-color: var(--gold-premium);
+            color: #000;
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            header, .header-wrapper.scrolled header {
+                padding: 15px 25px;
+            }
+            .logo-text { font-size: 1rem; }
+            .logo-text span { font-size: 0.58rem; }
+            .header-img-logo { height: 45px; }
+            .header-wrapper.scrolled .header-img-logo { height: 35px; }
+            .detail-container { grid-template-columns: 1fr; gap: 40px; }
+            .product-detail-page { padding: 100px 20px 40px 20px; }
+            .btn-back { left: 20px; top: 30px; }
+            .detail-gallery { height: 350px; }
+            .hero-title { font-size: 2.3rem; }
+            .products-section { padding: 80px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-wrapper" id="header-container">
+        <div class="promo-bar">
+            Neo Chronos auspicia tu entrega: Cubrimos hasta $3.00 en costos de envío
+        </div>
+        
+        <header>
+            <a href="#" class="logo-text">
+                Neo Chronos
+                <span>Time in your hands</span>
+            </a>
+            
+            <!-- EL LOGO SIN FONDO LUCIENDO LIMPIO A LA DERECHA -->
+            <img src="logo.png" alt="Neo Chronos" class="header-img-logo">
+        </header>
+    </div>
+
+    <!-- HOME CONTENT -->
+    <div id="home-view">
+        <section class="hero">
+            <video class="hero-video" autoplay loop muted playsinline>
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-luxury-wrist-watch-close-up-34241-large.mp4" type="video/mp4">
+            </video>
+            <div class="overlay"></div>
+            <div class="hero-content">
+                <h1 class="hero-title">Neo Chronos</h1>
+                <p class="hero-subtitle">Ingeniería, Oro y Acero</p>
+                <a href="#coleccion" class="btn-premium">Descubrir Modelos</a>
+            </div>
+        </section>
+<section class="products-section" id="coleccion">
+    <div class="section-header">
+        <h2 class="section-title">Modelos Disponibles</h2>
+        <div class="section-divider"></div>
+        
+        <input type="text" id="search-bar" placeholder="Buscar por nombre de modelo..." 
+               onkeyup="filterProducts()" style="margin-top: 20px; padding: 10px; width: 300px; background: #111; border: 1px solid #c48b22ce; color: white;">
+    </div>
+    
+    <div class="grid-products" id="product-grid"></div>
+</section>
+    </div>
+
+    <!-- VISTA DINÁMICA DE DETALLE DE PRODUCTO -->
+    <div id="product-detail-view" class="product-detail-page">
+        <a class="btn-back" onclick="closeProductDetail()">← Volver al catálogo</a>
+        
+        <div class="detail-container">
+           <div class="detail-gallery">
+    <!-- Botón anterior -->
+    <button class="nav-btn prev" onclick="moveSlide(-1)">&#10094;</button>
+    
+    <!-- Aquí irán las imágenes -->
+    <div id="gallery-container"></div>
+    
+    <!-- Botón siguiente -->
+    <button class="nav-btn next" onclick="moveSlide(1)">&#10095;</button>
+</div>
+            
+            <div class="detail-info">
+                <h2 id="detail-title">Nombre del Reloj</h2>
+                <div id="detail-price" class="detail-price">$0.00</div>
+                
+                <h3 class="specs-title">Acerca de este artículo</h3>
+                <ul class="specs-list" id="detail-specs">
+                </ul>
+                
+                <a id="detail-wa-link" href="" class="btn-action-whatsapp" target="_blank">Consultar Disponibilidad por WhatsApp</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      // 1. Aquí defines todos tus productos
+const productsData = {
+    'two-tone': {
+        title: "invicta Pro Diver",
+        price: "$120.00",
+        folder: "two-tone", // Nombre de la carpeta donde están las fotos
+        images: ["reloj1.jpg", "reloj2.jpg"], // Lista de archivos
+        tag: "Automatic / Acero y Oro / 43mm",
+        whatsappText: "¡Hola! Me interesa el modelo Pro Diver Two-Tone.",
+        specs: ["Caja de acero.", "Movimiento japonés."]
+    },
+    'black-dial': {
+        title: "invicta Pro Diver",
+        price: "$110.00",
+        folder: "black-dial", // Nombre de la carpeta donde están las fotos
+        images: ["reloj1.jpg"], // Lista de archivos
+        tag: "Automatic / Acero / 43mm",
+        whatsappText: "¡Hola! Me interesa el modelo Pro Diver Two-Tone.",
+        specs: ["Caja de acero.", "Movimiento japonés."]
+    },
+      'black': {
+        title: "fossil Pro Diver",
+        price: "$110.00",
+        folder: "black", // Nombre de la carpeta donde están las fotos
+        images: ["reloj1.jpg"], // Lista de archivos
+        tag: "Automatic / Acero / 43mm",
+        whatsappText: "¡Hola! Me interesa el modelo Pro Diver Two-Tone.",
+        specs: ["Caja de acero.", "Movimiento japonés."]
+    }
+
+};
+function filterProducts() {
+    const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+    const productCards = document.querySelectorAll('.product-card');
+
+    productCards.forEach(card => {
+        // Obtenemos el nombre del reloj dentro de la tarjeta
+        const title = card.querySelector('.product-name-link').innerText.toLowerCase();
+        
+        // Si el título incluye lo que escribimos, la mostramos, sino la ocultamos
+        if (title.includes(searchTerm)) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+    });
+}
+
+// 2. Esta función inyecta los productos en la página automáticamente
+function renderCatalog() {
+    const grid = document.getElementById('product-grid');
+    grid.innerHTML = ""; // Limpiar antes de renderizar
+
+    Object.keys(productsData).forEach(key => {
+        const p = productsData[key];
+        
+        // Aquí tomamos p.images[0], que es la primera foto de tu lista
+        const firstImage = `${p.folder}/${p.images[0]}`; 
+        
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+            <div class="product-image-container">
+                <img src="${firstImage}" alt="${p.title}" class="product-img">
+            </div>
+            <div>
+                <a class="product-name-link" onclick="openProductDetail('${key}')">${p.title}</a>
+                <p class="product-tag">${p.tag}</p>
+                <p class="product-price">${p.price}</p>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+
+}
+
+// 3. Funciones existentes de navegación
+window.addEventListener('scroll', function() {
+    const header = document.getElementById('header-container');
+    header.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+let currentSlide = 0;
+let currentProductId = '';
+
+function openProductDetail(id) {
+    currentProductId = id;
+    currentSlide = 0;
+    const p = productsData[id];
+
+    // 1. Actualizar Textos
+    document.getElementById('detail-title').innerText = p.title;
+    document.getElementById('detail-price').innerText = p.price;
+    
+    // 2. Actualizar WhatsApp
+    document.getElementById('detail-wa-link').href = `https://wa.me/593XXXXXXXXX?text=${encodeURIComponent(p.whatsappText)}`;
+    
+    // 3. Actualizar Especificaciones
+    const specs = document.getElementById('detail-specs');
+    specs.innerHTML = p.specs.map(s => `<li>${s}</li>`).join('');
+
+    // 4. Actualizar el Carrusel de fotos
+    const container = document.getElementById('gallery-container');
+    container.innerHTML = p.images.map((img, index) => `
+        <img src="${p.folder}/${img}" class="slide" style="display: ${index === 0 ? 'block' : 'none'}">
+    `).join('');
+
+    // 5. Mostrar la vista y ocultar el home
+    document.getElementById('home-view').style.display = 'none';
+    document.getElementById('header-container').style.display = 'none';
+    document.getElementById('product-detail-view').style.display = 'block';
+    window.scrollTo(0, 0);
+}
+
+function closeProductDetail() {
+    console.log("Cerrando detalle..."); // Para depurar en la consola si no funciona
+    document.getElementById('product-detail-view').style.display = 'none';
+    document.getElementById('home-view').style.display = 'block';
+    document.getElementById('header-container').style.display = 'block';
+}
+
+function moveSlide(direction) {
+    const p = productsData[currentProductId];
+    const slides = document.querySelectorAll('.slide');
+    
+    // Ocultar la actual
+    slides[currentSlide].style.display = 'none';
+    
+    // Calcular nueva posición
+    currentSlide = (currentSlide + direction + slides.length) % slides.length;
+    
+    // Mostrar la nueva
+    slides[currentSlide].style.display = 'block';
+}
+
+// Iniciar catálogo al cargar
+renderCatalog();
+    </script>
+</body>
+</html>
