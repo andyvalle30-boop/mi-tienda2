@@ -233,12 +233,22 @@
     display: flex;
     flex-direction: column;
     align-items: center; /* Centra el buscador y el título */
+    margin-bottom: 90px; /* Ya tienes esto */
+    padding-bottom: -5px; /* Añade esto para separar el buscador de la grilla */
 }
 
+/* Ajusta el buscador */
 #search-bar {
-    width: 90% !important; /* El buscador no debe ser más ancho que la pantalla */
-    max-width: 400px;
-    margin: 20px auto;
+    width: 200px;
+    padding: 12px;
+    background: #111;
+    border: 1px solid #c48b22ce;
+    color: white;
+    /* Esto es lo que necesitas para que no estén pegados */
+    margin-bottom: 60px; 
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
         .section-title {
