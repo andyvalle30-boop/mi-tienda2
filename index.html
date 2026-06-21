@@ -33,9 +33,7 @@
     max-height: 400px; /* Ajusta este valor al alto que prefieras */
     object-fit: contain;
 }
-* {
-    outline: 1px solid red !important;
-}
+
 #coleccion {
     padding: 140px 60px;
     background-color: var(--bg-dark);
@@ -292,13 +290,13 @@
             margin: 0 auto;
         }
 
-        .grid-products {
+   .grid-products {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Reducimos el minmax para móviles */
-    gap: 30px;
-    max-width: 90%; /* Esto evita que toque los bordes laterales */
-    margin: 0 auto; /* ¡Esto es lo que centra la cuadrícula! */
-    justify-items: center; /* Esto centra las tarjetas dentro de la cuadrícula */
+    /* Cambiamos minmax para asegurar que siempre quepan */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 20px;
+    width: 90%; 
+    margin: 0 auto;
 }
 
         .product-card {
