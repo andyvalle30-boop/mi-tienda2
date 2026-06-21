@@ -72,6 +72,38 @@
             animation: pulseText 3s ease-in-out infinite;
             display: block;
         }
+     .brand-marquee {
+    width: 100%;
+    background-color: #0e0f11;
+    padding: 30px 0;
+    overflow: hidden;
+    border-top: 1px solid rgba(196, 139, 34, 0.1);
+    border-bottom: 1px solid rgba(196, 139, 34, 0.1);
+    margin-top: 80px;
+}
+
+.marquee-track {
+    display: flex;
+    gap: 80px;
+    width: max-content; /* El contenedor mide solo lo que ocupan sus hijos */
+    /* Usamos 'infinite' y 'linear' */
+    animation: scroll 30s linear infinite;
+}
+
+.brand-item {
+    flex-shrink: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+}
+
+@keyframes scroll {
+    /* En lugar de 0% a -50%, movemos el contenido al ancho exacto de sus elementos hijos */
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); } 
+}
 
         @keyframes pulseText {
             0% { transform: scale(1); letter-spacing: 2px; }
@@ -496,6 +528,50 @@
         @keyframes fadeInUp {
             to { opacity: 1; transform: translateY(0); }
         }
+        /* ESTILOS DEL FOOTER */
+    .footer {
+        padding: 80px 60px;
+        background-color: #0a0b0d;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        color: var(--white);
+    }
+
+    .footer-content {
+        max-width: 400px; /* Alineado a la izquierda */
+    }
+
+    .footer-title {
+        font-size: 1.2rem;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        color: var(--gold-premium);
+    }
+
+    .footer-text {
+        font-size: 0.85rem;
+        color: var(--text-gray);
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 20px;
+    }
+
+    .social-links a {
+        color: var(--white);
+        text-decoration: none;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        transition: color 0.3s ease;
+    }
+
+    .social-links a:hover {
+        color: var(--gold-premium);
+    }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
@@ -544,6 +620,11 @@
                 <h1 class="hero-title">Neo Chronos</h1>
                 <p class="hero-subtitle">Ingeniería, Oro y Acero</p>
                 <a href="#coleccion" class="btn-premium">Descubrir Modelos</a>
+<div class="brand-marquee">
+    <div class="marquee-track">
+        <div class="brand-item">FOSSIL</div><div class="brand-item">INVICTA</div><div class="brand-item">BULOVA</div><div class="brand-item">CURREN</div><div class="brand-item">OMEGA</div><div class="brand-item">FOSSIL</div><div class="brand-item">INVICTA</div><div class="brand-item">BULOVA</div><div class="brand-item">CURREN</div><div class="brand-item">OMEGA</div>
+    </div>
+</div>
             </div>
         </section>
 <section class="products-section" id="coleccion">
@@ -666,9 +747,12 @@ function renderCatalog() {
 }
 
 // 3. Funciones existentes de navegación
-window.addEventListener('scroll', function() {
-    const header = document.getElementById('header-container');
-    header.classList.toggle('scrolled', window.scrollY > 50);
+// Fuerza el ancho para que la animación sea perfecta
+window.addEventListener('load', function() {
+    const track = document.querySelector('.marquee-track');
+    const items = track.innerHTML;
+    // Duplicamos el contenido dinámicamente para asegurar que el 50% sea exacto
+    track.innerHTML = items + items;
 });
 
 let currentSlide = 0;
@@ -732,5 +816,21 @@ function moveSlide(direction) {
 // Iniciar catálogo al cargar
 renderCatalog();
     </script>
+    <!-- PIE DE PÁGINA -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h4 class="footer-title">Neo Chronos</h4>
+            <p class="footer-text">
+                Ingeniería de precisión y elegancia atemporal. 
+                Distribuidores autorizados de las mejores marcas.
+            </p>
+            
+            <div class="social-links">
+                <a href="https://tiktok.com/@tuusuario" target="_blank">TikTok</a>
+                <a href="https://instagram.com/tuusuario" target="_blank">Instagram</a>
+                <a href="https://wa.me/593XXXXXXXXX" target="_blank">WhatsApp</a>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
