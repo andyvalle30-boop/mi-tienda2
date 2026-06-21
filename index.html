@@ -87,7 +87,7 @@
     gap: 80px;
     width: max-content; /* El contenedor mide solo lo que ocupan sus hijos */
     /* Usamos 'infinite' y 'linear' */
-    animation: scroll 30s linear infinite;
+    animation: scroll 50s linear infinite;
 }
 
 .brand-item {
@@ -748,11 +748,9 @@ function renderCatalog() {
 
 // 3. Funciones existentes de navegación
 // Fuerza el ancho para que la animación sea perfecta
-window.addEventListener('load', function() {
-    const track = document.querySelector('.marquee-track');
-    const items = track.innerHTML;
-    // Duplicamos el contenido dinámicamente para asegurar que el 50% sea exacto
-    track.innerHTML = items + items;
+window.addEventListener('scroll', function() {
+    const header = document.getElementById('header-container');
+    header.classList.toggle('scrolled', window.scrollY > 50);
 });
 
 let currentSlide = 0;
@@ -832,5 +830,12 @@ renderCatalog();
             </div>
         </div>
     </footer>
+    <script>
+  const track = document.querySelector(".marquee-track");
+const content = track.innerHTML;
+
+// Lo repetimos 4 veces para que nunca se vea el final
+track.innerHTML = content + content + content + content;
+</script>
 </body>
 </html>
