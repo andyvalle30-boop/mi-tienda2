@@ -74,9 +74,9 @@
         }
      .brand-marquee {
     width: 100%;
+    overflow: hidden; /* ESTO ES LO QUE EVITA QUE SE ALARGE LA PÁGINA */
     background-color: #0e0f11;
     padding: 30px 0;
-    overflow: hidden;
     border-top: 1px solid rgba(196, 139, 34, 0.1);
     border-bottom: 1px solid rgba(196, 139, 34, 0.1);
     margin-top: 80px;
@@ -85,22 +85,12 @@
 .marquee-track {
     display: flex;
     gap: 80px;
-    width: max-content; /* El contenedor mide solo lo que ocupan sus hijos */
-    /* Usamos 'infinite' y 'linear' */
-    animation: scroll 50s linear infinite;
-}
-
-.brand-item {
-    flex-shrink: 0;
-    font-size: 1.2rem;
-    font-weight: 700;
-    letter-spacing: 4px;
-    color: rgba(255, 255, 255, 0.3);
-    text-transform: uppercase;
+    width: max-content; /* Se ajusta solo al ancho de los elementos */
+    animation: scroll 20s linear infinite;
+    will-change: transform; /* Mejora el rendimiento en móviles */
 }
 
 @keyframes scroll {
-    /* En lugar de 0% a -50%, movemos el contenido al ancho exacto de sus elementos hijos */
     from { transform: translateX(0); }
     to { transform: translateX(-50%); } 
 }
@@ -622,7 +612,17 @@
                 <a href="#coleccion" class="btn-premium">Descubrir Modelos</a>
 <div class="brand-marquee">
     <div class="marquee-track">
-        <div class="brand-item">FOSSIL</div><div class="brand-item">INVICTA</div><div class="brand-item">BULOVA</div><div class="brand-item">CURREN</div><div class="brand-item">OMEGA</div><div class="brand-item">FOSSIL</div><div class="brand-item">INVICTA</div><div class="brand-item">BULOVA</div><div class="brand-item">CURREN</div><div class="brand-item">OMEGA</div>
+        <!-- Grupo 1 -->
+        <div class="brand-item">FOSSIL</div>
+        <div class="brand-item">INVICTA</div>
+        <div class="brand-item">BULOVA</div>
+        <div class="brand-item">CURREN</div>
+        <div class="brand-item">OMEGA</div>
+        <div class="brand-item">FOSSIL</div>
+        <div class="brand-item">INVICTA</div>
+        <div class="brand-item">BULOVA</div>
+        <div class="brand-item">CURREN</div>
+        <div class="brand-item">OMEGA</div>
     </div>
 </div>
             </div>
@@ -830,12 +830,5 @@ renderCatalog();
             </div>
         </div>
     </footer>
-    <script>
-  const track = document.querySelector(".marquee-track");
-const content = track.innerHTML;
-
-// Lo repetimos 4 veces para que nunca se vea el final
-track.innerHTML = content + content + content + content;
-</script>
 </body>
 </html>
