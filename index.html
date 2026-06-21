@@ -581,16 +581,44 @@
             .detail-gallery { height: 350px; }
             .hero-title { font-size: 2.3rem; }
             .products-section { padding: 80px 20px; }
-        }
+            /* Compactar el Hero */
+    .hero { height: 70vh; }
+    .hero-title { font-size: 1.8rem; letter-spacing: 5px; }
+    .hero-subtitle { font-size: 0.7rem; margin-bottom: 20px; }
+
+    /* Compactar el Header */
+    header { padding: 10px 15px; }
+    .header-img-logo { height: 35px; }
+
+    /* Compactar el buscador y secciones */
+    .products-section { padding: 40px 15px; }
+    #search-bar { padding: 10px; margin-top: 15px; font-size: 0.8rem; }
+    .section-title { font-size: 1.2rem; }
+    
+    /* Compactar la grilla de productos */
+    .grid-products {
+        grid-template-columns: 1fr 1fr; /* Muestra 2 productos por fila en móvil */
+        gap: 10px;
+    }
+    .product-card { padding: 15px; }
+    .product-image-container { height: 120px; margin-bottom: 15px; }
+    .product-name-link { font-size: 0.85rem; }
+    .product-price { font-size: 1rem; margin-bottom: 10px; }
+    .product-tag { font-size: 0.6rem; margin-bottom: 10px; }
+
+    /* Ajuste de botones */
+    .btn-premium { padding: 12px 25px; font-size: 0.6rem; }
+}
+        
         /* AJUSTES PARA COMPACTAR LA PÁGINA */
-.hero { height: 80vh; }
-.hero-title { font-size: 2.5rem; }
-.products-section { padding: 60px 20px; }
-.product-card { padding: 20px; }
-.product-image-container { height: 180px; }
+.hero { height: 70vh; }
+.hero-title { font-size: 1.8rem; letter-spacing: 5px; }
+.products-section { padding: 40px 15px; }
+.product-card { padding: 15px; }
+.product-image-container { height: 120px; margin-bottom: 15px; }
 header { padding: 10px 30px; }
-.header-img-logo { height: 40px; }
-.section-title { font-size: 1.6rem; }
+.header-img-logo { height: 35px; }
+.section-title { font-size: 1.2rem; }
 .brand-marquee { padding: 20px 0; margin-top: 40px; }
     </style>
 </head>
