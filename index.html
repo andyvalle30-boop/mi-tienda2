@@ -179,7 +179,7 @@
             text-align: center;
         }
 
-        .hero-video {
+        .hero-bg {
             position: absolute;
             top: 0;
             left: 0;
@@ -187,6 +187,7 @@
             height: 100%;
             object-fit: cover;
             z-index: -2;
+            filter: brightness(0.65); /* Esto oscurece un poco la imagen para que resalten más las letras */
         }
 
         .overlay {
@@ -206,12 +207,13 @@
             animation-delay: 0.2s;
         }
 
-        .hero-title {
+       .hero-title {
             font-size: 3.8rem;
             font-weight: 200;
             letter-spacing: 10px;
             margin-bottom: 15px;
             text-transform: uppercase;
+            color: #d5bd96; /* Tono dorado/champán de la imagen */
         }
 
         .hero-subtitle {
@@ -222,10 +224,10 @@
             text-transform: uppercase;
         }
 
-        .btn-premium {
+       .btn-premium {
             padding: 16px 45px;
-            border: 1px solid var(--white);
-            color: var(--white);
+            border: 1px solid #d5bd96; /* Borde del color de la imagen */
+            color: #d5bd96; /* Letra del color de la imagen */
             text-decoration: none;
             text-transform: uppercase;
             font-size: 0.7rem;
@@ -643,9 +645,8 @@ header { padding: 10px 30px; }
     <!-- HOME CONTENT -->
     <div id="home-view">
         <section class="hero">
-            <video class="hero-video" autoplay loop muted playsinline>
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-luxury-wrist-watch-close-up-34241-large.mp4" type="video/mp4">
-            </video>
+            <!-- Pon aquí el nombre de la imagen que quieres usar de fondo -->
+            <img class="hero-bg" src="FONDO-RELOJES.jpg" alt="Fondo de relojes">
             <div class="overlay"></div>
             <div class="hero-content">
                 <h1 class="hero-title">Neo Chronos</h1>
