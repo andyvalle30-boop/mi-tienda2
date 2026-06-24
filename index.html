@@ -939,7 +939,7 @@
                         <p class="card-desc">${shortDesc}</p>
                         <p class="card-price">${p.price}</p>
                         <div class="card-actions">
-                            <button class="btn-card primary" onclick="window.open('https://wa.me/593XXXXXXXXX?text=${encodeURIComponent(whatsappMessage)}', '_blank')">COMPRAR</button>
+                            <button class="btn-card primary" onclick="window.open('https://wa.me/593987916568?text=${encodeURIComponent(whatsappMessage)}', '_blank')">COMPRAR</button>
                             <button class="btn-card secondary" onclick="openProductDetail('${key}')">VER DETALLES</button>
                         </div>
                     </div>
@@ -1012,7 +1012,7 @@
             const productUrl = `${baseUrl}?id=${id}`;
             const whatsappMessage = `${p.whatsappText}\n\n📌 Link del producto: ${productUrl}`;
             
-            document.getElementById('detail-wa-link').href = `https://wa.me/593XXXXXXXXX?text=${encodeURIComponent(whatsappMessage)}`;
+            document.getElementById('detail-wa-link').href = `https://wa.me/593987916568?text=${encodeURIComponent(whatsappMessage)}`;
             
             const specs = document.getElementById('detail-specs');
             specs.innerHTML = p.specs.map(s => `<li>${s}</li>`).join('');
