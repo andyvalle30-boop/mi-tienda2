@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- ESTA ES LA LÍNEA MÁGICA QUE PONE EL LOGO EN LA PESTAÑA (FAVICON) -->
     <link rel="icon" type="image/png" href="logo.png">
     
     <title>Neo Chronos | Premium Timepieces</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -20,29 +19,25 @@
             --text-gray: #e6e6edb5;    
         }
         #gallery-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
 
-#gallery-container img.slide {
-    max-width: 100%;
-    max-height: 400px; /* Ajusta este valor al alto que prefieras */
-    object-fit: contain;
-}
+        #gallery-container img.slide {
+            max-width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+        }
 
-#coleccion {
-    padding: 140px 60px;
-    background-color: var(--bg-dark);
-    /* Esta es la línea mágica */
-    scroll-margin-top: -300px; 
-}
-.product-card {
-    cursor: pointer;
-}
+        #coleccion {
+            padding: 140px 60px;
+            background-color: var(--bg-dark);
+            scroll-margin-top: -300px; 
+        }
 
         * {
             margin: 0;
@@ -56,11 +51,11 @@
         }
 
         body {
-    background-color: var(--bg-dark);
-    color: var(--white);
-    overflow-x: hidden; /* Esto elimina cualquier scroll lateral no deseado */
-    width: 100%;
-}
+            background-color: var(--bg-dark);
+            color: var(--white);
+            overflow-x: hidden; 
+            width: 100%;
+        }
 
         /* BARRA DE ANUNCIO CON ANIMACIÓN */
         .promo-bar {
@@ -70,33 +65,33 @@
             padding: 8px 20px;
             font-size: 0.72rem;
             font-weight: 700;
-            letter-spacing: 5px;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            animation: pulseText 1s ease-in-out infinite;
             display: block;
         }
-     .brand-marquee {
-    width: 100%;
-    overflow: hidden; /* ESTO ES LO QUE EVITA QUE SE ALARGE LA PÁGINA */
-    background-color: #0e0f11;
-    padding: 30px 0;
-    border-top: 1px solid rgba(196, 139, 34, 0.1);
-    border-bottom: 1px solid rgba(196, 139, 34, 0.1);
-    margin-top: 80px;
-}
+        
+        .brand-marquee {
+            width: 100%;
+            overflow: hidden; 
+            background-color: #0e0f11;
+            padding: 30px 0;
+            border-top: 1px solid rgba(196, 139, 34, 0.1);
+            border-bottom: 1px solid rgba(196, 139, 34, 0.1);
+            margin-top: 80px;
+        }
 
-.marquee-track {
-    display: flex;
-    gap: 80px;
-    width: max-content; /* Se ajusta solo al ancho de los elementos */
-    animation: scroll 20s linear infinite;
-    will-change: transform; /* Mejora el rendimiento en móviles */
-}
+        .marquee-track {
+            display: flex;
+            gap: 80px;
+            width: max-content; 
+            animation: scroll 20s linear infinite;
+            will-change: transform; 
+        }
 
-@keyframes scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); } 
-}
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); } 
+        }
 
         @keyframes pulseText {
             0% { transform: scale(1); letter-spacing: 2px; }
@@ -135,7 +130,6 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
 
-        /* TEXTO A LA IZQUIERDA */
         .logo-text {
             color: var(--white);
             font-weight: 300;
@@ -154,13 +148,12 @@
             margin-top: 4px;
         }
 
-        /* IMAGEN DEL LOGO A LA DERECHA (Limpia y sin fondo) */
         .header-img-logo {
             height: 60px; 
             width: auto;
             object-fit: contain;
             transition: all 0.4s ease;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); /* Sombra sutil para resaltar el oro */
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); 
         }
 
         .header-wrapper.scrolled .header-img-logo {
@@ -187,7 +180,7 @@
             height: 100%;
             object-fit: cover;
             z-index: -2;
-            filter: brightness(0.65); /* Esto oscurece un poco la imagen para que resalten más las letras */
+            filter: brightness(0.65); 
         }
 
         .overlay {
@@ -207,13 +200,13 @@
             animation-delay: 0.2s;
         }
 
-       .hero-title {
+        .hero-title {
             font-size: 3.8rem;
             font-weight: 200;
             letter-spacing: 10px;
             margin-bottom: 15px;
             text-transform: uppercase;
-            color: #d5bd96; /* Tono dorado/champán de la imagen */
+            color: #d5bd96; 
         }
 
         .hero-subtitle {
@@ -224,10 +217,10 @@
             text-transform: uppercase;
         }
 
-       .btn-premium {
+        .btn-premium {
             padding: 16px 45px;
-            border: 1px solid #d5bd96; /* Borde del color de la imagen */
-            color: #d5bd96; /* Letra del color de la imagen */
+            border: 1px solid #d5bd96; 
+            color: #d5bd96; 
             text-decoration: none;
             text-transform: uppercase;
             font-size: 0.7rem;
@@ -245,40 +238,35 @@
             padding: 140px 60px;
             background-color: var(--bg-dark);
         }
-        .product-card {
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
 
-/* Opcional: añade esto al CSS para que se vea bien */
-#search-bar:focus {
-    outline: none;
-    border-color: white;
-}
+        #search-bar:focus {
+            outline: none;
+            border-color: white;
+        }
 
         .section-header {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra el buscador y el título */
-    margin-bottom: 90px; /* Ya tienes esto */
-    padding-bottom: -5px; /* Añade esto para separar el buscador de la grilla */
-}
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            margin-bottom: 90px; 
+            padding-bottom: -5px; 
+        }
 
-/* Ajusta el buscador */
-#search-bar {
-    width: 100%;
-    max-width: 400px;
-    padding: 15px 20px;
-    background: #111;
-    border: 1px solid var(--gold-premium);
-    color: white;
-    margin-top: 30px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    letter-spacing: 2px;
-}
+        #search-bar {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px 20px;
+            background: #111;
+            border: 1px solid var(--gold-premium);
+            color: white;
+            margin-top: 30px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            letter-spacing: 2px;
+        }
 
         .section-title {
             font-size: 2rem;
@@ -295,88 +283,214 @@
             margin: 0 auto;
         }
 
-   .grid-products {
-    display: grid;
-    /* Cambiamos minmax para asegurar que siempre quepan */
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-    gap: 20px;
-    width: 90%; 
-    margin: 0 auto;
-}
+        /* --- NUEVOS ESTILOS DEL CATÁLOGO TIPO TARJETA HORIZONTAL --- */
+        .grid-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); 
+            gap: 25px;
+            width: 100%; 
+            margin: 0 auto;
+        }
 
         .product-card {
             background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.02);
-            padding: 50px 35px;
-            text-align: center;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(196, 139, 34, 0.3); /* Borde dorado como en la imagen */
+            border-radius: 6px;
+            padding: 15px;
+            display: flex;
+            flex-direction: row; /* Imagen a la izq, texto a la der */
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: left;
         }
 
         .product-card:hover {
-            border-color: rgba(196, 139, 34, 0.2);
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-color: var(--gold-premium);
         }
 
-        .product-image-container {
-    height: 250px; /* Define una altura fija para todos los contenedores */
-    width: 100%;   /* Asegura que ocupe todo el ancho de la tarjeta */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 35px;
-    background-color: rgba(255, 255, 255, 0); /* Opcional: añade un fondo sutil si quieres ver el marco */
-    overflow: hidden; /* Evita que imágenes muy grandes se salgan del marco */
-}
+        .product-image-box {
+            width: 45%;
+            height: 240px;
+            background-color: #2b2a2a91; /* Fondo más oscuro para la imagen */
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            overflow: hidden;
+        }
 
-.product-img {
-    max-width: 90%;
-    max-height: 160%; /* Ajusta esto para dar un poco de margen interno */
-    object-fit: contain; /* Esto es clave: mantiene la proporción sin deformar la imagen */
-    transition: transform 0.8s ease;
-}
+        .product-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
 
-.product-card {
-    background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.02);
-    padding: 30px; /* Ajusta el padding si es necesario */
-    text-align: center;
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex;        /* Activamos flexbox */
-    flex-direction: column; /* Apilamos contenido verticalmente */
-    justify-content: space-between; /* Empuja el precio hacia abajo si fuera necesario */
-}
+        .product-card:hover .product-img {
+            transform: scale(1.05);
+        }
 
-        .product-name-link {
+        .product-details-box {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-right: 10px;
+        }
+
+        .card-brand {
+            font-size: 0.65rem;
             color: var(--white);
-            text-decoration: none;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-title {
             font-size: 1.1rem;
-            font-weight: 400;
+            color: var(--white);
+            font-weight: 300;
             letter-spacing: 2px;
             text-transform: uppercase;
-            display: inline-block;
             margin-bottom: 8px;
+            line-height: 1.3;
+            cursor: pointer; /* Hace que aparezca la manito */
             transition: color 0.3s ease;
-            cursor: pointer;
         }
 
-        .product-name-link:hover {
-            color: var(--gold-premium);
+        .card-title:hover {
+            color: var(--gold-premium); /* Cambia a dorado al pasar el mouse */
         }
 
-        .product-tag {
-            font-size: 0.68rem;
+        .card-desc {
+            font-size: 0.75rem;
             color: var(--text-gray);
+            margin-bottom: 15px;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Limita la descripción a 2 líneas */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-price {
+            font-size: 1.25rem;
+            color: var(--gold-premium);
+            margin-bottom: 20px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .card-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-card {
+            width: 100%;
+            padding: 12px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 600;
+            border-radius: 2px;
+        }
+
+        .btn-card.primary {
+            background-color: #d8b068; /* Dorado sólido */
+            border: none;
+            color: #111;
+        }
+
+        .btn-card.primary:hover {
+            background-color: var(--white);
+        }
+
+        .btn-card.secondary {
+            background-color: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-gray);
+        }
+
+        .btn-card.secondary:hover {
+            border-color: var(--white);
+            color: var(--white);
+        }
+        /* -------------------------------------------------------- */
+
+        .catalog-layout {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+        
+        .sidebar-filters {
+            width: 220px;
+            flex-shrink: 0;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            padding: 30px 20px;
+        }
+
+        .sidebar-filters h3 {
+            font-size: 0.85rem;
+            color: var(--gold-premium);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(196, 139, 34, 0.2);
+            padding-bottom: 10px;
+        }
+
+        .brand-option {
+            cursor: pointer;
+            color: var(--text-gray);
+            margin-bottom: 15px;
+            transition: 0.3s;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            margin-bottom: 25px;
         }
 
-        .product-price {
-            font-size: 1.3rem;
+        .brand-option:hover, .brand-option.active {
+            color: var(--white);
+        }
+
+        .brand-option.active::before {
+            content: "▸ ";
             color: var(--gold-premium);
-            margin-bottom: 35px;
-            font-weight: 300;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 50px;
+            width: 100%;
+        }
+
+        .page-btn {
+            padding: 10px 18px;
+            background: var(--bg-dark);
+            color: var(--text-gray);
+            border: 1px solid rgba(196, 139, 34, 0.3);
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .page-btn:hover, .page-btn.active {
+            background: var(--gold-premium);
+            color: #000;
+            border-color: var(--gold-premium);
         }
 
         /* VISTA DE DETALLE INTERNA */
@@ -423,26 +537,26 @@
         }
 
         .detail-gallery {
-    position: relative; /* Necesario para posicionar botones */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+            position: relative; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-.nav-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0,0,0,0.5);
-    color: white;
-    border: none;
-    padding: 15px;
-    cursor: pointer;
-    z-index: 10;
-}
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            z-index: 10;
+        }
 
-.prev { left: 10px; }
-.next { right: 10px; }
+        .prev { left: 10px; }
+        .next { right: 10px; }
 
         .detail-main-img {
             max-width: 90%;
@@ -523,50 +637,51 @@
         @keyframes fadeInUp {
             to { opacity: 1; transform: translateY(0); }
         }
+
         /* ESTILOS DEL FOOTER */
-    .footer {
-        padding: 80px 60px;
-        background-color: #0a0b0d;
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
-        color: var(--white);
-    }
+        .footer {
+            padding: 50px 60px;
+            background-color: #0a0b0d;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--white);
+        }
 
-    .footer-content {
-        max-width: 400px; /* Alineado a la izquierda */
-    }
+        .footer-content {
+            max-width: 400px; 
+        }
 
-    .footer-title {
-        font-size: 1.2rem;
-        letter-spacing: 4px;
-        text-transform: uppercase;
-        margin-bottom: 20px;
-        color: var(--gold-premium);
-    }
+        .footer-title {
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: var(--gold-premium);
+        }
 
-    .footer-text {
-        font-size: 0.85rem;
-        color: var(--text-gray);
-        line-height: 1.6;
-        margin-bottom: 30px;
-    }
+        .footer-text {
+            font-size: 0.60rem;
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
 
-    .social-links {
-        display: flex;
-        gap: 20px;
-    }
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
 
-    .social-links a {
-        color: var(--white);
-        text-decoration: none;
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        transition: color 0.3s ease;
-    }
+        .social-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+        }
 
-    .social-links a:hover {
-        color: var(--gold-premium);
-    }
+        .social-links a:hover {
+            color: var(--gold-premium);
+        }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
@@ -583,45 +698,53 @@
             .detail-gallery { height: 350px; }
             .hero-title { font-size: 2.3rem; }
             .products-section { padding: 80px 20px; }
-            /* Compactar el Hero */
-    .hero { height: 70vh; }
-    .hero-title { font-size: 1.8rem; letter-spacing: 5px; }
-    .hero-subtitle { font-size: 0.7rem; margin-bottom: 20px; }
+            
+            .hero { height: 70vh; }
+            .hero-title { font-size: 1.8rem; letter-spacing: 5px; }
+            .hero-subtitle { font-size: 0.7rem; margin-bottom: 20px; }
+            header { padding: 10px 15px; }
+            .header-img-logo { height: 35px; }
 
-    /* Compactar el Header */
-    header { padding: 10px 15px; }
-    .header-img-logo { height: 35px; }
+            .products-section { padding: 40px 15px; }
+            #search-bar { padding: 10px; margin-top: 15px; font-size: 0.8rem; }
+            .section-title { font-size: 1.2rem; }
+            
+            /* Ajuste de la grilla tipo tarjeta para móviles */
+            .grid-products {
+                grid-template-columns: 1fr; /* 1 tarjeta por fila en móvil */
+                gap: 15px;
+            }
+            
+            .product-card { 
+                flex-direction: column; /* Apila imagen arriba y texto abajo en móvil */
+                padding: 15px; 
+            }
+            
+            .product-image-box { 
+                width: 100%; 
+                height: 200px; 
+            }
+            
+            .product-details-box {
+                width: 100%;
+                padding-right: 0;
+                margin-top: 10px;
+            }
 
-    /* Compactar el buscador y secciones */
-    .products-section { padding: 40px 15px; }
-    #search-bar { padding: 10px; margin-top: 15px; font-size: 0.8rem; }
-    .section-title { font-size: 1.2rem; }
-    
-    /* Compactar la grilla de productos */
-    .grid-products {
-        grid-template-columns: 1fr 1fr; /* Muestra 2 productos por fila en móvil */
-        gap: 10px;
-    }
-    .product-card { padding: 15px; }
-    .product-image-container { height: 120px; margin-bottom: 15px; }
-    .product-name-link { font-size: 0.85rem; }
-    .product-price { font-size: 1rem; margin-bottom: 10px; }
-    .product-tag { font-size: 0.6rem; margin-bottom: 10px; }
-
-    /* Ajuste de botones */
-    .btn-premium { padding: 12px 25px; font-size: 0.6rem; }
-}
+            .btn-premium { padding: 12px 25px; font-size: 0.6rem; }
+            
+            .catalog-layout { flex-direction: column; gap: 20px; }
+            .sidebar-filters { width: 100%; padding: 15px; }
+            .brand-option { display: inline-block; margin-right: 15px; margin-bottom: 5px;}
+        }
         
-        /* AJUSTES PARA COMPACTAR LA PÁGINA */
-.hero { height: 70vh; }
-.hero-title { font-size: 1.8rem; letter-spacing: 5px; }
-.products-section { padding: 40px 15px; }
-.product-card { padding: 15px; }
-.product-image-container { height: 120px; margin-bottom: 15px; }
-header { padding: 10px 30px; }
-.header-img-logo { height: 35px; }
-.section-title { font-size: 1.2rem; }
-.brand-marquee { padding: 20px 0; margin-top: 40px; }
+        .hero { height: 70vh; }
+        .hero-title { font-size: 1.8rem; letter-spacing: 5px; }
+        .products-section { padding: 40px 15px; }
+        header { padding: 10px 30px; }
+        .header-img-logo { height: 35px; }
+        .section-title { font-size: 1.2rem; }
+        .brand-marquee { padding: 20px 0; margin-top: 40px; }
     </style>
 </head>
 <body>
@@ -636,62 +759,60 @@ header { padding: 10px 30px; }
                 Neo Chronos
                 <span>Time in your hands</span>
             </a>
-            
-            <!-- EL LOGO SIN FONDO LUCIENDO LIMPIO A LA DERECHA -->
             <img src="logo.png" alt="Neo Chronos" class="header-img-logo">
         </header>
     </div>
 
-    <!-- HOME CONTENT -->
     <div id="home-view">
         <section class="hero">
-            <!-- Pon aquí el nombre de la imagen que quieres usar de fondo -->
             <img class="hero-bg" src="FONDO-RELOJES.jpg" alt="Fondo de relojes">
             <div class="overlay"></div>
             <div class="hero-content">
                 <h1 class="hero-title">Neo Chronos</h1>
                 <p class="hero-subtitle">Ingeniería, Oro y Acero</p>
                 <a href="#coleccion" class="btn-premium">Descubrir Modelos</a>
-<div class="brand-marquee">
-    <div class="marquee-track">
-        <!-- Grupo 1 -->
-        <div class="brand-item">FOSSIL</div>
-        <div class="brand-item">INVICTA</div>
-        <div class="brand-item">BULOVA</div>
-        <div class="brand-item">CURREN</div>
-        <div class="brand-item">OMEGA</div>
-    </div>
-</div>
+                <div class="brand-marquee">
+                    <div class="marquee-track">
+                        <div class="brand-item">FOSSIL</div>
+                        <div class="brand-item">INVICTA</div>
+                        <div class="brand-item">BULOVA</div>
+                        <div class="brand-item">CURREN</div>
+                        <div class="brand-item">OMEGA</div>
+                    </div>
+                </div>
             </div>
         </section>
-<section class="products-section" id="coleccion">
-    <div class="section-header">
-        <h2 class="section-title">Modelos Disponibles</h2>
-        <div class="section-divider"></div>
-        
-        <input type="text" id="search-bar" placeholder="Buscar modelo..." onkeyup="filterProducts()">
+
+        <section class="products-section" id="coleccion">
+            <div class="section-header">
+                <h2 class="section-title">Modelos Disponibles</h2>
+                <div class="section-divider"></div>
+                <input type="text" id="search-bar" placeholder="Buscar modelo..." onkeyup="updateCatalog()">
+            </div>
             
-    </div>
-    
-    <div class="grid-products" id="product-grid"></div>
-</section>
+            <div class="catalog-layout">
+                <aside class="sidebar-filters">
+                    <h3>Marcas</h3>
+                    <div id="brand-filters"></div>
+                </aside>
+                
+                <main style="flex: 1; width: 100%;">
+                    <div class="grid-products" id="product-grid"></div>
+                    <div class="pagination" id="pagination-controls"></div>
+                </main>
+            </div>
+        </section>
     </div>
 
-    <!-- VISTA DINÁMICA DE DETALLE DE PRODUCTO -->
     <div id="product-detail-view" class="product-detail-page">
         <a class="btn-back" onclick="closeProductDetail()">← Volver al catálogo</a>
         
         <div class="detail-container">
            <div class="detail-gallery">
-    <!-- Botón anterior -->
-    <button class="nav-btn prev" onclick="moveSlide(-1)">&#10094;</button>
-    
-    <!-- Aquí irán las imágenes -->
-    <div id="gallery-container"></div>
-    
-    <!-- Botón siguiente -->
-    <button class="nav-btn next" onclick="moveSlide(1)">&#10095;</button>
-</div>
+                <button class="nav-btn prev" onclick="moveSlide(-1)">&#10094;</button>
+                <div id="gallery-container"></div>
+                <button class="nav-btn next" onclick="moveSlide(1)">&#10095;</button>
+            </div>
             
             <div class="detail-info">
                 <h2 id="detail-title">Nombre del Reloj</h2>
@@ -707,163 +828,222 @@ header { padding: 10px 30px; }
     </div>
 
     <script>
-      // 1. Aquí defines todos tus productos
-const productsData = {
-    'two-tone': {
-        title: "invicta Pro Diver",
-        price: "$120.00",
-        folder: "two-tone", // Nombre de la carpeta donde están las fotos
-        images: ["reloj1.png", "reloj2.jpg"], // Lista de archivos
-        tag: "Automatic / Acero y Oro / 43mm",
-        whatsappText: "¡Hola! Me interesa el modelo Pro Diver Two-Tone.",
-        specs: ["Caja de acero.", "Movimiento japonés."]
-    },
-    'black-dial': {
-        title: "invicta Pro Diver",
-        price: "$110.00",
-        folder: "black-dial", // Nombre de la carpeta donde están las fotos
-        images: ["reloj1.jpg"], // Lista de archivos
-        tag: "Automatic / Acero / 43mm",
-        whatsappText: "¡Hola! Me interesa el modelo Pro Diver Two-Tone.",
-        specs: ["Caja de acero.", "Movimiento japonés."]
-    },
-      'black': {
-        title: "fossil Pro Diver",
-        price: "$110.00",
-        folder: "black", // Nombre de la carpeta donde están las fotos
-        images: ["reloj1.jpg"], // Lista de archivos
-        tag: "Automatic / Acero / 43mm",
-        whatsappText: "¡Hola! Me interesa el modelo Pro Diver Two-Tone.",
-        specs: ["Caja de acero.", "Movimiento japonés."]
-    }
+        // Pega aquí el ID largo de tu Google Sheet compartido públicamente
+        const SHEET_ID = '1alP41BU1wT2bcbWfp6bUyn3ddpxXOzrL6iQrvZVPtbg';
+        const SHEET_URL = `https://docs.google.com/spreadsheets/d/1alP41BU1wT2bcbWfp6bUyn3ddpxXOzrL6iQrvZVPtbg/gviz/tq?tqx=out:csv`;
 
-};
-function filterProducts() {
-    const searchTerm = document.getElementById('search-bar').value.toLowerCase();
-    const productCards = document.querySelectorAll('.product-card');
+        let productsData = {};
+        let currentPage = 1;
+        const itemsPerPage = 6;
+        let currentBrand = "Todos";
 
-    productCards.forEach(card => {
-        // Obtenemos el nombre del reloj dentro de la tarjeta
-        const title = card.querySelector('.product-name-link').innerText.toLowerCase();
-        
-        // Si el título incluye lo que escribimos, la mostramos, sino la ocultamos
-        if (title.includes(searchTerm)) {
-            card.style.display = "block";
-        } else {
-            card.style.display = "none";
+        // Función para descargar e interpretar el CSV de Google Sheets de forma estructurada
+        async function loadInventoryFromSheets() {
+            try {
+                const response = await fetch(SHEET_URL);
+                const data = await response.text();
+                
+                // Procesamiento limpio de líneas CSV (manejando comillas internas)
+                const rows = data.split(/\r?\n/).map(row => {
+                    const matches = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+                    return matches ? matches.map(val => val.replace(/^"|"$/g, '').trim()) : [];
+                }).filter(row => row.length > 0);
+
+                if (rows.length <= 1) return;
+
+                const headers = rows[0];
+                const newProducts = {};
+
+                for (let i = 1; i < rows.length; i++) {
+                    const row = rows[i];
+                    const item = {};
+                    headers.forEach((header, index) => {
+                        item[header] = row[index] || "";
+                    });
+
+                    if(item.id) {
+                        newProducts[item.id] = {
+                            title: item.title,
+                            brand: item.brand,
+                            price: item.price,
+                            folder: item.folder,
+                            // Convertir cadenas separadas por comas a arreglos limpios
+                            images: item.images ? item.images.split(',').map(s => s.trim()) : [],
+                            tag: item.tag,
+                            whatsappText: item.whatsappText,
+                            specs: item.specs ? item.specs.split(',').map(s => s.trim()) : ["Precisión y elegancia atemporal."]
+                        };
+                    }
+                }
+
+                productsData = newProducts;
+                
+                // Refrescar componentes de la página
+                initFilters();
+                updateCatalog();
+
+            } catch (error) {
+                console.error("Error cargando inventario desde Google Sheets:", error);
+            }
         }
-    });
-}
 
-// 2. Esta función inyecta los productos en la página automáticamente
-function renderCatalog() {
-    const grid = document.getElementById('product-grid');
-    grid.innerHTML = ""; // Limpiar antes de renderizar
-
-    Object.keys(productsData).forEach(key => {
-        const p = productsData[key];
-        
-        // Aquí tomamos p.images[0], que es la primera foto de tu lista
-        const firstImage = `${p.folder}/${p.images[0]}`; 
-        
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.innerHTML = `
-            <div class="product-image-container">
-                <img src="${firstImage}" alt="${p.title}" class="product-img">
-            </div>
-            <div>
-                <a class="product-name-link" onclick="openProductDetail('${key}')">${p.title}</a>
-                <p class="product-tag">${p.tag}</p>
-                <p class="product-price">${p.price}</p>
-            </div>
-        `;
-        grid.appendChild(card);
-    });
-
-}
-
-// 3. Funciones existentes de navegación
-// Fuerza el ancho para que la animación sea perfecta
-window.addEventListener('scroll', function() {
-    const header = document.getElementById('header-container');
-    header.classList.toggle('scrolled', window.scrollY > 50);
-});
-
-let currentSlide = 0;
-let currentProductId = '';
-
-function openProductDetail(id) {
-    currentProductId = id;
-    currentSlide = 0;
-    const p = productsData[id];
-
-    // 1. Actualizar Textos
-    document.getElementById('detail-title').innerText = p.title;
-    document.getElementById('detail-price').innerText = p.price;
-    
-    // 2. Actualizar WhatsApp
-    document.getElementById('detail-wa-link').href = `https://wa.me/593XXXXXXXXX?text=${encodeURIComponent(p.whatsappText)}`;
-    
-    // 3. Actualizar Especificaciones
-    const specs = document.getElementById('detail-specs');
-    specs.innerHTML = p.specs.map(s => `<li>${s}</li>`).join('');
-
-    // 4. Actualizar el Carrusel de fotos
-    const container = document.getElementById('gallery-container');
-    container.innerHTML = p.images.map((img, index) => `
-        <img src="${p.folder}/${img}" class="slide" style="display: ${index === 0 ? 'block' : 'none'}">
-    `).join('');
-
-    // 5. Mostrar la vista y ocultar el home
-    document.getElementById('home-view').style.display = 'none';
-    document.getElementById('header-container').style.display = 'none';
-    document.getElementById('product-detail-view').style.display = 'block';
-    window.scrollTo(0, 0);
-}
-
-function closeProductDetail() {
-    // 1. Ocultar detalle
-    document.getElementById('product-detail-view').style.display = 'none';
-    
-    // 2. Mostrar Home y Header
-    document.getElementById('home-view').style.display = 'block';
-    document.getElementById('header-container').style.display = 'block';
-    
-    // 3. Opcional: Volver al top del catálogo
-    document.getElementById('coleccion').scrollIntoView();
-}
-
-function moveSlide(direction) {
-    const p = productsData[currentProductId];
-    const slides = document.querySelectorAll('.slide');
-    
-    // Ocultar la actual
-    slides[currentSlide].style.display = 'none';
-    
-    // Calcular nueva posición
-    currentSlide = (currentSlide + direction + slides.length) % slides.length;
-    
-    // Mostrar la nueva
-    slides[currentSlide].style.display = 'block';
-}
-
-// Iniciar catálogo al cargar
-renderCatalog();
-    </script>
-    <!-- PIE DE PÁGINA -->
-    <footer class="footer">
-        <div class="footer-content">
-            <h4 class="footer-title">Neo Chronos</h4>
-            <p class="footer-text">
-                Ingeniería de precisión y elegancia atemporal. 
-                Distribuidores autorizados de las mejores marcas.
-            </p>
+        function updateCatalog() {
+            const searchTerm = document.getElementById('search-bar').value.toLowerCase();
             
+            const filteredKeys = Object.keys(productsData).filter(key => {
+                const p = productsData[key];
+                const matchesSearch = p.title.toLowerCase().includes(searchTerm);
+                const matchesBrand = currentBrand === "Todos" || p.brand === currentBrand;
+                return matchesSearch && matchesBrand;
+            });
+
+            renderGrid(filteredKeys);
+            renderPagination(filteredKeys.length);
+        }
+
+       function renderGrid(keys) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = ""; 
+            
+            const start = (currentPage - 1) * itemsPerPage;
+            const pageItems = keys.slice(start, start + itemsPerPage);
+
+            pageItems.forEach(key => {
+                const p = productsData[key];
+                const firstImage = p.images.length > 0 ? `${p.folder}/${p.images[0]}` : 'placeholder.jpg'; 
+                const shortDesc = p.specs[0];
+                
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-image-box">
+                        <img src="${firstImage}" alt="${p.title}" class="product-img">
+                    </div>
+                    <div class="product-details-box">
+                        <p class="card-brand">${p.brand}</p>
+                        <h3 class="card-title" onclick="openProductDetail('${key}')">${p.title}</h3>
+                        <p class="card-desc">${shortDesc}</p>
+                        <p class="card-price">${p.price}</p>
+                        <div class="card-actions">
+                            <button class="btn-card primary" onclick="window.open('https://wa.me/593987916568?text=${encodeURIComponent(p.whatsappText)}', '_blank')">COMPRAR</button>
+                            <button class="btn-card secondary" onclick="openProductDetail('${key}')">VER DETALLES</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function renderPagination(totalItems) {
+            const controls = document.getElementById('pagination-controls');
+            controls.innerHTML = "";
+            
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            if (totalPages <= 1) return; 
+
+            for(let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.className = `page-btn ${currentPage === i ? 'active' : ''}`;
+                btn.innerText = i;
+                btn.onclick = () => { 
+                    currentPage = i; 
+                    updateCatalog();
+                    document.getElementById('coleccion').scrollIntoView(); 
+                };
+                controls.appendChild(btn);
+            }
+        }
+
+        function initFilters() {
+            const brands = ["Todos", ...new Set(Object.values(productsData).map(p => p.brand))];
+            const container = document.getElementById('brand-filters');
+            container.innerHTML = "";
+
+            brands.forEach(b => {
+                const count = b === "Todos" 
+                    ? Object.keys(productsData).length 
+                    : Object.values(productsData).filter(p => p.brand === b).length;
+                    
+                const div = document.createElement('div');
+                div.className = `brand-option ${currentBrand === b ? 'active' : ''}`;
+                div.innerHTML = `${b} <span style="font-size: 0.7rem; color: var(--text-gray);">(${count})</span>`;
+                div.onclick = () => { 
+                    currentBrand = b; 
+                    currentPage = 1; 
+                    initFilters(); 
+                    updateCatalog(); 
+                };
+                container.appendChild(div);
+            });
+        }
+
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header-container');
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        let currentSlide = 0;
+        let currentProductId = '';
+
+        function openProductDetail(id) {
+            currentProductId = id;
+            currentSlide = 0;
+            const p = productsData[id];
+
+            document.getElementById('detail-title').innerText = p.title;
+            document.getElementById('detail-price').innerText = p.price;
+            document.getElementById('detail-wa-link').href = `https://wa.me/593987916568?text=${encodeURIComponent(p.whatsappText)}`;
+            
+            const specs = document.getElementById('detail-specs');
+            specs.innerHTML = p.specs.map(s => `<li>${s}</li>`).join('');
+
+            const container = document.getElementById('gallery-container');
+            container.innerHTML = p.images.map((img, index) => `
+                <img src="${p.folder}/${img}" class="slide" style="display: ${index === 0 ? 'block' : 'none'}">
+            `).join('');
+
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('header-container').style.display = 'none';
+            document.getElementById('product-detail-view').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function closeProductDetail() {
+            document.getElementById('product-detail-view').style.display = 'none';
+            document.getElementById('home-view').style.display = 'block';
+            document.getElementById('header-container').style.display = 'block';
+            document.getElementById('coleccion').scrollIntoView();
+        }
+
+        function moveSlide(direction) {
+            const p = productsData[currentProductId];
+            const slides = document.querySelectorAll('.slide');
+            
+            if(slides.length === 0) return;
+            slides[currentSlide].style.display = 'none';
+            currentSlide = (currentSlide + direction + slides.length) % slides.length;
+            slides[currentSlide].style.display = 'block';
+        }
+
+        // Iniciar la descarga del inventario al cargar la web
+        document.addEventListener('DOMContentLoaded', loadInventoryFromSheets);
+    </script>
+    <footer class="footer">
+        <div class="footer-title">NEO CHRONOS</h4>
+            <p class="footer-text">
+                Ingeniería de precisión y <br> elegancia en tus manos.<br> 
+                Distribuidores autorizados<br> de las mejores marcas.
+                </p>
+        <div class="footer-title">ENVIOS
+            <p class="footer-text">
+                Costa/Sierra/Oriente<br>
+                GUAYAQUIL-ECUADOR
+                </p>
+        </div>
             <div class="social-links">
-                <a href="https://tiktok.com/@tuusuario" target="_blank">TikTok</a>
-                <a href="https://instagram.com/tuusuario" target="_blank">Instagram</a>
-                <a href="https://wa.me/593XXXXXXXXX" target="_blank">WhatsApp</a>
+                <a href="https://tiktok.com/@" target="_blank">TikTok</a>
+                <a href="https://instagram.com/neo_chronos.ec" target="_blank">Instagram</a>
+                <a href="https://wa.me/593987916568" target="_blank">WhatsApp</a>
             </div>
         </div>
     </footer>
