@@ -876,11 +876,18 @@
                     }
                 }
 
+              // ... (código anterior de la función)
                 productsData = newProducts;
                 
-                // Refrescar componentes de la página
                 initFilters();
                 updateCatalog();
+
+                // NUEVO: Detectar si el link viene con un ID de reloj y abrirlo automáticamente
+                const urlParams = new URLSearchParams(window.location.search);
+                const productIdParam = urlParams.get('id');
+                if (productIdParam && productsData[productIdParam]) {
+                    openProductDetail(productIdParam);
+                }
 
             } catch (error) {
                 console.error("Error cargando inventario desde Google Sheets:", error);
@@ -901,7 +908,7 @@
             renderPagination(filteredKeys.length);
         }
 
-       function renderGrid(keys) {
+     function renderGrid(keys) {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = ""; 
             
@@ -912,6 +919,13 @@
                 const p = productsData[key];
                 const firstImage = p.images.length > 0 ? `${p.folder}/${p.images[0]}` : 'placeholder.jpg'; 
                 const shortDesc = p.specs[0];
+                
+                // Obtiene la URL limpia de tu web (funciona en local y cuando ya esté subida a internet)
+                const baseUrl = window.location.href.split('?')[0];
+                const productUrl = `${baseUrl}?id=${key}`;
+                
+                // Une el texto de tu Excel con el link del reloj
+                const whatsappMessage = `${p.whatsappText}\n\n📌 Link del producto: ${productUrl}`;
                 
                 const card = document.createElement('div');
                 card.className = 'product-card';
@@ -925,7 +939,7 @@
                         <p class="card-desc">${shortDesc}</p>
                         <p class="card-price">${p.price}</p>
                         <div class="card-actions">
-                            <button class="btn-card primary" onclick="window.open('https://wa.me/593987916568?text=${encodeURIComponent(p.whatsappText)}', '_blank')">COMPRAR</button>
+                            <button class="btn-card primary" onclick="window.open('https://wa.me/593XXXXXXXXX?text=${encodeURIComponent(whatsappMessage)}', '_blank')">COMPRAR</button>
                             <button class="btn-card secondary" onclick="openProductDetail('${key}')">VER DETALLES</button>
                         </div>
                     </div>
@@ -985,14 +999,20 @@
         let currentSlide = 0;
         let currentProductId = '';
 
-        function openProductDetail(id) {
+       function openProductDetail(id) {
             currentProductId = id;
             currentSlide = 0;
             const p = productsData[id];
 
             document.getElementById('detail-title').innerText = p.title;
             document.getElementById('detail-price').innerText = p.price;
-            document.getElementById('detail-wa-link').href = `https://wa.me/593987916568?text=${encodeURIComponent(p.whatsappText)}`;
+            
+            // Generar el enlace del producto para la vista de detalle
+            const baseUrl = window.location.href.split('?')[0];
+            const productUrl = `${baseUrl}?id=${id}`;
+            const whatsappMessage = `${p.whatsappText}\n\n📌 Link del producto: ${productUrl}`;
+            
+            document.getElementById('detail-wa-link').href = `https://wa.me/593XXXXXXXXX?text=${encodeURIComponent(whatsappMessage)}`;
             
             const specs = document.getElementById('detail-specs');
             specs.innerHTML = p.specs.map(s => `<li>${s}</li>`).join('');
@@ -1008,11 +1028,15 @@
             window.scrollTo(0, 0);
         }
 
-        function closeProductDetail() {
+       function closeProductDetail() {
             document.getElementById('product-detail-view').style.display = 'none';
             document.getElementById('home-view').style.display = 'block';
             document.getElementById('header-container').style.display = 'block';
             document.getElementById('coleccion').scrollIntoView();
+            
+            // Limpia el parámetro ?id= de la barra de direcciones sin recargar la página
+            const baseUrl = window.location.href.split('?')[0];
+            window.history.pushState({}, document.title, baseUrl);
         }
 
         function moveSlide(direction) {
