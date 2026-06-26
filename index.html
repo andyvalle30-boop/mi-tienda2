@@ -1858,6 +1858,7 @@ function showNeoChronosAlert(title, message, buttonText, onConfirm) {
 }
 
 // --- FUNCIÓN PRINCIPAL DE CHECKOUT ACTUALIZADA ---
+// --- FUNCIÓN PRINCIPAL DE CHECKOUT ACTUALIZADA ---
 function submitCheckout() {
     const name = document.getElementById('chk-name').value;
     const id = document.getElementById('chk-id').value;
@@ -1879,7 +1880,7 @@ function submitCheckout() {
 
     const btnSubmit = document.querySelector('#checkout-modal .btn-checkout');
     const originalText = btnSubmit.innerText;
-    btnSubmit.innerText = "ENVIANDO PEDIDO...";
+    btnSubmit.innerText = "PROCESANDO PEDIDO...";
     btnSubmit.disabled = true;
 
     const orderPayload = {
@@ -1903,7 +1904,34 @@ function submitCheckout() {
         body: JSON.stringify(orderPayload)
     })
     .then(() => {
-        // Acciones internas inmediatas
+        // 1. Construir el mensaje de WhatsApp antes de vaciar el carrito
+        let message = `¡Hola Neo Chronos! 👋 He registrado un pedido en la web. Aquí están mis datos:\n\n`;
+        message += `👤 *Datos de Envío:*\n`;
+        message += `- Nombre: ${name}\n`;
+        message += `- Cédula/RUC: ${id}\n`;
+        message += `- Teléfono: ${phone}\n`;
+        message += `- Ciudad: ${city}\n`;
+        message += `- Dirección: ${address}\n\n`;
+        
+        message += `🛍️ *Detalle del Pedido:*\n`;
+        let totalPriceCalculated = 0;
+        
+        shoppingCart.forEach((item, index) => {
+            const numericPrice = cleanPriceToNumber(item.price);
+            const subtotal = numericPrice * item.qty;
+            totalPriceCalculated += subtotal;
+            
+            message += `${index + 1}. ⌚ *${item.title}*\n`;
+            message += `   Cantidad: ${item.qty} x ${item.price}\n`;
+        });
+        
+        message += `\n*Total a pagar:* $${totalPriceCalculated.toFixed(2)}\n\n`;
+        message += `Por favor, indíquenme los métodos de pago para finalizar la compra.`;
+
+        // Generar la URL de WhatsApp
+        const waUrl = `https://wa.me/593987916568?text=${encodeURIComponent(message)}`;
+
+        // 2. Acciones internas inmediatas (vaciar carrito y formulario)
         shoppingCart = [];
         saveCartLocally();
         closeCheckoutForm();
@@ -1914,17 +1942,14 @@ function submitCheckout() {
         document.getElementById('chk-city').value = '';
         document.getElementById('chk-address').value = '';
 
-        // Link de tu pasarela de pagos (PayPhone, Deuna, etc.)
-        const URL_PORTAL_PAGOS = 'https://wa.me/593987916568?text=${encodeURIComponent(message)'; 
-
-        // Invocar la alerta personalizada con los colores de Neo Chronos
+        // 3. Invocar la alerta personalizada
         showNeoChronosAlert(
             "ORDEN REGISTRADA", 
-            "Una vez completado el pago, recibiras una confimacion de envio al whatsapp en tu numero registrado, Muchas Gracias.", 
-            "CONTINUAR AL PAGO",
+            "Tu pedido se guardó correctamente. Te enviaremos a WhatsApp para confirmar los métodos de pago y el envío.", 
+            "CONTINUAR A WHATSAPP",
             function() {
-                // Se ejecuta la redirección justo cuando el cliente presiona el botón dorado de éxito
-                window.location.href = URL_PORTAL_PAGOS;
+                // Redirigir a WhatsApp
+                window.open(waUrl, '_blank');
             }
         );
     })
