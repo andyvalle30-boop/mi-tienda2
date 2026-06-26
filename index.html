@@ -983,6 +983,103 @@
         .social-links a:hover {
             color: var(--gold-premium);
         }
+        /* --- ESTILOS DEL NUEVO BOTÓN Y FORMULARIO --- */
+.btn-checkout {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background-color: #d8b068;
+    border: none;
+    color: #111;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    margin-bottom: 12px;
+}
+
+.btn-checkout:hover {
+    background-color: var(--white);
+}
+
+.btn-cancel {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: transparent;
+    border: none;
+    color: var(--text-gray);
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: color 0.3s;
+}
+
+.btn-cancel:hover {
+    color: var(--white);
+}
+
+.checkout-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    z-index: 3000;
+    display: none; /* Oculto por defecto */
+    justify-content: center;
+    align-items: center;
+}
+
+.checkout-form-container {
+    background: #0e0f11;
+    border: 1px solid rgba(196, 139, 34, 0.3);
+    padding: 35px;
+    width: 90%;
+    max-width: 450px;
+    border-radius: 4px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+}
+
+.checkout-form-container h3 {
+    color: var(--gold-premium);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 300;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--gold-premium);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    outline: none;
+    transition: border 0.3s;
+}
+
+.form-group input:focus {
+    border-color: var(--gold-premium);
+}
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
@@ -1150,13 +1247,17 @@
                 <ul class="specs-list" id="detail-specs">
                 </ul>
                 
-                <div class="detail-actions-wrapper">
-                    <a id="detail-wa-link" href="" class="btn-action-whatsapp" target="_blank">Continuar compra en WhatsApp</a>
-                    <button id="detail-add-cart-btn" class="btn-action-cart-detail" onclick="addCurrentProductToCart()" title="Añadir al carrito">
-                        <img src="logo-carrito.png" alt="Carrito" class="cart-icon-btn-img">
-                        
-                    </button>
-                </div>
+                <!-- NUEVO BOTÓN PAGAR AHORA EN DETALLES -->
+<button class="btn-checkout" onclick="buyNowFromDetail()" style="margin-bottom: 12px; margin-top: 15px;">
+    Pagar Ahora
+</button>
+
+<div class="detail-actions-wrapper">
+    <a id="detail-wa-link" href="" class="btn-action-whatsapp" target="_blank">Continuar compra en WhatsApp</a>
+    <button id="detail-add-cart-btn" class="btn-action-cart-detail" onclick="addCurrentProductToCart()" title="Añadir al carrito">
+        <img src="logo-carrito.png" alt="Carrito" class="cart-icon-btn-img">
+    </button>
+</div>
             </div>
         </div>
     </div>
@@ -1170,12 +1271,13 @@
         <div id="cart-items-body" class="cart-items-body">
             </div>
         <div class="cart-drawer-footer">
-            <div class="cart-total-container">
-                <span class="cart-total-label">Total estimado:</span>
-                <span id="cart-total-value" class="cart-total-value">$0.00</span>
-            </div>
-            <button class="btn-finalize-order" onclick="sendCartToWhatsApp()">Continuar compra en WhatsApp</button>
-        </div>
+    <div class="cart-total-container">
+        <span class="cart-total-label">Total estimado:</span>
+        <span id="cart-total-value" class="cart-total-value">$0.00</span>
+    </div>
+    <button class="btn-checkout" onclick="openCheckoutForm()">Pagar Ahora</button>
+    <button class="btn-finalize-order" onclick="sendCartToWhatsApp()">Continuar compra en WhatsApp</button>
+</div>
     </div>
 
     <script>
@@ -1547,6 +1649,56 @@
             const targetUrl = `https://wa.me/593987916568?text=${encodeURIComponent(message)}`;
             window.open(targetUrl, '_blank');
         }
+        // --- LÓGICA DEL FORMULARIO DE CHECKOUT ---
+
+function openCheckoutForm() {
+    if (shoppingCart.length === 0) {
+        alert("Tu carrito está vacío. Agrega modelos antes de pagar.");
+        return;
+    }
+    // Cierra el carrito lateral y abre el modal
+    closeCartDrawer();
+    document.getElementById('checkout-modal').style.display = 'flex';
+}
+
+function closeCheckoutForm() {
+    document.getElementById('checkout-modal').style.display = 'none';
+}
+
+function submitCheckout() {
+    // 1. Validar que los campos no estén vacíos
+    const name = document.getElementById('chk-name').value;
+    const id = document.getElementById('chk-id').value;
+    const phone = document.getElementById('chk-phone').value;
+    const city = document.getElementById('chk-city').value;
+    const address = document.getElementById('chk-address').value;
+
+    if (!name || !id || !phone || !city || !address) {
+        alert("Por favor, completa todos los datos para el envío.");
+        return;
+    }
+
+    // 2. Aquí conectarás con el botón de pago futuro
+    alert("¡Datos guardados con éxito!\n\nPróximo paso: Redirección a la pasarela de pagos para procesar la tarjeta.");
+    
+    // (Opcional) Guardar los datos en una variable temporal para enviarlos a la pasarela después
+    const customerData = {
+        name: name,
+        id: id,
+        phone: phone,
+        city: city,
+        address: address
+    };
+    console.log("Datos listos para enviar al backend/pasarela:", customerData);
+}
+// --- LÓGICA DE COMPRA DIRECTA DESDE DETALLES ---
+function buyNowFromDetail() {
+    // 1. Agrega el reloj que estamos viendo al carrito
+    addCurrentProductToCart();
+    
+    // 2. Llama a la función que cierra el carrito lateral y abre el modal de datos
+    openCheckoutForm();
+}
 
         document.addEventListener('DOMContentLoaded', loadInventoryFromSheets);
     </script>
@@ -1569,5 +1721,37 @@
             </div>
         </div>
     </footer>
+    <div id="checkout-modal" class="checkout-overlay">
+    <div class="checkout-form-container">
+        <h3>Datos de Envío</h3>
+        <p style="color: var(--text-gray); font-size: 0.75rem; margin-bottom: 20px;">
+            Ingresa tu información correctamente para realizar el enivo, gracias.
+        </p>
+        
+        <div class="form-group">
+            <label>Nombre Completo</label>
+            <input type="text" id="chk-name" placeholder="Ej. Juan Pérez" required>
+        </div>
+        <div class="form-group">
+            <label>Cédula / RUC</label>
+            <input type="text" id="chk-id" placeholder="Ej. 0900000000" required>
+        </div>
+        <div class="form-group">
+            <label>Teléfono Celular</label>
+            <input type="text" id="chk-phone" placeholder="Ej. 0999999999" required>
+        </div>
+        <div class="form-group">
+            <label>Provincia y Ciudad</label>
+            <input type="text" id="chk-city" placeholder="Ej. Guayas, Guayaquil" required>
+        </div>
+        <div class="form-group">
+            <label>Dirección Exacta (con referencias)</label>
+            <input type="text" id="chk-address" placeholder="Ej. Cdla. Urdesa, calle..." required>
+        </div>
+        
+        <button class="btn-checkout" onclick="submitCheckout()">Continuar a Pago Seguro</button>
+        <button class="btn-cancel" onclick="closeCheckoutForm()">Cancelar</button>
+    </div>
+</div>
 </body>
 </html>
