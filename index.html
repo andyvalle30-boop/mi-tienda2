@@ -1860,6 +1860,7 @@ function showNeoChronosAlert(title, message, buttonText, onConfirm) {
 // --- FUNCIÓN PRINCIPAL DE CHECKOUT ACTUALIZADA ---
 // --- FUNCIÓN PRINCIPAL DE CHECKOUT ACTUALIZADA ---
 // --- FUNCIÓN PRINCIPAL DE CHECKOUT ACTUALIZADA ---
+// --- FUNCIÓN PRINCIPAL DE CHECKOUT ACTUALIZADA (SIN EMOJIS TOTALMENTE COMPATIBLE) ---
 function submitCheckout() {
     const name = document.getElementById('chk-name').value;
     const id = document.getElementById('chk-id').value;
@@ -1894,30 +1895,29 @@ function submitCheckout() {
         total: totalValueLabel
     };
 
-    // --- NUEVA LÓGICA: CREAR EL MENSAJE DE WHATSAPP ---
-    let message = `¡Hola Neo Chronos! 👋 Acabo de registrar mis datos para un pedido.\n\n`;
+    // --- MENSAJE CON FORMATO TOTALMENTE COMPATIBLE ---
+    let message = `¡Hola Neo Chronos! Acabo de registrar mis datos para un pedido.\n\n`;
     message += `*DATOS DE ENVÍO*\n`;
-    message += `👤 Nombre: ${name}\n`;
-    message += `🆔 Cédula/RUC: ${id}\n`;
-    message += `📱 Teléfono: ${phone}\n`;
-    message += `📍 Ciudad: ${city}\n`;
-    message += `🏠 Dirección: ${address}\n\n`;
+    message += `- Nombre: ${name}\n`;
+    message += `- Cédula/RUC: ${id}\n`;
+    message += `- Teléfono: ${phone}\n`;
+    message += `- Ciudad: ${city}\n`;
+    message += `- Dirección: ${address}\n\n`;
     message += `*DETALLE DEL PEDIDO*\n`;
 
     const baseUrl = window.location.href.split('?')[0];
     
     shoppingCart.forEach((item, index) => {
         const productUrl = `${baseUrl}?id=${item.id}`;
-        message += `${index + 1}. ⌚ *${item.title}*\n`;
+        message += `${index + 1}. *${item.title}*\n`;
         message += `   Cantidad: ${item.qty} x ${item.price}\n`;
-        message += `   📌 Enlace: ${productUrl}\n\n`;
+        message += `   Enlace: ${productUrl}\n\n`;
     });
     
     message += `*Total a pagar:* ${totalValueLabel}\n\n`;
     message += `Quedo atento para coordinar el pago y envío.`;
 
     const targetUrl = `https://wa.me/593987916568?text=${encodeURIComponent(message)}`;
-    // -------------------------------------------------
 
     const GOOGLE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzCETZm55ieaT3_ZIJzBATjp0zBxM1qya4mDCY-FOB5AOO2fA2jp3qer32AgiuHKx2Lqg/exec'; 
 
@@ -1930,7 +1930,6 @@ function submitCheckout() {
         body: JSON.stringify(orderPayload)
     })
     .then(() => {
-        // Acciones internas inmediatas
         shoppingCart = [];
         saveCartLocally();
         closeCheckoutForm();
@@ -1941,13 +1940,11 @@ function submitCheckout() {
         document.getElementById('chk-city').value = '';
         document.getElementById('chk-address').value = '';
 
-        // Invocar la alerta personalizada redirigiendo a WhatsApp
         showNeoChronosAlert(
             "ORDEN REGISTRADA", 
             "Tus datos de envío han sido guardados. Ahora serás redirigido a WhatsApp para confirmar tu pedido y coordinar el pago.", 
             "IR A WHATSAPP",
             function() {
-                // Abre el link de WhatsApp con el detalle del pedido
                 window.location.href = targetUrl;
             }
         );
