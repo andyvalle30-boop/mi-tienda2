@@ -1170,7 +1170,7 @@
 
     <div class="header-wrapper" id="header-container">
         <div class="promo-bar">
-           ¡Aprovecha envios sin costo el primer sabado de cada mes!
+           ¡En tu primera compra el envio es gratis!
         </div>
         
         <header>
@@ -1342,7 +1342,8 @@
                             images: item.images ? item.images.split(',').map(s => s.trim()) : [],
                             tag: item.tag,
                             whatsappText: item.whatsappText,
-                            specs: item.specs ? item.specs.split(',').map(s => s.trim()) : ["Precisión y elegancia atemporal."]
+                            specs: item.specs ? item.specs.split(',').map(s => s.trim()) : ["Precisión y elegancia atemporal."],
+                            stock: parseInt(item.stock) || 0
                         };
                     }
                 }
@@ -1378,44 +1379,90 @@
             renderPagination(filteredKeys.length);
         }
 
-        function renderGrid(keys) {
-            const grid = document.getElementById('product-grid');
-            grid.innerHTML = ""; 
-            
-            const start = (currentPage - 1) * itemsPerPage;
-            const pageItems = keys.slice(start, start + itemsPerPage);
+       function renderGrid(keys) {
+    const grid = document.getElementById('product-grid');
+    grid.innerHTML = ""; 
+    
+    const start = (currentPage - 1) * itemsPerPage;
+    const pageItems = keys.slice(start, start + itemsPerPage);
 
-            pageItems.forEach(key => {
-                const p = productsData[key];
-                const firstImage = p.images.length > 0 ? `${p.folder}/${p.images[0]}` : 'placeholder.jpg'; 
-                const shortDesc = p.specs[0];
-                
-                const baseUrl = window.location.href.split('?')[0];
-                const productUrl = `${baseUrl}?id=${key}`;
-                
-                const whatsappMessage = `${p.whatsappText}\n\n📌 Link del producto: ${productUrl}`;
-                
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                card.innerHTML = `
-                    <div class="product-image-box">
-                        <img src="${firstImage}" alt="${p.title}" class="product-img">
-                    </div>
-                    <div class="product-details-box">
-                        <p class="card-brand">${p.brand}</p>
-                        <h3 class="card-title" onclick="openProductDetail('${key}')">${p.title}</h3>
-                        <p class="card-desc">${shortDesc}</p>
-                        <p class="card-price">${p.price}</p>
-                        <div class="card-actions">
-                            <button class="btn-card primary" onclick="window.open('https://wa.me/593987916568?text=${encodeURIComponent(whatsappMessage)}', '_blank')">COMPRAR</button>
-                            <button class="btn-card secondary" onclick="openProductDetail('${key}')">VER DETALLES</button>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
+    pageItems.forEach(key => {
+        const p = productsData[key];
+        const firstImage = p.images.length > 0 ? `${p.folder}/${p.images[0]}` : 'placeholder.jpg'; 
+        const shortDesc = p.specs[0];
+        
+        // Validación de Stock
+        const isOutOfStock = p.stock <= 0;
+
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+            <div class="product-image-box">
+                <img src="${firstImage}" alt="${p.title}" class="product-img">
+            </div>
+            <div class="product-details-box">
+                <p class="card-brand">${p.brand}</p>
+                <h3 class="card-title" onclick="openProductDetail('${key}')">${p.title}</h3>
+                <p class="card-desc">${shortDesc}</p>
+                <p class="card-price">${p.price}</p>
+                <div class="card-actions">
+                    <button class="btn-card primary" 
+                        onclick="${isOutOfStock ? '' : `addProductToCartById('${key}')`}"
+                        ${isOutOfStock ? 'disabled style="background-color: #555; cursor: not-allowed; color: #fff; border: none;"' : ''}>
+                        ${isOutOfStock ? 'AGOTADO' : 'AÑADIR AL CARRITO'}
+                    </button>
+                    
+                    <button class="btn-card secondary" onclick="openProductDetail('${key}')">VER DETALLES</button>
+                </div>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+}
+function addProductToCartById(id) {
+    if (!id || !productsData[id]) return;
+    
+    const p = productsData[id];
+    
+    // Candado de seguridad usando la alerta Premium Neo Chronos
+    if (p.stock <= 0) {
+        showNeoChronosAlert(
+            "MODELO AGOTADO", 
+            `Lo sentimos, el modelo ${p.title} se encuentra temporalmente sin unidades disponibles.`, 
+            "ENTENDIDO"
+        );
+        return; 
+    }
+    
+    // Verificar si ya existe en el carrito
+    const existingItem = shoppingCart.find(item => item.id === id);
+    
+    if (existingItem) {
+        existingItem.qty += 1;
+    } else {
+        const firstImage = p.images.length > 0 ? `${p.folder}/${p.images[0]}` : 'placeholder.jpg';
+        shoppingCart.push({
+            id: id,
+            title: p.title,
+            price: p.price,
+            image: firstImage,
+            qty: 1
+        });
+    }
+    
+    // Guardar en LocalStorage y refrescar interfaz
+    saveCartLocally();
+    
+    // Alerta Premium de Éxito
+    showNeoChronosAlert(
+        "PRODUCTO AGREGADO", 
+        `El modelo ${p.title} ha sido añadido correctamente a tu carrito de compras.`, 
+        "VER CARRITO",
+        function() {
+            openCartDrawer(); // Abre automáticamente el carrito lateral al presionar el botón
         }
-
+    );
+}
         function renderPagination(totalItems) {
             const controls = document.getElementById('pagination-controls');
             controls.innerHTML = "";
@@ -1465,32 +1512,68 @@
         });
 
         function openProductDetail(id) {
-            currentProductId = id;
-            currentSlide = 0;
-            const p = productsData[id];
+    currentProductId = id;
+    currentSlide = 0;
+    const p = productsData[id];
 
-            document.getElementById('detail-title').innerText = p.title;
-            document.getElementById('detail-price').innerText = p.price;
-            
-            const baseUrl = window.location.href.split('?')[0];
-            const productUrl = `${baseUrl}?id=${id}`;
-            const whatsappMessage = `${p.whatsappText}\n\n📌 Link del producto: ${productUrl}`;
-            
-            document.getElementById('detail-wa-link').href = `https://wa.me/593987916568?text=${encodeURIComponent(whatsappMessage)}`;
-            
-            const specs = document.getElementById('detail-specs');
-            specs.innerHTML = p.specs.map(s => `<li>${s}</li>`).join('');
+    document.getElementById('detail-title').innerText = p.title;
+    document.getElementById('detail-price').innerText = p.price;
+    
+    const baseUrl = window.location.href.split('?')[0];
+    const productUrl = `${baseUrl}?id=${id}`;
+    const whatsappMessage = `${p.whatsappText}\n\n📌 Link del producto: ${productUrl}`;
+    
+    document.getElementById('detail-wa-link').href = `https://wa.me/593987916568?text=${encodeURIComponent(whatsappMessage)}`;
+    
+    const specs = document.getElementById('detail-specs');
+    specs.innerHTML = p.specs.map(s => `<li>${s}</li>`).join('');
 
-            const container = document.getElementById('gallery-container');
-            container.innerHTML = p.images.map((img, index) => `
-                <img src="${p.folder}/${img}" class="slide" style="display: ${index === 0 ? 'block' : 'none'}">
-            `).join('');
+    const container = document.getElementById('gallery-container');
+    container.innerHTML = p.images.map((img, index) => `
+        <img src="${p.folder}/${img}" class="slide" style="display: ${index === 0 ? 'block' : 'none'}">
+    `).join('');
 
-            document.getElementById('home-view').style.display = 'none';
-            document.getElementById('header-container').style.display = 'none';
-            document.getElementById('product-detail-view').style.display = 'block';
-            window.scrollTo(0, 0);
+    // === 🛑 NUEVO: CONTROL VISUAL DE STOCK EN LA VISTA DE DETALLES ===
+    const btnCheckout = document.querySelector('#product-detail-view .btn-checkout');
+    const btnCart = document.getElementById('detail-add-cart-btn');
+    
+    if (p.stock <= 0) {
+        // Deshabilitar botón principal "Pagar Ahora"
+        btnCheckout.innerText = "AGOTADO";
+        btnCheckout.disabled = true;
+        btnCheckout.style.backgroundColor = "#555";
+        btnCheckout.style.cursor = "not-allowed";
+        
+        // Deshabilitar el botón pequeño del carrito
+        if (btnCart) {
+            btnCart.disabled = true;
+            btnCart.style.backgroundColor = "#555";
+            btnCart.style.borderColor = "#555";
+            btnCart.style.cursor = "not-allowed";
         }
+    } else {
+        // Restaurar botón "Pagar Ahora" si hay stock
+        btnCheckout.innerText = "PAGAR AHORA";
+        btnCheckout.disabled = false;
+        btnCheckout.style.backgroundColor = "#d8b068";
+        btnCheckout.style.cursor = "pointer";
+        
+        // Restaurar botón del carrito si hay stock
+        if (btnCart) {
+            btnCart.disabled = false;
+            btnCart.style.backgroundColor = "#d8b068";
+            btnCart.style.borderColor = "#d8b068";
+            btnCart.style.cursor = "pointer";
+        }
+    }
+    // =================================================================
+
+    document.getElementById('home-view').style.display = 'none';
+    document.getElementById('header-container').style.display = 'none';
+    document.getElementById('product-detail-view').style.display = 'block';
+    window.scrollTo(0, 0);
+}
+
 
         function closeProductDetail() {
             document.getElementById('product-detail-view').style.display = 'none';
@@ -1534,28 +1617,50 @@
             }, 400);
         }
 
-        function addCurrentProductToCart() {
-            if (!currentProductId || !productsData[currentProductId]) return;
-            
-            const p = productsData[currentProductId];
-            const existingItem = shoppingCart.find(item => item.id === currentProductId);
-            
-            if (existingItem) {
-                existingItem.qty += 1;
-            } else {
-                const firstImage = p.images.length > 0 ? `${p.folder}/${p.images[0]}` : 'placeholder.jpg';
-                shoppingCart.push({
-                    id: currentProductId,
-                    title: p.title,
-                    price: p.price,
-                    image: firstImage,
-                    qty: 1
-                });
-            }
-            
-            saveCartLocally();
-            openCartDrawer(); // Despliega el menú automáticamente al añadir
+      function addProductToCartById(id) {
+    if (!id || !productsData[id]) return;
+    
+    const p = productsData[id];
+    
+    // Candado de seguridad usando la alerta Premium Neo Chronos
+    if (p.stock <= 0) {
+        showNeoChronosAlert(
+            "MODELO AGOTADO", 
+            `Lo sentimos, el modelo ${p.title} se encuentra temporalmente sin unidades disponibles.`, 
+            "ENTENDIDO"
+        );
+        return; 
+    }
+    
+    // Verificar si ya existe en el carrito
+    const existingItem = shoppingCart.find(item => item.id === id);
+    
+    if (existingItem) {
+        existingItem.qty += 1;
+    } else {
+        const firstImage = p.images.length > 0 ? `${p.folder}/${p.images[0]}` : 'placeholder.jpg';
+        shoppingCart.push({
+            id: id,
+            title: p.title,
+            price: p.price,
+            image: firstImage,
+            qty: 1
+        });
+    }
+    
+    // Guardar en LocalStorage y refrescar interfaz
+    saveCartLocally();
+    
+    // Alerta Premium de Éxito
+    showNeoChronosAlert(
+        "PRODUCTO AGREGADO", 
+        `El modelo ${p.title} ha sido añadido correctamente a tu carrito de compras.`, 
+        "VER CARRITO",
+        function() {
+            openCartDrawer(); // Abre automáticamente el carrito lateral al presionar el botón
         }
+    );
+}
 
         function updateCartQty(id, delta) {
             const item = shoppingCart.find(item => item.id === id);
@@ -1665,8 +1770,95 @@ function closeCheckoutForm() {
     document.getElementById('checkout-modal').style.display = 'none';
 }
 
+// --- FUNCIÓN COMPLEMENTARIA: Alerta Premium Neo Chronos ---
+function showNeoChronosAlert(title, message, buttonText, onConfirm) {
+    // 1. Crear el fondo oscuro translúcido con desenfoque
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100vw';
+    overlay.style.height = '100vh';
+    overlay.style.backgroundColor = 'rgba(10, 11, 13, 0.85)'; // Fondo oscuro de la página
+    overlay.style.display = 'flex';
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+    overlay.style.zIndex = '99999';
+    overlay.style.backdropFilter = 'blur(8px)'; // Efecto premium de desenfoque de fondo
+    overlay.style.fontFamily = "'Montserrat', sans-serif";
+
+    // 2. Crear la caja del mensaje
+    const alertBox = document.createElement('div');
+    alertBox.style.backgroundColor = '#161616'; // --card-bg de tu CSS
+    alertBox.style.border = '1px solid #c48b22ce'; // Borde dorado premium
+    alertBox.style.padding = '35px 25px';
+    alertBox.style.borderRadius = '8px';
+    alertBox.style.width = '90%';
+    alertBox.style.maxWidth = '380px';
+    alertBox.style.textAlign = 'center';
+    alertBox.style.boxShadow = '0 15px 40px rgba(0, 0, 0, 0.6)';
+
+    // Icono decorativo dorado
+    const icon = document.createElement('div');
+    icon.innerHTML = '✨'; 
+    icon.style.fontSize = '2.5rem';
+    icon.style.marginBottom = '15px';
+    icon.style.color = '#c48b22ce';
+
+    // Título de la alerta
+    const h3 = document.createElement('h3');
+    h3.innerText = title;
+    h3.style.color = '#ffffff';
+    h3.style.margin = '0 0 12px 0';
+    h3.style.fontSize = '1.2rem';
+    h3.style.fontWeight = '600';
+    h3.style.letterSpacing = '1px';
+
+    // Texto descriptivo
+    const p = document.createElement('p');
+    p.innerText = message;
+    p.style.color = '#e6e6edb5'; // --text-gray de tu CSS
+    p.style.fontSize = '0.85rem';
+    p.style.lineHeight = '1.6';
+    p.style.margin = '0 0 25px 0';
+
+    // Botón de acción dorado
+    const btn = document.createElement('button');
+    btn.innerText = buttonText;
+    btn.style.backgroundColor = '#c48b22ce'; // Oro premium
+    btn.style.color = '#0a0b0d';
+    btn.style.border = 'none';
+    btn.style.padding = '12px 20px';
+    btn.style.fontSize = '0.8rem';
+    btn.style.fontWeight = '600';
+    btn.style.textTransform = 'uppercase';
+    btn.style.letterSpacing = '1px';
+    btn.style.borderRadius = '4px';
+    btn.style.cursor = 'pointer';
+    btn.style.width = '100%';
+    btn.style.transition = 'all 0.3s ease';
+
+    // Efectos hover para el botón
+    btn.onmouseover = () => { btn.style.backgroundColor = '#ffffff'; };
+    btn.onmouseout = () => { btn.style.backgroundColor = '#c48b22ce'; };
+
+    // Evento al dar clic
+    btn.onclick = () => {
+        document.body.removeChild(overlay);
+        if (onConfirm) onConfirm();
+    };
+
+    // Armar la estructura modular
+    alertBox.appendChild(icon);
+    alertBox.appendChild(h3);
+    alertBox.appendChild(p);
+    alertBox.appendChild(btn);
+    overlay.appendChild(alertBox);
+    document.body.appendChild(overlay);
+}
+
+// --- FUNCIÓN PRINCIPAL DE CHECKOUT ACTUALIZADA ---
 function submitCheckout() {
-    // 1. Validar que los campos no estén vacíos
     const name = document.getElementById('chk-name').value;
     const id = document.getElementById('chk-id').value;
     const phone = document.getElementById('chk-phone').value;
@@ -1674,23 +1866,78 @@ function submitCheckout() {
     const address = document.getElementById('chk-address').value;
 
     if (!name || !id || !phone || !city || !address) {
-        alert("Por favor, completa todos los datos para el envío.");
+        showNeoChronosAlert("CAMPOS INCOMPLETOS", "Por favor, completa todos los datos para poder gestionar tu envío.", "ENTENDIDO");
         return;
     }
 
-    // 2. Aquí conectarás con el botón de pago futuro
-    alert("¡Datos guardados con éxito!\n\nPróximo paso: Redirección a la pasarela de pagos para procesar la tarjeta.");
-    
-    // (Opcional) Guardar los datos en una variable temporal para enviarlos a la pasarela después
-    const customerData = {
+    if (shoppingCart.length === 0) {
+        showNeoChronosAlert("CARRITO VACÍO", "Tu carrito no registra productos activos. Añade un modelo antes de procesar el pago.", "VOLVER");
+        return;
+    }
+
+    const totalValueLabel = document.getElementById('cart-total-value').innerText;
+
+    const btnSubmit = document.querySelector('#checkout-modal .btn-checkout');
+    const originalText = btnSubmit.innerText;
+    btnSubmit.innerText = "ENVIANDO PEDIDO...";
+    btnSubmit.disabled = true;
+
+    const orderPayload = {
         name: name,
         id: id,
         phone: phone,
         city: city,
-        address: address
+        address: address,
+        cart: shoppingCart, 
+        total: totalValueLabel
     };
-    console.log("Datos listos para enviar al backend/pasarela:", customerData);
+
+    const GOOGLE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzCETZm55ieaT3_ZIJzBATjp0zBxM1qya4mDCY-FOB5AOO2fA2jp3qer32AgiuHKx2Lqg/exec'; 
+
+    fetch(GOOGLE_WEB_APP_URL, {
+        method: 'POST',
+        mode: 'no-cors', 
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderPayload)
+    })
+    .then(() => {
+        // Acciones internas inmediatas
+        shoppingCart = [];
+        saveCartLocally();
+        closeCheckoutForm();
+        
+        document.getElementById('chk-name').value = '';
+        document.getElementById('chk-id').value = '';
+        document.getElementById('chk-phone').value = '';
+        document.getElementById('chk-city').value = '';
+        document.getElementById('chk-address').value = '';
+
+        // Link de tu pasarela de pagos (PayPhone, Deuna, etc.)
+        const URL_PORTAL_PAGOS = 'https://TU_LINK_DE_PAGO_AQUI.com'; 
+
+        // Invocar la alerta personalizada con los colores de Neo Chronos
+        showNeoChronosAlert(
+            "ORDEN REGISTRADA", 
+            "Una vez completado el pago, recibiras una confimacion de envio al whatsapp en tu numero registrado, Muchas Gracias.", 
+            "CONTINUAR AL PAGO",
+            function() {
+                // Se ejecuta la redirección justo cuando el cliente presiona el botón dorado de éxito
+                window.location.href = URL_PORTAL_PAGOS;
+            }
+        );
+    })
+    .catch(error => {
+        console.error("Error de red:", error);
+        showNeoChronosAlert("ERROR DE CONEXIÓN", "No pudimos enlazar la orden de forma automática. Inténtalo nuevamente por favor.", "REINTENTAR");
+    })
+    .finally(() => {
+        btnSubmit.innerText = originalText;
+        btnSubmit.disabled = false;
+    });
 }
+// --- LÓGICA DE COMPRA DIRECTA DESDE DETALLES ---
 // --- LÓGICA DE COMPRA DIRECTA DESDE DETALLES ---
 function buyNowFromDetail() {
     // 1. Agrega el reloj que estamos viendo al carrito
@@ -1698,6 +1945,41 @@ function buyNowFromDetail() {
     
     // 2. Llama a la función que cierra el carrito lateral y abre el modal de datos
     openCheckoutForm();
+}
+
+// Función que faltaba para procesar el producto actual en la vista de detalles
+function addCurrentProductToCart() {
+    if (!currentProductId || !productsData[currentProductId]) return;
+    
+    const p = productsData[currentProductId];
+    
+    // Corrección del mensaje de alerta nativo por el Premium de la página
+    if (p && p.stock <= 0) {
+        showNeoChronosAlert(
+            "MODELO AGOTADO", 
+            "Lo sentimos, este modelo se acaba de agotar y no puede añadirse al carrito.", 
+            "ENTENDIDO"
+        );
+        return; 
+    }
+    
+    const existingItem = shoppingCart.find(item => item.id === currentProductId);
+    
+    if (existingItem) {
+        existingItem.qty += 1;
+    } else {
+        const firstImage = p.images.length > 0 ? `${p.folder}/${p.images[0]}` : 'placeholder.jpg';
+        shoppingCart.push({
+            id: currentProductId,
+            title: p.title,
+            price: p.price,
+            image: firstImage,
+            qty: 1
+        });
+    }
+    
+    saveCartLocally();
+    openCartDrawer(); 
 }
 
         document.addEventListener('DOMContentLoaded', loadInventoryFromSheets);
