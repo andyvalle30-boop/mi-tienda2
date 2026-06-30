@@ -1329,13 +1329,14 @@
                         item[header] = row[index] || "";
                     });
 
-                    if(item.id) {
+                   if(item.id) {
                         newProducts[item.id] = {
                             title: item.title,
                             brand: item.brand,
                             price: item.price,
-                            folder: item.folder,
-                            images: item.images ? item.images.split(',').map(s => s.trim()) : [],
+                            folder: item.folder, // Puedes dejar esto aunque ya no se use para la imagen
+                            // Actualiza esta línea:
+                            images: (item.image || item.images) ? (item.image || item.images).split(',').map(s => s.trim()) : [],
                             tag: item.tag,
                             whatsappText: item.whatsappText,
                             specs: item.specs ? item.specs.split(',').map(s => s.trim()) : ["Precisión y elegancia atemporal."],
@@ -1384,7 +1385,8 @@
 
     pageItems.forEach(key => {
         const p = productsData[key];
-        const firstImage = p.images.length > 0 ? `${p.folder}/${p.images[0]}` : 'placeholder.jpg'; 
+       // Reemplaza la línea existente por esta:
+       const firstImage = p.images.length > 0 ? obtenerImagenSegura(p.folder, p.images[0]) : 'placeholder.jpg';
         const shortDesc = p.specs[0];
         
         // Validación de Stock
@@ -1414,50 +1416,6 @@
         `;
         grid.appendChild(card);
     });
-}
-function addProductToCartById(id) {
-    if (!id || !productsData[id]) return;
-    
-    const p = productsData[id];
-    
-    // Candado de seguridad usando la alerta Premium Neo Chronos
-    if (p.stock <= 0) {
-        showNeoChronosAlert(
-            "MODELO AGOTADO", 
-            `Lo sentimos, el modelo ${p.title} se encuentra temporalmente sin unidades disponibles.`, 
-            "ENTENDIDO"
-        );
-        return; 
-    }
-    
-    // Verificar si ya existe en el carrito
-    const existingItem = shoppingCart.find(item => item.id === id);
-    
-    if (existingItem) {
-        existingItem.qty += 1;
-    } else {
-        const firstImage = p.images.length > 0 ? `${p.folder}/${p.images[0]}` : 'placeholder.jpg';
-        shoppingCart.push({
-            id: id,
-            title: p.title,
-            price: p.price,
-            image: firstImage,
-            qty: 1
-        });
-    }
-    
-    // Guardar en LocalStorage y refrescar interfaz
-    saveCartLocally();
-    
-    // Alerta Premium de Éxito
-    showNeoChronosAlert(
-        "PRODUCTO AGREGADO", 
-        `El modelo ${p.title} ha sido añadido correctamente a tu carrito de compras.`, 
-        "VER CARRITO",
-        function() {
-            openCartDrawer(); // Abre automáticamente el carrito lateral al presionar el botón
-        }
-    );
 }
         function renderPagination(totalItems) {
             const controls = document.getElementById('pagination-controls');
@@ -1524,10 +1482,11 @@ function addProductToCartById(id) {
     const specs = document.getElementById('detail-specs');
     specs.innerHTML = p.specs.map(s => `<li>${s}</li>`).join('');
 
-    const container = document.getElementById('gallery-container');
-    container.innerHTML = p.images.map((img, index) => `
-        <img src="${p.folder}/${img}" class="slide" style="display: ${index === 0 ? 'block' : 'none'}">
-    `).join('');
+   const container = document.getElementById('gallery-container');
+    container.innerHTML = p.images.map((img, index) => {
+        const urlSegura = obtenerImagenSegura(p.folder, img); // Usamos tu función salvavidas
+        return `<img src="${urlSegura}" class="slide" style="display: ${index === 0 ? 'block' : 'none'}">`;
+    }).join('');
 
     // === 🛑 NUEVO: CONTROL VISUAL DE STOCK EN LA VISTA DE DETALLES ===
     const btnCheckout = document.querySelector('#product-detail-view .btn-checkout');
@@ -1634,7 +1593,7 @@ function addProductToCartById(id) {
     if (existingItem) {
         existingItem.qty += 1;
     } else {
-        const firstImage = p.images.length > 0 ? `${p.folder}/${p.images[0]}` : 'placeholder.jpg';
+       const firstImage = p.images.length > 0 ? obtenerImagenSegura(p.folder, p.images[0]) : 'placeholder.jpg';
         shoppingCart.push({
             id: id,
             title: p.title,
@@ -1982,12 +1941,13 @@ function addCurrentProductToCart() {
     
     const existingItem = shoppingCart.find(item => item.id === currentProductId);
     
+   // En la validación de si no existe en el carrito:
     if (existingItem) {
         existingItem.qty += 1;
-    } else {
-        const firstImage = p.images.length > 0 ? `${p.folder}/${p.images[0]}` : 'placeholder.jpg';
+   } else {
+        const firstImage = p.images.length > 0 ? obtenerImagenSegura(p.folder, p.images[0]) : 'placeholder.jpg';
         shoppingCart.push({
-            id: currentProductId,
+            id: currentProductId, // <-- CORREGIDO: antes decía "id: id" y daba error
             title: p.title,
             price: p.price,
             image: firstImage,
@@ -1997,6 +1957,14 @@ function addCurrentProductToCart() {
     
     saveCartLocally();
     openCartDrawer(); 
+}
+function obtenerImagenSegura(folder, imagen) {
+    // Si la imagen ya tiene "http", la devolvemos tal cual (es un link de Drive)
+    if (imagen && imagen.startsWith('http')) {
+        return imagen;
+    }
+    // Si no, devolvemos la ruta tradicional con la carpeta
+    return folder + '/' + imagen;
 }
 
         document.addEventListener('DOMContentLoaded', loadInventoryFromSheets);
