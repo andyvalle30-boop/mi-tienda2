@@ -416,17 +416,15 @@
         .card-title:hover {
             color: var(--gold-premium); 
         }
-
-        .card-desc {
-            font-size: 0.75rem;
-            color: var(--text-gray);
-            margin-bottom: 15px;
-            line-height: 1.5;
-            display: -webkit-box;
-            -webkit-line-clamp: 2; 
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+        .card-color { 
+            font-size: 0.60rem;
+            color: var(--white);
+            margin-bottom: 20px;
+            font-weight: 400;
+            letter-spacing: 1px;
         }
+
+
 
         .card-price {
             font-size: 1.25rem;
@@ -1407,59 +1405,83 @@
         }
 
         async function loadInventoryFromSheets() {
-            try {
-                const response = await fetch(SHEET_URL);
-                const data = await response.text();
-                
-                const rows = data.split(/\r?\n/).map(row => {
-                    const matches = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-                    return matches ? matches.map(val => val.replace(/^"|"$/g, '').trim()) : [];
-                }).filter(row => row.length > 0);
+    try {
+        const response = await fetch(SHEET_URL);
+        const data = await response.text();
+        
+        // --- NUEVO LECTOR CSV ROBUSTO ---
+        // Este algoritmo respeta celdas vacías, comillas, comas internas y textos largos
+        const rows = [];
+        let quote = false;
+        let rowIdx = 0, colIdx = 0;
+        
+        for (let c = 0; c < data.length; c++) {
+            let cc = data[c], nc = data[c+1];
+            rows[rowIdx] = rows[rowIdx] || [];
+            rows[rowIdx][colIdx] = rows[rowIdx][colIdx] || '';
 
-                if (rows.length <= 1) return;
+            // Si encuentra comillas dentro de comillas
+            if (cc === '"' && quote && nc === '"') { rows[rowIdx][colIdx] += cc; ++c; continue; }
+            // Alternar estado de comillas
+            if (cc === '"') { quote = !quote; continue; }
+            // Cambio de columna
+            if (cc === ',' && !quote) { ++colIdx; continue; }
+            // Cambio de fila (soporta diferentes formatos de salto de línea)
+            if (cc === '\r' && nc === '\n' && !quote) { ++rowIdx; colIdx = 0; ++c; continue; }
+            if (cc === '\n' && !quote) { ++rowIdx; colIdx = 0; continue; }
+            if (cc === '\r' && !quote) { ++rowIdx; colIdx = 0; continue; }
 
-                const headers = rows[0];
-                const newProducts = {};
+            // Añadir carácter a la celda actual
+            rows[rowIdx][colIdx] += cc;
+        }
+        // --------------------------------
 
-                for (let i = 1; i < rows.length; i++) {
-                    const row = rows[i];
-                    const item = {};
-                    headers.forEach((header, index) => {
-                        item[header] = row[index] || "";
-                    });
+        if (rows.length <= 1) return;
 
-                   if(item.id) {
-                        newProducts[item.id] = {
-                            title: item.title,
-                            brand: item.brand,
-                            price: item.price,
-                            folder: item.folder, // Puedes dejar esto aunque ya no se use para la imagen
-                            // Actualiza esta línea:
-                            images: (item.image || item.images) ? (item.image || item.images).split(',').map(s => s.trim()) : [],
-                            tag: item.tag,
-                            whatsappText: item.whatsappText,
-                            specs: item.specs ? item.specs.split(',').map(s => s.trim()) : ["Precisión y elegancia atemporal."],
-                            stock: parseInt(item.stock) || 0
-                        };
-                    }
-                }
+        // Limpiamos los encabezados de espacios extra
+        const headers = rows[0].map(h => h.trim());
+        const newProducts = {};
 
-                productsData = newProducts;
-                
-                initFilters();
-                updateCatalog();
-                loadSavedCart(); // Sincroniza interfaz con datos de la hoja cargados
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            if (row.length === 0 || !row[0]) continue; // Evita que filas vacías rompan el código
 
-                const urlParams = new URLSearchParams(window.location.search);
-                const productIdParam = urlParams.get('id');
-                if (productIdParam && productsData[productIdParam]) {
-                    openProductDetail(productIdParam);
-                }
+            const item = {};
+            headers.forEach((header, index) => {
+                item[header] = (row[index] || "").trim();
+            });
 
-            } catch (error) {
-                console.error("Error cargando inventario desde Google Sheets:", error);
+           if(item.id) {
+                newProducts[item.id] = {
+                    title: item.title,
+                    brand: item.brand,
+                    price: item.price,
+                    folder: item.folder, 
+                    images: (item.image || item.images) ? (item.image || item.images).split(',').map(s => s.trim()) : [],
+                    tag: item.tag,
+                    whatsappText: item.whatsappText,
+                    specs: item.specs ? item.specs.split(',').map(s => s.trim()) : ["Precisión y elegancia atemporal."],
+                    stock: parseInt(item.stock) || 0
+                };
             }
         }
+
+        productsData = newProducts;
+        
+        initFilters();
+        updateCatalog();
+        loadSavedCart(); 
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const productIdParam = urlParams.get('id');
+        if (productIdParam && productsData[productIdParam]) {
+            openProductDetail(productIdParam);
+        }
+
+    } catch (error) {
+        console.error("Error cargando inventario desde Google Sheets:", error);
+    }
+}
 
         function updateCatalog() {
             const searchTerm = document.getElementById('search-bar').value.toLowerCase();
@@ -1500,7 +1522,7 @@
             <div class="product-details-box">
                 <p class="card-brand">${p.brand}</p>
                 <h3 class="card-title" onclick="openProductDetail('${key}')">${p.title}</h3>
-                <p class="card-desc">${shortDesc}</p>
+                <p class="card-color">${p.folder}</p>
                 <p class="card-price">${p.price}</p>
                 <div class="card-actions">
                     <button class="btn-card primary" 
