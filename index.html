@@ -715,7 +715,7 @@
         }
 
         .btn-action-cart-detail:hover {
-            background-color: var(--white);
+            color: var(--white);
             border-color: var(--white);
             color: #111;
         }
@@ -1005,7 +1005,7 @@
 }
 
 .btn-checkout:hover {
-    background-color: var(--white);
+    color: var(--white);
 }
 
 .btn-cancel {
@@ -1152,11 +1152,75 @@
                 right: -100%;
             }
         }
+        .payment-methods-info {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(196, 139, 34, 0.2); /* Línea dorada sutil */
+        }
+
+        .payment-title {
+            font-size: 0.75rem;
+            color: var(--gold-premium);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* Cuadrícula para acomodar las tarjetas */
+        .payment-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 columnas de tarjetas */
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* Diseño de la tarjeta blanca individual */
+        .pay-card {
+      
+            border-radius: 6px; /* Bordes redondeados como en la imagen */
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 45px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: default;
+        }
+
+        .pay-card:hover {
+           filter: invert(75%) sepia(60%) saturate(1000%) hue-rotate(10deg) brightness(110%);
+}
+
+        .pay-card i {
+            font-size: 1.8rem; /* Tamaño de los logos */
+       filter: invert(65%) sepia(45%) saturate(700%) hue-rotate(10deg) brightness(95%);
+    transition: filter 0.3s ease;
+}
+
+        .payment-note {
+            font-size: 0.65rem;
+            color: var(--text-gray);
+            font-style: italic;
+            line-height: 1.5;
+            margin-top: 5px;
+        }
         
         @media (max-width: 480px) {
             .cart-drawer {
                 width: 100%;
                 right: -100%;
+            }
+            .payment-cards-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            .pay-card {
+                height: 40px;
+            }
+            .pay-card i {
+                font-size: 1.5rem;
             }
         }
         
@@ -1259,9 +1323,39 @@
         <img src="logo-carrito.png" alt="Carrito" class="cart-icon-btn-img">
     </button>
 </div>
+<!-- Justo debajo del <div class="detail-actions-wrapper">...</div> -->
+                
+    <div class="payment-methods-info">
+    <h4 class="payment-title">Pago 100% Seguro</h4>
+    <div class="payment-cards-grid">
+        <!-- PayPal -->
+        <div class="pay-card" title="PayPal">
+            <i class="fab fa-paypal" style="color: #003087;"></i>
+        </div>
+        <!-- Mastercard -->
+        <div class="pay-card" title="Mastercard">
+            <i class="fab fa-cc-mastercard" style="color: #eb0000a3;"></i>
+        </div>
+        <!-- Visa -->
+        <div class="pay-card" title="Visa">
+            <i class="fab fa-cc-visa" style="color: #1a1f71;"></i>
+        </div>
+        <!-- Binance Pay -->
+        <div class="pay-card" title="Binance Pay">
+            <img src="binance.png" alt="Binance Pay" style="width: 100px; height: 75px; object-fit: contain;">
+        </div>
+        <!-- Transferencia (Ícono de Banco) -->
+        <div class="pay-card" title="Transferencia Bancaria">
+            <i class="fas fa-university" style="color: #333333;"></i>
+        </div>
+        
+    </div>
+    <p class="payment-note">* Tu pago se coordina de forma totalmente segura a través de WhatsApp.</p>
+</div>
             </div>
         </div>
     </div>
+    
 
     <div id="cart-overlay" class="cart-drawer-overlay" onclick="closeCartDrawer()"></div>
     <div id="cart-drawer" class="cart-drawer">
