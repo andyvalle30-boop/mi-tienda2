@@ -1205,24 +1205,29 @@
         </section>
 
         <section class="products-section" id="coleccion">
-            <div class="section-header">
-                <h2 class="section-title">Modelos Disponibles</h2>
-                <div class="section-divider"></div>
-                <input type="text" id="search-bar" placeholder="Buscar modelo..." onkeyup="updateCatalog()">
-            </div>
-            
-            <div class="catalog-layout">
-                <aside class="sidebar-filters">
-                    <h3>Marcas</h3>
-                    <div id="brand-filters"></div>
-                </aside>
-                
-                <main style="flex: 1; width: 100%;">
-                    <div class="grid-products" id="product-grid"></div>
-                    <div class="pagination" id="pagination-controls"></div>
-                </main>
-            </div>
-        </section>
+    <div class="section-header">
+        <h2 class="section-title">Modelos Disponibles</h2>
+        <div class="section-divider"></div>
+        <input type="text" id="search-bar" placeholder="Buscar modelo..." onkeyup="updateCatalog()">
+    </div>
+    
+    <!-- Envoltura principal para el menú lateral y la cuadrícula -->
+    <div class="catalog-layout">
+        <aside class="sidebar-filters">
+            <h3 id="btn-toggle-marcas" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none;">
+                Marcas 
+                <span id="flecha-marcas" style="transition: transform 0.3s ease; color: var(--gold-premium); font-size: 0.8rem;">▼</span>
+            </h3>
+            <div id="brand-filters" style="display: none; margin-top: 15px;"></div>
+        </aside>
+
+        <!-- Contenedor donde se inyectan los productos y la paginación -->
+        <div style="width: 100%;">
+            <div id="product-grid" class="grid-products"></div>
+            <div id="pagination-controls" class="pagination"></div>
+        </div>
+    </div>
+</section>
     </div>
 
     <div id="product-detail-view" class="product-detail-page">
@@ -1530,6 +1535,7 @@
 }
 
 
+
         function closeProductDetail() {
             document.getElementById('product-detail-view').style.display = 'none';
             document.getElementById('home-view').style.display = 'block';
@@ -1615,6 +1621,20 @@
             openCartDrawer(); // Abre automáticamente el carrito lateral al presionar el botón
         }
     );
+}
+function toggleMenuMarcas() {
+    const contenedorMarcas = document.getElementById('brand-filters');
+    const icono = document.getElementById('icono-marcas');
+    
+    if (contenedorMarcas.style.display === 'none') {
+        // Expandir
+        contenedorMarcas.style.display = 'block';
+        icono.innerText = '▲'; 
+    } else {
+        // Contraer
+        contenedorMarcas.style.display = 'none';
+        icono.innerText = '▼';
+    }
 }
 
         function updateCartQty(id, delta) {
@@ -1967,6 +1987,7 @@ function obtenerImagenSegura(folder, imagen) {
     return folder + '/' + imagen;
 }
 
+
         document.addEventListener('DOMContentLoaded', loadInventoryFromSheets);
     </script>
     <footer class="footer">
@@ -2023,5 +2044,30 @@ function obtenerImagenSegura(folder, imagen) {
         <button class="btn-cancel" onclick="closeCheckoutForm()">Cancelar</button>
     </div>
 </div>
+<script>
+    (function() {
+        document.addEventListener('DOMContentLoaded', () => {
+            const boton = document.getElementById('btn-toggle-marcas');
+            const contenedor = document.getElementById('brand-filters');
+            const flecha = document.getElementById('flecha-marcas');
+
+            if (boton && contenedor) {
+                boton.addEventListener('click', () => {
+                    if (contenedor.style.display === 'none' || contenedor.style.display === '') {
+                        // Al expandirse, se muestra y la flecha gira hacia arriba
+                        contenedor.style.display = 'flex';
+                        contenedor.style.flexDirection = 'column';
+                        contenedor.style.gap = '10px';
+                        if (flecha) flecha.style.transform = 'rotate(180deg)';
+                    } else {
+                        // Al contraerse, se oculta y la flecha regresa a su estado original
+                        contenedor.style.display = 'none';
+                        if (flecha) flecha.style.transform = 'rotate(0deg)';
+                    }
+                });
+            }
+        });
+    })();
+</script>
 </body>
 </html>
