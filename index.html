@@ -1225,24 +1225,7 @@ overflow-y: auto;
             line-height: 1.5;
             margin-top: 5px;
         }
-        
-        @media (max-width: 480px) {
-            .cart-drawer {
-                width: 100%;
-                right: -100%;
-            }
-            .payment-cards-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
-            }
-            .pay-card {
-                height: 40px;
-            }
-            .pay-card i {
-                font-size: 1.5rem;
-            }
-        }
-     .grid-products {
+         .grid-products {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); 
             gap: 25px;
@@ -1298,6 +1281,23 @@ overflow-y: auto;
             flex-direction: column;
             justify-content: center;
             padding-right: 10px;
+        }
+        
+        @media (max-width: 480px) {
+            .cart-drawer {
+                width: 100%;
+                right: -100%;
+            }
+            .payment-cards-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            .pay-card {
+                height: 40px;
+            }
+            .pay-card i {
+                font-size: 1.5rem;
+            }
         }
         
     </style>
