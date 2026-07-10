@@ -10,7 +10,7 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <script src="https://www.paypal.com/sdk/js?client-id=AYKpGhue5zu3KLbrF0lK8PAyo24mixxyNdvgGtU-pa4VpP7cRNE5yl_GVR8HTd2GvgxuLYDVssgv5B58&currency=USD"></script>
     
     <style>
         :root {
@@ -70,6 +70,12 @@
             text-transform: uppercase;
             display: block;
         }
+        .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 25px;
+    padding: 20px;
+}
         
         .brand-marquee {
             width: 100%;
@@ -343,7 +349,7 @@
             margin: 0 auto;
         }
 
-        .product-card {
+        .rd {
             background: var(--card-bg);
             border: 1px solid rgba(196, 139, 34, 0.3); 
             border-radius: 6px;
@@ -356,11 +362,6 @@
             text-align: left;
         }
 
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border-color: var(--gold-premium);
-        }
 
         .product-image-box {
             width: 45%;
@@ -481,7 +482,7 @@
         }
         
         .sidebar-filters {
-            width: 220px;
+            width: 200px;
             flex-shrink: 0;
             background: var(--card-bg);
             border: 1px solid rgba(255, 255, 255, 0.02);
@@ -1034,6 +1035,8 @@
     display: none; /* Oculto por defecto */
     justify-content: center;
     align-items: center;
+overflow-y: auto;
+    padding: 20px 0;
 }
 
 .checkout-form-container {
@@ -1044,6 +1047,8 @@
     max-width: 450px;
     border-radius: 4px;
     box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+    max-height: 85vh;    /* No permite que la ventana pase del 85% del alto de la pantalla */
+    overflow-y: auto;    /* Si los campos de la tarjeta exceden ese espacio, activa el scroll */
 }
 
 .checkout-form-container h3 {
@@ -1052,6 +1057,26 @@
     text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: 300;
+}
+.btn-close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #888888; /* Gris suave por defecto */
+    font-size: 28px;
+    font-weight: 300;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+    line-height: 1;
+    padding: 5px;
+    z-index: 10;
+}
+
+.btn-close-modal:hover {
+    color: #c5a880; /* Tu dorado Neo Chronos */
+    transform: scale(1.1); /* Efecto sutil de agrandado */
 }
 
 .form-group {
@@ -1115,11 +1140,7 @@
                 gap: 15px;
             }
             
-            .product-card { 
-                flex-direction: column; 
-                padding: 15px; 
-            }
-            .product-image-box { 
+             .product-image-box { 
                 width: 100%; 
                 height: 200px; 
             }
@@ -1220,6 +1241,63 @@
             .pay-card i {
                 font-size: 1.5rem;
             }
+        }
+     .grid-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); 
+            gap: 25px;
+            width: 100%; 
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(196, 139, 34, 0.3); 
+            border-radius: 6px;
+            padding: 15px;
+            display: flex;
+            flex-direction: row; 
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: left;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-color: var(--gold-premium);
+        }
+
+        .product-image-box {
+            width: 45%;
+            height: 240px;
+            background-color: #2b2a2a91; 
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            overflow: hidden;
+        }
+
+        .product-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.05);
+        }
+
+        .product-details-box {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-right: 10px;
         }
         
     </style>
@@ -1380,7 +1458,7 @@
         let productsData = {};
         let shoppingCart = []; // Estructura: { id, title, price, image, qty }
         let currentPage = 1;
-        const itemsPerPage = 6;
+        const itemsPerPage = 12;
         let currentBrand = "Todos";
         let currentSlide = 0;
         let currentProductId = '';
@@ -2128,11 +2206,18 @@ function obtenerImagenSegura(folder, imagen) {
             </div>
         </div>
     </footer>
-    <div id="checkout-modal" class="checkout-overlay">
+ <!-- Busca este bloque dentro de tu HTML y modifícalo así -->
+<div id="checkout-modal" class="checkout-overlay">
     <div class="checkout-form-container">
         <h3>Datos de Envío</h3>
         <p style="color: var(--text-gray); font-size: 0.75rem; margin-bottom: 20px;">
-            Ingresa tu información correctamente para realizar el enivo, gracias.
+            Ingresa tu información correctamente para realizar el envío, gracias.
+        </p>
+        <button class="btn-close-modal" onclick="cancelarYReiniciarFormulario()">&times;</button>
+        
+        <h3>Datos de Envío</h3>
+        <p style="color: var(--text-gray); font-size: 0.75rem; margin-bottom: 20px;">
+            Ingresa tu información correctamente para realizar el envío, gracias.
         </p>
         
         <div class="form-group">
@@ -2156,9 +2241,12 @@ function obtenerImagenSegura(folder, imagen) {
             <input type="text" id="chk-address" placeholder="Ej. Cdla. Urdesa, calle..." required>
         </div>
         
-        <button class="btn-checkout" onclick="submitCheckout()">Continuar a Pago Seguro</button>
-        <button class="btn-cancel" onclick="closeCheckoutForm()">Cancelar</button>
+        <div id="paypal-button-container" style="margin-top: 25px; width: 100%; min-height: 110px;"></div>
+        
+        <!-- Cambia el botón de cancelar original para que use la nueva función de reinicio completo -->
+        <button class="btn-cancel" onclick="cancelarYReiniciarFormulario()">Cancelar</button>
     </div>
+</div>
 </div>
 <script>
     (function() {
@@ -2183,7 +2271,183 @@ function obtenerImagenSegura(folder, imagen) {
                 });
             }
         });
+        
     })();
+    // Función blindada para inicializar PayPal sin romper los productos de la tienda
+function initPayPalSecure() {
+    // 1. Verificación preventiva de seguridad: si PayPal no responde, detenemos la función en silencio
+    if (typeof paypal === 'undefined') {
+        console.warn("PayPal SDK no está listo o el Client ID está vacío. Los productos cargan con normalidad.");
+        return;
+    }
+
+    // 2. Si no encuentra el div en el HTML, no continúa
+    const container = document.getElementById('paypal-button-container');
+    if (!container) return;
+
+    try {
+        paypal.Buttons({
+            // VALIDACIÓN PREVIO A PAGAR
+            onClick: function(data, actions) {
+                const name = document.getElementById('chk-name').value.trim();
+                const id = document.getElementById('chk-id').value.trim();
+                const phone = document.getElementById('chk-phone').value.trim();
+                const city = document.getElementById('chk-city').value.trim();
+                const address = document.getElementById('chk-address').value.trim();
+
+                if (!name || !id || !phone || !city || !address) {
+                    showNeoChronosAlert("CAMPOS INCOMPLETOS", "Por favor, completa todos los datos para poder gestionar tu envío.", "ENTENDIDO");
+                    return actions.reject();
+                }
+
+                if (!shoppingCart || shoppingCart.length === 0) {
+                    showNeoChronosAlert("CARRITO VACÍO", "Tu carrito no registra productos activos. Añade un modelo antes de procesar el pago.", "VOLVER");
+                    return actions.reject();
+                }
+
+                return actions.resolve();
+            },
+
+            // CALCULO DINÁMICO DEL MONTO TOTAL
+            createOrder: function(data, actions) {
+                let totalCalculado = 0;
+
+                shoppingCart.forEach(item => {
+                    // Limpieza nativa y directa del string del precio (ej: "$45.00" -> 45.00)
+                    let precioNumerico = parseFloat(String(item.price).replace(/[^0-9.]/g, ''));
+                    if (!isNaN(precioNumerico)) {
+                        totalCalculado += (precioNumerico * item.qty);
+                    }
+                });
+
+                return actions.order.create({
+                    purchase_units: [{
+                        description: "Pedido de Relojería Premium - Neo Chronos",
+                        amount: {
+                            currency_code: "USD",
+                            value: totalCalculado.toFixed(2)
+                        }
+                    }]
+                });
+            },
+
+            // CAPTURA DE PAGO Y ENVÍO DEL PAYLOAD A GOOGLE APPS SCRIPT
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    
+                    const name = document.getElementById('chk-name').value;
+                    const id = document.getElementById('chk-id').value;
+                    const phone = document.getElementById('chk-phone').value;
+                    const city = document.getElementById('chk-city').value;
+                    const address = document.getElementById('chk-address').value;
+                    const totalValueLabel = document.getElementById('cart-total-value').innerText;
+
+                    // Mantenemos la estructura exacta de tu JSON original para tu Web App
+                    const orderPayload = {
+                        name: name,
+                        id: id,
+                        phone: phone,
+                        city: city,
+                        address: address,
+                        cart: shoppingCart, 
+                        total: totalValueLabel,
+                        paypalTransactionId: details.id, // ID para tu control en Telegram
+                        paymentStatus: "CONFIRMADO_PAYPAL"
+                    };
+
+                    const GOOGLE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzCETZm55ieaT3_ZIJzBATjp0zBxM1qya4mDCY-FOB5AOO2fA2jp3qer32AgiuHKx2Lqg/exec'; 
+
+                    fetch(GOOGLE_WEB_APP_URL, {
+                        method: 'POST',
+                        mode: 'no-cors', 
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(orderPayload)
+                    })
+                    .then(() => {
+                        // Resetear estados globales de la aplicación
+                        shoppingCart = [];
+                        if (typeof saveCartLocally === 'function') saveCartLocally();
+                        if (typeof updateCartUI === 'function') updateCartUI(); 
+                        closeCheckoutForm();
+                        
+                        // Limpieza de inputs
+                        document.getElementById('chk-name').value = '';
+                        document.getElementById('chk-id').value = '';
+                        document.getElementById('chk-phone').value = '';
+                        document.getElementById('chk-city').value = '';
+                        document.getElementById('chk-address').value = '';
+
+                        showNeoChronosAlert(
+                            "PAGO Y ORDEN PROCESADA", 
+                            `¡Muchas gracias por tu compra, ${details.payer.name.given_name}! Tu pago ha sido aprobado de forma segura y tus datos de envío han sido registrados.`, 
+                            "ENTENDIDO"
+                        );
+                    })
+                    .catch(error => {
+                        console.error("Error al reportar a Google Apps Script:", error);
+                        showNeoChronosAlert("PAGO EXITOSO", "Tu pago se procesó correctamente, pero hubo un problema al registrar la orden automáticamente. ID de pago: " + details.id, "ENTENDIDO");
+                    });
+                });
+            },
+
+            onCancel: function(data) {
+                showNeoChronosAlert("PAGO CANCELADO", "El proceso de pago fue cancelado. Los productos siguen en tu carrito.", "VOLVER");
+            },
+
+            onError: function(err) {
+                console.error("Error en pasarela:", err);
+                showNeoChronosAlert("ERROR DE TRANSACCIÓN", "No pudimos completar el cobro. Revisa tus fondos o tarjeta.", "REINTENTAR");
+            }
+        }).render('#paypal-button-container');
+    } catch (error) {
+        console.error("Error crítico inicializando los botones de PayPal: ", error);
+    }
+}
+
+// Disparar la inicialización de forma asíncrona una vez que el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(initPayPalSecure, 800); // Pequeño retraso táctico para que no choque con la carga de tus productos
+});
+// Función magistral para resetear el formulario y cerrar el modal
+function cancelarYReiniciarFormulario() {
+    // 1. Vaciamos todos los campos de texto
+    document.getElementById('chk-name').value = '';
+    document.getElementById('chk-id').value = '';
+    document.getElementById('chk-phone').value = '';
+    document.getElementById('chk-city').value = '';
+    document.getElementById('chk-address').value = '';
+    
+    // 2. REINICIO DE PAYPAL: Borramos los botones viejos / formulario expandido
+    const paypalContainer = document.getElementById('paypal-button-container');
+    if (paypalContainer) {
+        paypalContainer.innerHTML = ''; // Borra todo el rastro del formulario de tarjeta abierto
+    }
+
+    // 3. Volvemos a levantar el botón original por si acaso
+    const originalBtn = document.getElementById('btn-original-checkout');
+    if (originalBtn) {
+        originalBtn.style.display = 'block';
+    }
+    
+    // 4. Volvemos a renderizar los botones de PayPal limpiecitos
+    if (typeof verificarEInicializarPayPal === 'function') {
+        verificarEInicializarPayPal();
+    } else if (typeof initPayPalSecure === 'function') {
+        initPayPalSecure(); // Respaldo por si usas el nombre anterior
+    }
+    
+    // 5. Cerramos la ventana modal
+    if (typeof closeCheckoutForm === 'function') {
+        closeCheckoutForm();
+    } else {
+        const modal = document.getElementById('checkout-modal');
+        if (modal) modal.style.display = 'none';
+    }
+    
+    console.log("🧹 Formulario y pasarela de PayPal reseteados al 100%.");
+}
+    
 </script>
+
 </body>
 </html>
