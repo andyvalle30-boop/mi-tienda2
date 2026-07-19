@@ -1,0 +1,2622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <title>Neo Chronos | Premium Timepieces</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.paypal.com/sdk/js?client-id=AYKpGhue5zu3KLbrF0lK8PAyo24mixxyNdvgGtU-pa4VpP7cRNE5yl_GVR8HTd2GvgxuLYDVssgv5B58&currency=USD"></script>
+    
+    <style>
+        :root {
+            --bg-dark: #0a0b0d;        
+            --card-bg: #161616de;      
+            --gold-premium: #c48b22ce; 
+            --white: #ffffff;
+            --text-gray: #e6e6edb5;    
+        }
+        #gallery-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #gallery-container img.slide {
+            max-width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+        }
+
+       #coleccion {
+    padding: 140px 60px;
+}
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+       html, body {
+    background-color: var(--bg-dark);
+    color: var(--white);
+    overflow-x: hidden; 
+    width: 100%;
+    max-width: 100vw; /* Añade esto */
+}
+
+        /* BARRA DE ANUNCIO CON ANIMACIÓN */
+        .promo-bar {
+            background-color: var(--gold-premium);
+            color: var(--bg-dark);
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: block;
+        }
+        .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 25px;
+    padding: 20px;
+}
+        
+        .brand-marquee {
+            width: 100%;
+            overflow: hidden; 
+            background-color: #0e0f11;
+            position: relative;
+            padding: 20px 0;
+            border-top: 1px solid rgba(196, 139, 34, 0.1);
+            border-bottom: 1px solid rgba(196, 139, 34, 0.1);
+            margin-top: 80px;
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 80px;
+            width: max-content; 
+            animation: scroll 20s linear infinite;
+            will-change: transform; 
+        }
+
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); } 
+        }
+
+        @keyframes pulseText {
+            0% { transform: scale(1); letter-spacing: 2px; }
+            50% { transform: scale(1.03); letter-spacing: 2.5px; }
+            100% { transform: scale(1); letter-spacing: 2px; }
+        }
+
+        /* NAVBAR Y HEADER */
+        .header-wrapper {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: transform 0.4s ease;
+        }
+
+        header {
+            width: 100%;
+            height: 65px;
+            padding: 20px 60px; 
+            display: inline-flex;
+            justify-content: space-between; 
+            align-items: center;
+            background: transparent;
+            transition: all 0.4s ease;
+        }
+
+        .header-wrapper.scrolled {
+            transform: translateY(-33px);
+        }
+
+        .header-wrapper.scrolled header {
+            background: rgba(11, 11, 11, 0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 12px 60px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .logo-text {
+            color: var(--white);
+            font-weight: 300;
+            font-size: 0.85rem;
+            letter-spacing: 5px;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .logo-text span {
+            color: var(--gold-premium);
+            font-weight: 400;
+            font-size: 0.65rem;
+            display: block;
+            letter-spacing: 2px;
+            margin-top: 4px;
+        }
+
+        .header-right-area {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .header-img-logo {
+            height: 45px; 
+            width: auto;
+            object-fit: contain;
+            transition: all 0.4s ease;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); 
+        }
+
+        .header-wrapper.scrolled .header-img-logo {
+            height: 45px; 
+        }
+
+        /* BOTÓN DEL CARRITO EN HEADER */
+        .cart-toggle-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .cart-toggle-btn:hover {
+            transform: scale(1.08);
+        }
+
+        .cart-icon-nav {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            filter: brightness(0) invert(1); /* Lo hace blanco para que resalte en el fondo oscuro */
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -2px;
+            right: -4px;
+            background-color: #d8b068;
+            color: #111;
+            font-size: 0.65rem;
+            font-weight: 700;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        /* HERO VIDEO */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-bg {
+            position: absolute;
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 95%;
+            object-fit: cover;
+            filter: brightness(0.40); 
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(10,11,13,0.2) 0%, rgba(10,11,13,0.85) 100%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            transform: translateY(20px);
+            animation: fadeInUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 0.2s;
+        }
+
+        .hero-title {
+            font-size: 1.8rem;
+            font-weight: 200;
+            letter-spacing: 10px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            color: #d5bd96; 
+        }
+
+        .hero-subtitle {
+            font-size: 0.65rem;
+            color: var(--gold-premium);
+            letter-spacing: 6px;
+            margin-bottom: 45px;
+            text-transform: uppercase;
+        }
+
+        .btn-premium {
+            padding: 16px 45px;
+            border: 1px solid #d5bd96; 
+            color: #d5bd96; 
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            transition: all 0.4s ease;
+        }
+
+        .btn-premium:hover {
+            background-color: var(--white);
+            color: var(--bg-dark);
+        }
+
+        /* VITRINA GRÁFICA */
+        .products-section {
+            padding: 140px 60px;
+            background-color: var(--bg-dark);
+        }
+
+        #search-bar:focus {
+            outline: none;
+            border-color: white;
+        }
+
+        .section-header {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            margin-bottom: 90px; 
+            padding-bottom: -5px; 
+        }
+
+        #search-bar {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px 20px;
+            background: #111;
+            border: 1px solid var(--gold-premium);
+            color: white;
+            margin-top: 30px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 200;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .section-divider {
+            width: 50px;
+            height: 1px;
+            background-color: var(--gold-premium);
+            margin: 0 auto;
+        }
+
+        /* CATÁLOGO TIPO TARJETA HORIZONTAL */
+        .grid-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); 
+            gap: 25px;
+            width: 100%; 
+            margin: 0 auto;
+        }
+
+        .rd {
+            background: var(--card-bg);
+            border: 1px solid rgba(196, 139, 34, 0.3); 
+            border-radius: 6px;
+            padding: 15px;
+            display: flex;
+            flex-direction: row; 
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: left;
+        }
+
+
+        .product-image-box {
+            width: 45%;
+            height: 240px;
+            background-color: #2b2a2a91; 
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            overflow: hidden;
+        }
+
+        .product-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.05);
+        }
+
+        .product-details-box {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-right: 10px;
+        }
+
+        .card-brand {
+            font-size: 0.65rem;
+            color: var(--white);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            color: var(--white);
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            cursor: pointer; 
+            transition: color 0.3s ease;
+        }
+
+        .card-title:hover {
+            color: var(--gold-premium); 
+        }
+        .card-color { 
+            font-size: 0.60rem;
+            color: var(--white);
+            margin-bottom: 20px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+
+
+        .card-price {
+            font-size: 1.25rem;
+            color: var(--gold-premium);
+            margin-bottom: 20px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .card-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-card {
+            width: 100%;
+            padding: 12px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 600;
+            border-radius: 2px;
+        }
+
+        .btn-card.primary {
+            background-color: #d8b068; 
+            border: none;
+            color: #111;
+        }
+
+        .btn-card.primary:hover {
+            background-color: var(--white);
+        }
+
+        .btn-card.secondary {
+            background-color: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-gray);
+        }
+
+        .btn-card.secondary:hover {
+            border-color: var(--white);
+            color: var(--white);
+        }
+
+        .catalog-layout {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+        
+        .sidebar-filters {
+            width: 200px;
+            flex-shrink: 0;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            padding: 30px 20px;
+        }
+
+        .sidebar-filters h3 {
+            font-size: 0.85rem;
+            color: var(--gold-premium);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(196, 139, 34, 0.2);
+            padding-bottom: 10px;
+        }
+
+        .brand-option {
+            cursor: pointer;
+            color: var(--text-gray);
+            margin-bottom: 15px;
+            transition: 0.3s;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .brand-option:hover, .brand-option.active {
+            color: var(--white);
+        }
+
+        .brand-option.active::before {
+            content: "▸ ";
+            color: var(--gold-premium);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 50px;
+            width: 100%;
+        }
+
+        .page-btn {
+            padding: 10px 18px;
+            background: var(--bg-dark);
+            color: var(--text-gray);
+            border: 1px solid rgba(196, 139, 34, 0.3);
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .page-btn:hover, .page-btn.active {
+            background: var(--gold-premium);
+            color: #000;
+            border-color: var(--gold-premium);
+        }
+
+        /* VISTA DE DETALLE INTERNA */
+        .product-detail-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--bg-dark);
+            z-index: 2000;
+            display: none; 
+            overflow-y: auto;
+            padding: 120px 60px 60px 60px;
+        }
+
+        .btn-back {
+            position: absolute;
+            top: 40px;
+            left: 60px;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-back:hover {
+            color: var(--gold-premium);
+        }
+
+        .detail-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .detail-gallery {
+            position: relative; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .prev { left: 10px; }
+        .next { right: 10px; }
+
+        .detail-main-img {
+            max-width: 90%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .detail-info h2 {
+            font-size: 2.2rem;
+            font-weight: 300;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .detail-price {
+            font-size: 1.8rem;
+            color: var(--gold-premium);
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        .specs-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--white);
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .specs-list {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .specs-list li {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            line-height: 1.8;
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .specs-list li::before {
+            content: "•";
+            color: var(--gold-premium);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        /* CONTENEDOR FLEX DE LOS BOTONES DE ACCIÓN EN DETALLES */
+        .detail-actions-wrapper {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .btn-action-whatsapp {
+            display: inline-block;
+            flex: 1;
+            padding: 18px;
+            background-color: transparent;
+            border: 1px solid var(--gold-premium);
+            color: var(--gold-premium);
+            text-decoration: none;
+            text-transform: uppercase;
+            text-align: center;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            font-weight: 700;
+            transition: all 0.4s ease;
+        }
+
+        .btn-action-whatsapp:hover {
+            background-color: var(--gold-premium);
+            color: #000;
+        }
+
+        /* BOTÓN AÑADIR AL CARRITO (DETALLES) */
+        .btn-action-cart-detail {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            flex: 0 0 auto;
+            width: 50px;
+            height: 50px;
+            padding: 1px;
+            background-color: #d8b068;
+            border: 1px solid #d8b068;
+            color: #111;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .btn-action-cart-detail:hover {
+            color: var(--white);
+            border-color: var(--white);
+            color: #111;
+        }
+
+        .cart-icon-btn-img {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+            filter: brightness(0); /* Se mantiene negro sobre el fondo dorado */
+        }
+
+        /* VENTANA COMPONENTES INTERACTIVAS DEL CARRITO (SIDEBAR DRAWER) */
+        .cart-drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(5px);
+            z-index: 2500;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 420px;
+            height: 100vh;
+            background-color: #0e0f11;
+            border-left: 1px solid rgba(196, 139, 34, 0.25);
+            z-index: 2600;
+            display: flex;
+            flex-direction: column;
+            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.7);
+        }
+
+        .cart-drawer.open {
+            right: 0;
+        }
+
+        .cart-drawer-header {
+            padding: 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-drawer-header h3 {
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold-premium);
+        }
+
+        .close-cart-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-cart-btn:hover {
+            color: var(--white);
+        }
+
+        .cart-items-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* ESTILO FILA PRODUCTO EN CARRITO */
+        .cart-item-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255,255,255,0.02);
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .cart-item-img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            background: rgba(255,255,255,0.02);
+            border-radius: 2px;
+            padding: 5px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            color: var(--white);
+        }
+
+        .cart-item-price {
+            font-size: 0.85rem;
+            color: var(--gold-premium);
+        }
+
+        .cart-item-qty-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .qty-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: background 0.3s;
+        }
+
+        .qty-btn:hover {
+            background: var(--gold-premium);
+            color: #000;
+            border-color: var(--gold-premium);
+        }
+
+        .qty-number {
+            font-size: 0.8rem;
+            min-width: 15px;
+            text-align: center;
+        }
+
+        .remove-item-btn {
+            background: transparent;
+            border: none;
+            color: #ff5252;
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 5px;
+            transition: opacity 0.3s;
+        }
+
+        .remove-item-btn:hover {
+            opacity: 0.7;
+        }
+
+        .empty-cart-message {
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            margin-top: 40px;
+        }
+
+        .cart-drawer-footer {
+            padding: 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: #0b0c0e;
+        }
+
+        .cart-total-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .cart-total-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-gray);
+        }
+
+        .cart-total-value {
+            font-size: 1.4rem;
+            color: var(--gold-premium);
+            font-weight: 400;
+        }
+
+        .btn-finalize-order {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background-color: #d8b068;
+            border: none;
+            color: #111;
+            text-transform: uppercase;
+            text-align: center;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .btn-finalize-order:hover {
+            background-color: var(--white);
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ESTILOS DEL FOOTER */
+        .footer {
+            padding: 40px 20px;
+            background-color: #0a0b0d;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--white);
+        }
+
+        .footer-content {
+            max-width: 400px; 
+        }
+
+        .footer-title {
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: var(--gold-premium);
+        }
+
+        .footer-text {
+            font-size: 0.60rem;
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--gold-premium);
+        }
+        /* --- ESTILOS DEL NUEVO BOTÓN Y FORMULARIO --- */
+.btn-checkout {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background-color: #d8b068;
+    border: none;
+    color: #111;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    margin-bottom: 12px;
+}
+
+.btn-checkout:hover {
+    color: var(--white);
+}
+
+.btn-cancel {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: transparent;
+    border: none;
+    color: var(--text-gray);
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: color 0.3s;
+}
+
+.btn-cancel:hover {
+    color: var(--white);
+}
+
+.checkout-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    z-index: 3000;
+    display: none; /* Oculto por defecto */
+    justify-content: center;
+    align-items: center;
+overflow-y: auto;
+    padding: 20px 0;
+}
+
+.checkout-form-container {
+    background: #0e0f11;
+    border: 1px solid rgba(196, 139, 34, 0.3);
+    padding: 35px;
+    width: 90%;
+    max-width: 450px;
+    border-radius: 4px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+    max-height: 85vh;    /* No permite que la ventana pase del 85% del alto de la pantalla */
+    overflow-y: auto;    /* Si los campos de la tarjeta exceden ese espacio, activa el scroll */
+}
+
+.checkout-form-container h3 {
+    color: var(--gold-premium);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 300;
+}
+.btn-close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #888888; /* Gris suave por defecto */
+    font-size: 28px;
+    font-weight: 300;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+    line-height: 1;
+    padding: 5px;
+    z-index: 10;
+}
+
+.btn-close-modal:hover {
+    color: #c5a880; /* Tu dorado Neo Chronos */
+    transform: scale(1.1); /* Efecto sutil de agrandado */
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--gold-premium);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    outline: none;
+    transition: border 0.3s;
+}
+
+.form-group input:focus {
+    border-color: var(--gold-premium);
+}
+   .grid-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); 
+            gap: 25px;
+            width: 100%; 
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(196, 139, 34, 0.3); 
+            border-radius: 6px;
+            padding: 15px;
+            display: flex;
+            flex-direction: row; 
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: left;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-color: var(--gold-premium);
+        }
+
+        .product-image-box {
+            width: 45%;
+            height: 240px;
+            background-color: #2b2a2a91; 
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            overflow: hidden;
+        }
+
+        .product-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.05);
+        }
+
+        .product-details-box {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-right: 10px;
+        }
+        /* --- NUEVOS ESTILOS PARA BUSCADOR Y FILTRO EN LÍNEA --- */
+.search-filter-container {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    max-width: 800px;
+    margin-top: 35px;
+    justify-content: center;
+    align-items: stretch; /* Iguala la altura de ambos elementos */
+}
+
+/* Ajuste al buscador existente para que encaje en el nuevo flexbox */
+#search-bar {
+    margin-top: 0; 
+    flex: 1; /* Toma el espacio restante */
+    max-width: none; 
+}
+
+/* Contenedor del botón desplegable */
+.filter-dropdown-wrapper {
+    position: relative;
+    min-width: 220px;
+}
+
+/* Diseño del botón "Marcas" */
+.filter-toggle {
+    background: #111;
+    border: 1px solid var(--gold-premium);
+    color: var(--white);
+    padding: 15px 20px;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    user-select: none;
+    transition: all 0.3s ease;
+}
+
+.filter-toggle:hover {
+    box-shadow: 0 0 10px rgba(196, 139, 34, 0.2);
+}
+
+/* Caja desplegable flotante (reemplaza la sidebar) */
+.dropdown-content {
+    display: none; 
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--card-bg);
+    border: 1px solid rgba(196, 139, 34, 0.3);
+    border-top: none;
+    z-index: 100;
+    padding: 15px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+    max-height: 300px;
+    overflow-y: auto;
+}
+        
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            header, .header-wrapper.scrolled header {
+                padding: 15px 25px;
+            }
+            .logo-text { font-size: 1rem; }
+            .logo-text span { font-size: 0.58rem; }
+            .header-img-logo { height: 45px; }
+            .header-wrapper.scrolled .header-img-logo { height: 35px; }
+            .cart-icon-nav { height: 34px; }
+            .detail-container { grid-template-columns: 1fr; gap: 40px; }
+            .product-detail-page { padding: 100px 20px 40px 20px; }
+            .btn-back { left: 20px; top: 30px; }
+            .detail-gallery { height: 350px; }
+            .hero-title { font-size: 2.3rem; }
+            #coleccion { 
+        padding: 40px 15px; 
+    }
+            .hero { height: 100vh; }
+            .hero-title { font-size: 1.8rem; letter-spacing: 5px; }
+            .hero-subtitle { font-size: 0.7rem; margin-bottom: 20px; }
+            header { padding: 10px 15px; }
+            .header-img-logo { height: 35px; }
+
+            .products-section { padding: 40px 15px; }
+            #search-bar { padding: 10px; margin-top: 15px; font-size: 0.8rem; }
+            .section-title { font-size: 1.2rem; }
+            
+            .grid-products {
+                grid-template-columns: 1fr; 
+                gap: 15px;
+            }
+            
+             .product-image-box { 
+                width: 100%; 
+                height: 200px; 
+            }
+            
+            .product-details-box {
+                width: 100%;
+                padding-right: 0;
+                margin-top: 10px;
+            }
+
+            .btn-premium { padding: 12px 25px; font-size: 0.6rem; }
+            
+            .catalog-layout { flex-direction: column; gap: 20px; }
+            .sidebar-filters { width: 100%; padding: 15px; }
+            .brand-option { display: inline-block; margin-right: 15px; margin-bottom: 5px;}
+            
+            .detail-actions-wrapper {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .btn-action-whatsapp, .btn-action-cart-detail {
+                width: 100%;
+                flex: none;
+            }
+            
+            .cart-drawer {
+                width: 100%;
+                right: -100%;
+            }
+            .search-filter-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .filter-dropdown-wrapper {
+        width: 100%;
+    }
+    
+    .filter-toggle {
+        padding: 12px 15px;
+    }
+
+        }
+        .payment-methods-info {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(196, 139, 34, 0.2); /* Línea dorada sutil */
+        }
+
+        .payment-title {
+            font-size: 0.75rem;
+            color: var(--gold-premium);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* Cuadrícula para acomodar las tarjetas */
+        .payment-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 columnas de tarjetas */
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* Diseño de la tarjeta blanca individual */
+        .pay-card {
+      
+            border-radius: 6px; /* Bordes redondeados como en la imagen */
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 45px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: default;
+        }
+
+        .pay-card:hover {
+           filter: invert(75%) sepia(60%) saturate(1000%) hue-rotate(10deg) brightness(110%);
+}
+
+        .pay-card i {
+            font-size: 1.8rem; /* Tamaño de los logos */
+       filter: invert(65%) sepia(45%) saturate(700%) hue-rotate(10deg) brightness(95%);
+    transition: filter 0.3s ease;
+}
+
+        .payment-note {
+            font-size: 0.65rem;
+            color: var(--text-gray);
+            font-style: italic;
+            line-height: 1.5;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 480px) {
+            .cart-drawer {
+                width: 100%;
+                right: -100%;
+            }
+            .payment-cards-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            .pay-card {
+                height: 40px;
+            }
+            .pay-card i {
+                font-size: 1.5rem;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="header-wrapper" id="header-container">
+        <div class="promo-bar">
+           ¡En tu primera compra el envio es gratis!
+        </div>
+        
+        <header>
+            <a href="#" class="logo-text">
+                Neo Chronos
+                <span>Time in your hands</span>
+            </a>
+            <div class="header-right-area">
+                <img src="logo.png" alt="Neo Chronos" class="header-img-logo">
+                <button class="cart-toggle-btn" onclick="openCartDrawer()" title="Ver Carrito">
+                    <img src="logo-carrito.png" alt="Carrito" class="cart-icon-nav">
+                    <div id="cart-global-count" class="cart-badge">0</div>
+                </button>
+            </div>
+        </header>
+    </div>
+
+    <div id="home-view">
+        <section class="hero">
+            <img class="hero-bg" src="FONDO-RELOJES.jpg" alt="Fondo de relojes">
+            <div class="overlay"></div>
+            <div class="hero-content">
+                <h1 class="hero-title">Neo Chronos</h1>
+                <p class="hero-subtitle">Ingeniería, Oro y Acero</p>
+                <a href="#coleccion" class="btn-premium">Descubrir Modelos</a>
+                <div class="brand-marquee">
+                    <div class="marquee-track">
+                        <div class="brand-item">FOSSIL</div>
+                        <div class="brand-item">INVICTA</div>
+                        <div class="brand-item">BULOVA</div>
+                        <div class="brand-item">CURREN</div>
+                        <div class="brand-item">OMEGA</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="products-section" id="coleccion">
+    <div class="section-header">
+        <h2 class="section-title">Modelos Disponibles</h2>
+        <div class="section-divider"></div>
+        
+        <div class="search-filter-container">
+            <input type="text" id="search-bar" placeholder="Buscar modelo..." onkeyup="updateCatalog()">
+            
+            <div class="filter-dropdown-wrapper">
+                <div class="filter-toggle" id="btn-toggle-marcas">
+                    Modelos
+
+                    <span id="flecha-marcas" style="transition: transform 0.3s ease;">▼</span>
+                </div>
+                <div id="brand-filters" class="dropdown-content"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div style="width: 100%;">
+        <div id="product-grid" class="grid-products"></div>
+        <div id="pagination-controls" class="pagination"></div>
+    </div>
+</section>
+    </div>
+
+    <div id="product-detail-view" class="product-detail-page">
+        <a class="btn-back" onclick="closeProductDetail()">← Volver al catálogo</a>
+        
+        <div class="detail-container">
+           <div class="detail-gallery">
+                <button class="nav-btn prev" onclick="moveSlide(-1)">&#10094;</button>
+                <div id="gallery-container"></div>
+                <button class="nav-btn next" onclick="moveSlide(1)">&#10095;</button>
+            </div>
+            
+            <div class="detail-info">
+                <h2 id="detail-title">Nombre del Reloj</h2>
+                <div id="detail-price" class="detail-price">$0.00</div>
+                
+                <h3 class="specs-title">Acerca de este artículo</h3>
+                <ul class="specs-list" id="detail-specs">
+                </ul>
+                
+                <!-- NUEVO BOTÓN PAGAR AHORA EN DETALLES -->
+<button class="btn-checkout" onclick="buyNowFromDetail()" style="margin-bottom: 12px; margin-top: 15px;">
+    Pagar Ahora
+</button>
+
+<div class="detail-actions-wrapper">
+    <a id="detail-wa-link" href="" class="btn-action-whatsapp" target="_blank">Continuar compra en WhatsApp</a>
+    <button id="detail-add-cart-btn" class="btn-action-cart-detail" onclick="addCurrentProductToCart()" title="Añadir al carrito">
+        <img src="logo-carrito.png" alt="Carrito" class="cart-icon-btn-img">
+    </button>
+</div>
+<!-- Justo debajo del <div class="detail-actions-wrapper">...</div> -->
+                
+    <div class="payment-methods-info">
+    <h4 class="payment-title">Pago 100% Seguro</h4>
+    <div class="payment-cards-grid">
+        <!-- PayPal -->
+        <div class="pay-card" title="PayPal">
+            <i class="fab fa-paypal" style="color: #003087;"></i>
+        </div>
+        <!-- Mastercard -->
+        <div class="pay-card" title="Mastercard">
+            <i class="fab fa-cc-mastercard" style="color: #eb0000a3;"></i>
+        </div>
+        <!-- Visa -->
+        <div class="pay-card" title="Visa">
+            <i class="fab fa-cc-visa" style="color: #1a1f71;"></i>
+        </div>
+        <!-- Binance Pay -->
+        <div class="pay-card" title="Binance Pay">
+            <img src="binance.png" alt="Binance Pay" style="width: 100px; height: 75px; object-fit: contain;">
+        </div>
+        <!-- Transferencia (Ícono de Banco) -->
+        <div class="pay-card" title="Transferencia Bancaria">
+            <i class="fas fa-university" style="color: #333333;"></i>
+        </div>
+        
+    </div>
+    <p class="payment-note">* Tu pago se coordina de forma totalmente segura a través de WhatsApp.</p>
+</div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div id="cart-overlay" class="cart-drawer-overlay" onclick="closeCartDrawer()"></div>
+    <div id="cart-drawer" class="cart-drawer">
+        <div class="cart-drawer-header">
+            <h3>Tu Carrito</h3>
+            <button class="close-cart-btn" onclick="closeCartDrawer()">&times;</button>
+        </div>
+        <div id="cart-items-body" class="cart-items-body">
+            </div>
+        <div class="cart-drawer-footer">
+    <div class="cart-total-container">
+        <span class="cart-total-label">Total estimado:</span>
+        <span id="cart-total-value" class="cart-total-value">$0.00</span>
+    </div>
+    <button class="btn-checkout" onclick="openCheckoutForm()">Pagar Ahora</button>
+    <button class="btn-finalize-order" onclick="sendCartToWhatsApp()">Continuar compra en WhatsApp</button>
+</div>
+    </div>
+
+    <script>
+        const SHEET_ID = '1alP41BU1wT2bcbWfp6bUyn3ddpxXOzrL6iQrvZVPtbg';
+        const SHEET_URL = `https://docs.google.com/spreadsheets/d/1alP41BU1wT2bcbWfp6bUyn3ddpxXOzrL6iQrvZVPtbg/gviz/tq?tqx=out:csv`;
+
+        let productsData = {};
+        let shoppingCart = []; // Estructura: { id, title, price, image, qty }
+        let currentPage = 1;
+        const itemsPerPage = 12;
+        let currentBrand = "Todos";
+        let currentSlide = 0;
+        let currentProductId = '';
+
+        // Cargar carrito guardado en localStorage al iniciar
+        function loadSavedCart() {
+            const localData = localStorage.getItem('neo_chronos_cart');
+            if (localData) {
+                try {
+                    shoppingCart = JSON.parse(localData);
+                } catch (e) {
+                    shoppingCart = [];
+                }
+            }
+            updateCartUI();
+        }
+
+        // Guardar estado del carrito
+        function saveCartLocally() {
+            localStorage.setItem('neo_chronos_cart', JSON.stringify(shoppingCart));
+            updateCartUI();
+        }
+
+        async function loadInventoryFromSheets() {
+    try {
+        const response = await fetch(SHEET_URL);
+        const data = await response.text();
+        
+        // --- NUEVO LECTOR CSV ROBUSTO ---
+        // Este algoritmo respeta celdas vacías, comillas, comas internas y textos largos
+        const rows = [];
+        let quote = false;
+        let rowIdx = 0, colIdx = 0;
+        
+        for (let c = 0; c < data.length; c++) {
+            let cc = data[c], nc = data[c+1];
+            rows[rowIdx] = rows[rowIdx] || [];
+            rows[rowIdx][colIdx] = rows[rowIdx][colIdx] || '';
+
+            // Si encuentra comillas dentro de comillas
+            if (cc === '"' && quote && nc === '"') { rows[rowIdx][colIdx] += cc; ++c; continue; }
+            // Alternar estado de comillas
+            if (cc === '"') { quote = !quote; continue; }
+            // Cambio de columna
+            if (cc === ',' && !quote) { ++colIdx; continue; }
+            // Cambio de fila (soporta diferentes formatos de salto de línea)
+            if (cc === '\r' && nc === '\n' && !quote) { ++rowIdx; colIdx = 0; ++c; continue; }
+            if (cc === '\n' && !quote) { ++rowIdx; colIdx = 0; continue; }
+            if (cc === '\r' && !quote) { ++rowIdx; colIdx = 0; continue; }
+
+            // Añadir carácter a la celda actual
+            rows[rowIdx][colIdx] += cc;
+        }
+        // --------------------------------
+
+        if (rows.length <= 1) return;
+
+        // Limpiamos los encabezados de espacios extra
+        const headers = rows[0].map(h => h.trim());
+        const newProducts = {};
+
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            if (row.length === 0 || !row[0]) continue; // Evita que filas vacías rompan el código
+
+            const item = {};
+            headers.forEach((header, index) => {
+                item[header] = (row[index] || "").trim();
+            });
+
+           if(item.id) {
+                newProducts[item.id] = {
+                    title: item.title,
+                    brand: item.brand,
+                    price: item.price,
+                    folder: item.folder, 
+                    images: (item.image || item.images) ? (item.image || item.images).split(',').map(s => s.trim()) : [],
+                    tag: item.tag,
+                    whatsappText: item.whatsappText,
+                    specs: item.specs ? item.specs.split(',').map(s => s.trim()) : [""],
+                    stock: parseInt(item.stock) || 0
+                };
+            }
+        }
+
+        productsData = newProducts;
+        
+        initFilters();
+        updateCatalog();
+        loadSavedCart(); 
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const productIdParam = urlParams.get('id');
+        if (productIdParam && productsData[productIdParam]) {
+            openProductDetail(productIdParam);
+        }
+
+    } catch (error) {
+        console.error("Error cargando inventario desde Google Sheets:", error);
+    }
+}
+
+       function updateCatalog() {
+            const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+            
+            // 1. Filtramos los productos por búsqueda y marca
+            let filteredKeys = Object.keys(productsData).filter(key => {
+                const p = productsData[key];
+                const matchesSearch = p.title.toLowerCase().includes(searchTerm);
+                const matchesBrand = currentBrand === "Todos" || p.brand === currentBrand;
+                return matchesSearch && matchesBrand;
+            });
+
+            // 2. NUEVO: Ordenamos los resultados de menor a mayor precio
+            filteredKeys.sort((a, b) => {
+                const priceA = cleanPriceToNumber(productsData[a].price);
+                const priceB = cleanPriceToNumber(productsData[b].price);
+                return priceA - priceB; // Si da negativo, 'a' va primero (es más barato)
+            });
+
+            // 3. Renderizamos la cuadrícula y la paginación con el nuevo orden
+            renderGrid(filteredKeys);
+            renderPagination(filteredKeys.length);
+        }
+
+       function renderGrid(keys) {
+    const grid = document.getElementById('product-grid');
+    grid.innerHTML = ""; 
+    
+    const start = (currentPage - 1) * itemsPerPage;
+    const pageItems = keys.slice(start, start + itemsPerPage);
+
+   // ... dentro de function renderGrid(keys) ...
+pageItems.forEach(key => {
+    const p = productsData[key];
+    const shortDesc = p.specs[0];
+    
+    // 1. Validamos si tiene imagen en el Sheet. Si no, armamos la ruta relativa local.
+    let firstImage = 'placeholder.jpg';
+    if (p.images && p.images.length > 0 && p.images[0].trim() !== '') {
+        firstImage = obtenerImagenSegura(p.folder, p.images[0]);
+    } else {
+        // IMPORTANTE: Cambia '1.png' por el nombre real de tu archivo (ej: 'imagen_sin_fondo_4.png')
+        firstImage = `relojes/${p.title}/imagen_sin_fondo_4k.webp`;
+    }
+    
+    // Validación de Stock
+   const isOutOfStock = p.stock <= 0;
+
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.innerHTML = `
+        <div class="product-image-box">
+            <img src="${firstImage}" alt="${p.title}" class="product-img">
+        </div>
+        <div class="product-details-box">
+            <p class="card-brand">${p.brand}</p>
+            <h3 class="card-title" onclick="openProductDetail('${key}')">${p.title}</h3>
+            <p class="card-color">${p.folder}</p>
+            <p class="card-price">${p.price}</p>
+            <div class="card-actions">
+                <button class="btn-card primary" 
+                    onclick="${isOutOfStock ? '' : `addProductToCartById('${key}')`}"
+                    ${isOutOfStock ? 'disabled style="background-color: #555; cursor: not-allowed; color: #fff; border: none;"' : ''}>
+                    ${isOutOfStock ? 'AGOTADO' : 'AÑADIR AL CARRITO'}
+                </button>
+                <button class="btn-card secondary" onclick="openProductDetail('${key}')">VER DETALLES</button>
+            </div>
+        </div>
+    `;
+    grid.appendChild(card);
+});
+}
+       function renderPagination(totalItems) {
+            const controls = document.getElementById('pagination-controls');
+            controls.innerHTML = "";
+            
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            if (totalPages <= 1) return; 
+
+            const maxVisibleButtons = 8; // Máximo de números a mostrar a la vez
+
+            // Calculamos qué rango de páginas mostrar para que siempre centremos la actual
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisibleButtons / 2));
+            let endPage = startPage + maxVisibleButtons - 1;
+
+            // Ajuste si nos acercamos al final de las páginas
+            if (endPage > totalPages) {
+                endPage = totalPages;
+                startPage = Math.max(1, endPage - maxVisibleButtons + 1);
+            }
+
+            // --- Botón "Anterior" (Flecha Izquierda) ---
+            if (currentPage > 1) {
+                const prevBtn = document.createElement('button');
+                prevBtn.className = 'page-btn';
+                prevBtn.innerHTML = '&laquo;'; 
+                prevBtn.onclick = () => { 
+                    currentPage--; 
+                    updateCatalog();
+                    document.getElementById('coleccion').scrollIntoView(); 
+                };
+                controls.appendChild(prevBtn);
+            }
+
+            // --- Botones Numéricos ---
+            for(let i = startPage; i <= endPage; i++) {
+                const btn = document.createElement('button');
+                btn.className = `page-btn ${currentPage === i ? 'active' : ''}`;
+                btn.innerText = i;
+                btn.onclick = () => { 
+                    currentPage = i; 
+                    updateCatalog();
+                    document.getElementById('coleccion').scrollIntoView(); 
+                };
+                controls.appendChild(btn);
+            }
+
+            // --- Botón "Siguiente" (Flecha Derecha) ---
+            if (currentPage < totalPages) {
+                const nextBtn = document.createElement('button');
+                nextBtn.className = 'page-btn';
+                nextBtn.innerHTML = '&raquo;'; 
+                nextBtn.onclick = () => { 
+                    currentPage++; 
+                    updateCatalog();
+                    document.getElementById('coleccion').scrollIntoView(); 
+                };
+                controls.appendChild(nextBtn);
+            }
+        }
+
+        function initFilters() {
+            const brands = ["Todos", ...new Set(Object.values(productsData).map(p => p.brand))];
+            const container = document.getElementById('brand-filters');
+            container.innerHTML = "";
+
+            brands.forEach(b => {
+                const count = b === "Todos" 
+                    ? Object.keys(productsData).length 
+                    : Object.values(productsData).filter(p => p.brand === b).length;
+                    
+                const div = document.createElement('div');
+                div.className = `brand-option ${currentBrand === b ? 'active' : ''}`;
+                div.innerHTML = `${b} <span style="font-size: 0.7rem; color: var(--text-gray);">(${count})</span>`;
+                div.onclick = () => { 
+                    currentBrand = b; 
+                    currentPage = 1; 
+                    initFilters(); 
+                    updateCatalog(); 
+                };
+                container.appendChild(div);
+            });
+        }
+
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header-container');
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+       function openProductDetail(id) {
+    if (!productsData[id]) return;
+    
+    currentProductId = id; 
+    currentSlide = 0;
+    
+    const p = productsData[id];
+    
+    // Actualizamos los textos de la interfaz
+    document.getElementById('detail-title').innerText = p.title;
+    document.getElementById('detail-price').innerText = p.price;
+    
+    // Configuramos el enlace de WhatsApp
+    const baseUrl = window.location.href.split('?')[0];
+    const productUrl = `${baseUrl}?id=${id}`;
+    const whatsappMessage = `¡Hola Neo Chronos! 👋 Me interesa este modelo:\n\n⌚ *${p.title}*\n💵 Precio: ${p.price}\n📌 Enlace del producto: ${productUrl}`;
+    document.getElementById('detail-wa-link').href = `https://wa.me/593987916568?text=${encodeURIComponent(whatsappMessage)}`;
+    
+    // Inyectamos las especificaciones
+    const specs = document.getElementById('detail-specs');
+    specs.innerHTML = p.specs.map(s => `<li>${s}</li>`).join('');
+    
+    // --- SOLUCIÓN PARA LA RUTA DE LA IMAGEN EN DETALLES ---
+    const container = document.getElementById('gallery-container');
+    
+    // Filtramos para eliminar textos vacíos de la celda del Sheet
+    let imagenesValidas = [];
+    if (p.images && Array.isArray(p.images)) {
+        imagenesValidas = p.images.filter(img => img && img.trim() !== '');
+    }
+    
+    // Si no hay links válidos en el Sheet, dejamos el nombre por defecto para ir a local
+    if (imagenesValidas.length === 0) {
+        imagenesValidas = ['imagen_sin_fondo_4k.webp'];
+    }
+    
+    // Renderizamos la galería usando exactamente la misma lógica que el catálogo
+    container.innerHTML = imagenesValidas.map((img, index) => {
+        const urlSegura = obtenerImagenSegura(p.folder, img, p.title); 
+        return `<img src="${urlSegura}" class="slide" style="display: ${index === 0 ? 'block' : 'none'}">`;
+    }).join('');
+    // -----------------------------------------------------
+    
+    // Gestión del Stock (Bloqueo si está agotado)
+    const btnCheckout = document.querySelector('#product-detail-view .btn-checkout');
+    const btnCart = document.getElementById('detail-add-cart-btn');
+    
+    if (p.stock <= 0) {
+        if (btnCheckout) {
+            btnCheckout.innerText = "AGOTADO";
+            btnCheckout.disabled = true;
+            btnCheckout.style.backgroundColor = "#555";
+            btnCheckout.style.cursor = "not-allowed";
+        }
+        if (btnCart) {
+            btnCart.disabled = true;
+            btnCart.style.backgroundColor = "#555";
+            btnCart.style.borderColor = "#555";
+            btnCart.style.cursor = "not-allowed";
+        }
+    } else {
+        if (btnCheckout) {
+            btnCheckout.innerText = "PAGAR AHORA";
+            btnCheckout.disabled = false;
+            btnCheckout.style.backgroundColor = "#d8b068";
+            btnCheckout.style.cursor = "pointer";
+        }
+        if (btnCart) {
+            btnCart.disabled = false;
+            btnCart.style.backgroundColor = "#d8b068";
+            btnCart.style.borderColor = "#d8b068";
+            btnCart.style.cursor = "pointer";
+        }
+    }
+    
+    // Mostramos la vista de detalles
+    document.getElementById('product-detail-view').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+        function closeProductDetail() {
+            document.getElementById('product-detail-view').style.display = 'none';
+            document.getElementById('home-view').style.display = 'block';
+            document.getElementById('header-container').style.display = 'block';
+            document.getElementById('coleccion').scrollIntoView();
+            
+            const baseUrl = window.location.href.split('?')[0];
+            window.history.pushState({}, document.title, baseUrl);
+        }
+
+        function moveSlide(direction) {
+            const p = productsData[currentProductId];
+            const slides = document.querySelectorAll('.slide');
+            
+            if(slides.length === 0) return;
+            slides[currentSlide].style.display = 'none';
+            currentSlide = (currentSlide + direction + slides.length) % slides.length;
+            slides[currentSlide].style.display = 'block';
+        }
+
+        /* --- LÓGICA INTERNA DEL CARRITO DE COMPRAS --- */
+        
+        function openCartDrawer() {
+            const overlay = document.getElementById('cart-overlay');
+            const drawer = document.getElementById('cart-drawer');
+            overlay.style.display = 'block';
+            setTimeout(() => {
+                overlay.style.opacity = '1';
+                drawer.classList.add('open');
+            }, 10);
+        }
+
+        function closeCartDrawer() {
+            const overlay = document.getElementById('cart-overlay');
+            const drawer = document.getElementById('cart-drawer');
+            drawer.classList.remove('open');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 400);
+        }
+
+      function addProductToCartById(id) {
+    if (!id || !productsData[id]) return;
+    
+    const p = productsData[id];
+    
+    // Candado de seguridad usando la alerta Premium Neo Chronos
+    if (p.stock <= 0) {
+        showNeoChronosAlert(
+            "MODELO AGOTADO", 
+            `Lo sentimos, el modelo ${p.title} se encuentra temporalmente sin unidades disponibles.`, 
+            "ENTENDIDO"
+        );
+        return; 
+    }
+    
+    // Verificar si ya existe en el carrito
+    const existingItem = shoppingCart.find(item => item.id === id);
+    
+    if (existingItem) {
+        existingItem.qty += 1;
+  // REEMPLAZA EL BLOQUE "ELSE" DENTRO DE addProductToCartById(id):
+} else {
+    // Generamos la ruta segura de la imagen pasando todos los parámetros necesarios
+    let imgPath = `relojes/${p.title}/imagen_sin_fondo_4k.webp`;
+    if (p.images && p.images.length > 0 && p.images[0].trim() !== '') {
+        imgPath = obtenerImagenSegura(p.folder, p.images[0], p.title);
+    }
+
+    shoppingCart.push({
+        id: id,
+        title: p.title,
+        price: p.price,
+        image: imgPath, // <-- Guardamos la ruta completa y limpia
+        folder: p.title,
+        qty: 1
+    });
+}
+    
+    // Guardar en LocalStorage y refrescar interfaz
+    saveCartLocally();
+    
+    // Alerta Premium de Éxito
+    showNeoChronosAlert(
+        "PRODUCTO AGREGADO", 
+        `El modelo ${p.title} ha sido añadido correctamente a tu carrito de compras.`, 
+        "VER CARRITO",
+        function() {
+            openCartDrawer(); // Abre automáticamente el carrito lateral al presionar el botón
+        }
+    );
+}
+function toggleMenuMarcas() {
+    const contenedorMarcas = document.getElementById('brand-filters');
+    const icono = document.getElementById('icono-marcas');
+    
+    if (contenedorMarcas.style.display === 'none') {
+        // Expandir
+        contenedorMarcas.style.display = 'block';
+        icono.innerText = '▲'; 
+    } else {
+        // Contraer
+        contenedorMarcas.style.display = 'none';
+        icono.innerText = '▼';
+    }
+}
+
+        function updateCartQty(id, delta) {
+            const item = shoppingCart.find(item => item.id === id);
+            if (!item) return;
+            
+            item.qty += delta;
+            if (item.qty <= 0) {
+                shoppingCart = shoppingCart.filter(item => item.id !== id);
+            }
+            saveCartLocally();
+        }
+
+        function removeCartItem(id) {
+            shoppingCart = shoppingCart.filter(item => item.id !== id);
+            saveCartLocally();
+        }
+
+        function cleanPriceToNumber(priceStr) {
+            if (!priceStr) return 0;
+            // Limpia caracteres comunes ($ , espacios) para poder operar matemáticamente
+            let sanitized = priceStr.replace(/[^0-9.,]/g, '').replace(',', '.');
+            return parseFloat(sanitized) || 0;
+        }
+
+        function updateCartUI() {
+            const body = document.getElementById('cart-items-body');
+            const globalCount = document.getElementById('cart-global-count');
+            const totalValueLabel = document.getElementById('cart-total-value');
+            
+            body.innerHTML = "";
+            
+            let totalItemsCount = 0;
+            let totalPriceCalculated = 0;
+            
+            if (shoppingCart.length === 0) {
+                body.innerHTML = `<div class="empty-cart-message">Tu carrito está vacío.<br>Explora el catálogo para añadir modelos.</div>`;
+            } else {
+                shoppingCart.forEach(item => {
+                    totalItemsCount += item.qty;
+                    const numericPrice = cleanPriceToNumber(item.price);
+                    totalPriceCalculated += (numericPrice * item.qty);
+                   // BUSCA ESTA SECCIÓN DENTRO DE updateCartUI() Y REEMPLÁZALA:
+const row = document.createElement('div');
+row.className = 'cart-item-row';
+row.innerHTML = `
+<img src="${item.image}" alt="${item.title}" class="cart-item-img">
+<div class="cart-item-info">
+    <h4 class="cart-item-title">${item.title}</h4>
+    <div class="cart-item-price">${item.price}</div>
+    <div class="cart-item-qty-selector">
+        <button class="qty-btn" onclick="updateCartQty('${item.id}', -1)">-</button>
+        <span class="qty-number">${item.qty}</span>
+        <button class="qty-btn" onclick="updateCartQty('${item.id}', 1)">+</button>
+    </div>
+</div>
+<button class="remove-item-btn" onclick="removeCartItem('${item.id}')" title="Eliminar del carrito">✕</button>
+`;
+body.appendChild(row);
+                    body.appendChild(row);
+                });
+            }
+            
+            globalCount.innerText = totalItemsCount;
+            totalValueLabel.innerText = `$${totalPriceCalculated.toFixed(2)}`;
+        }
+
+        function sendCartToWhatsApp() {
+            if (shoppingCart.length === 0) {
+                alert("Tu carrito está vacío.");
+                return;
+            }
+            
+            let message = "¡Hola Neo Chronos! 👋 Quisiera consultar la disponibilidad del siguiente pedido:\n\n";
+            let totalPriceCalculated = 0;
+            const baseUrl = window.location.href.split('?')[0];
+            
+            shoppingCart.forEach((item, index) => {
+                const numericPrice = cleanPriceToNumber(item.price);
+                const subtotal = numericPrice * item.qty;
+                totalPriceCalculated += subtotal;
+                
+                const productUrl = `${baseUrl}?id=${item.id}`;
+                
+                message += `${index + 1}. ⌚ *${item.title}*\n`;
+                message += `   Cantidad: ${item.qty} x ${item.price}\n`;
+                message += `   📌 Enlace: ${productUrl}\n\n`;
+            });
+            
+            message += `*Total estimado:* $${totalPriceCalculated.toFixed(2)}\n\n`;
+            message += "Quedo atento a la confirmación de stock y detalles de envío.";
+            
+            const targetUrl = `https://wa.me/593987916568?text=${encodeURIComponent(message)}`;
+            window.open(targetUrl, '_blank');
+        }
+        // --- LÓGICA DEL FORMULARIO DE CHECKOUT ---
+
+function openCheckoutForm() {
+    if (shoppingCart.length === 0) {
+        alert("Tu carrito está vacío. Agrega modelos antes de pagar.");
+        return;
+    }
+    // Cierra el carrito lateral y abre el modal
+    closeCartDrawer();
+    document.getElementById('checkout-modal').style.display = 'flex';
+}
+
+function closeCheckoutForm() {
+    document.getElementById('checkout-modal').style.display = 'none';
+}
+
+// --- FUNCIÓN COMPLEMENTARIA: Alerta Premium Neo Chronos ---
+function showNeoChronosAlert(title, message, buttonText, onConfirm) {
+    // 1. Crear el fondo oscuro translúcido con desenfoque
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100vw';
+    overlay.style.height = '100vh';
+    overlay.style.backgroundColor = 'rgba(10, 11, 13, 0.85)'; // Fondo oscuro de la página
+    overlay.style.display = 'flex';
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+    overlay.style.zIndex = '99999';
+    overlay.style.backdropFilter = 'blur(8px)'; // Efecto premium de desenfoque de fondo
+    overlay.style.fontFamily = "'Montserrat', sans-serif";
+
+    // 2. Crear la caja del mensaje
+    const alertBox = document.createElement('div');
+    alertBox.style.backgroundColor = '#161616'; // --card-bg de tu CSS
+    alertBox.style.border = '1px solid #c48b22ce'; // Borde dorado premium
+    alertBox.style.padding = '35px 25px';
+    alertBox.style.borderRadius = '8px';
+    alertBox.style.width = '90%';
+    alertBox.style.maxWidth = '380px';
+    alertBox.style.textAlign = 'center';
+    alertBox.style.boxShadow = '0 15px 40px rgba(0, 0, 0, 0.6)';
+
+    // Icono decorativo dorado
+    const icon = document.createElement('div');
+    icon.innerHTML = '✨'; 
+    icon.style.fontSize = '2.5rem';
+    icon.style.marginBottom = '15px';
+    icon.style.color = '#c48b22ce';
+
+    // Título de la alerta
+    const h3 = document.createElement('h3');
+    h3.innerText = title;
+    h3.style.color = '#ffffff';
+    h3.style.margin = '0 0 12px 0';
+    h3.style.fontSize = '1.2rem';
+    h3.style.fontWeight = '600';
+    h3.style.letterSpacing = '1px';
+
+    // Texto descriptivo
+    const p = document.createElement('p');
+    p.innerText = message;
+    p.style.color = '#e6e6edb5'; // --text-gray de tu CSS
+    p.style.fontSize = '0.85rem';
+    p.style.lineHeight = '1.6';
+    p.style.margin = '0 0 25px 0';
+
+    // Botón de acción dorado
+    const btn = document.createElement('button');
+    btn.innerText = buttonText;
+    btn.style.backgroundColor = '#c48b22ce'; // Oro premium
+    btn.style.color = '#0a0b0d';
+    btn.style.border = 'none';
+    btn.style.padding = '12px 20px';
+    btn.style.fontSize = '0.8rem';
+    btn.style.fontWeight = '600';
+    btn.style.textTransform = 'uppercase';
+    btn.style.letterSpacing = '1px';
+    btn.style.borderRadius = '4px';
+    btn.style.cursor = 'pointer';
+    btn.style.width = '100%';
+    btn.style.transition = 'all 0.3s ease';
+
+    // Efectos hover para el botón
+    btn.onmouseover = () => { btn.style.backgroundColor = '#ffffff'; };
+    btn.onmouseout = () => { btn.style.backgroundColor = '#c48b22ce'; };
+
+    // Evento al dar clic
+    btn.onclick = () => {
+        document.body.removeChild(overlay);
+        if (onConfirm) onConfirm();
+    };
+
+    // Armar la estructura modular
+    alertBox.appendChild(icon);
+    alertBox.appendChild(h3);
+    alertBox.appendChild(p);
+    alertBox.appendChild(btn);
+    overlay.appendChild(alertBox);
+    document.body.appendChild(overlay);
+}
+
+// --- FUNCIÓN PRINCIPAL DE CHECKOUT ACTUALIZADA ---
+// --- FUNCIÓN PRINCIPAL DE CHECKOUT ACTUALIZADA ---
+// --- FUNCIÓN PRINCIPAL DE CHECKOUT ACTUALIZADA ---
+// --- FUNCIÓN PRINCIPAL DE CHECKOUT ACTUALIZADA (SIN EMOJIS TOTALMENTE COMPATIBLE) ---
+function submitCheckout() {
+    const name = document.getElementById('chk-name').value;
+    const id = document.getElementById('chk-id').value;
+    const phone = document.getElementById('chk-phone').value;
+    const city = document.getElementById('chk-city').value;
+    const address = document.getElementById('chk-address').value;
+
+    if (!name || !id || !phone || !city || !address) {
+        showNeoChronosAlert("CAMPOS INCOMPLETOS", "Por favor, completa todos los datos para poder gestionar tu envío.", "ENTENDIDO");
+        return;
+    }
+
+    if (shoppingCart.length === 0) {
+        showNeoChronosAlert("CARRITO VACÍO", "Tu carrito no registra productos activos. Añade un modelo antes de procesar el pago.", "VOLVER");
+        return;
+    }
+
+    const totalValueLabel = document.getElementById('cart-total-value').innerText;
+
+    const btnSubmit = document.querySelector('#checkout-modal .btn-checkout');
+    const originalText = btnSubmit.innerText;
+    btnSubmit.innerText = "PROCESANDO PEDIDO...";
+    btnSubmit.disabled = true;
+
+    const orderPayload = {
+        name: name,
+        id: id,
+        phone: phone,
+        city: city,
+        address: address,
+        cart: shoppingCart, 
+        total: totalValueLabel
+    };
+
+    // --- MENSAJE CON FORMATO TOTALMENTE COMPATIBLE ---
+    let message = `¡Hola Neo Chronos! Acabo de registrar mis datos para un pedido.\n\n`;
+    message += `*DATOS DE ENVÍO*\n`;
+    message += `- Nombre: ${name}\n`;
+    message += `- Cédula/RUC: ${id}\n`;
+    message += `- Teléfono: ${phone}\n`;
+    message += `- Ciudad: ${city}\n`;
+    message += `- Dirección: ${address}\n\n`;
+    message += `*DETALLE DEL PEDIDO*\n`;
+
+    const baseUrl = window.location.href.split('?')[0];
+    
+    shoppingCart.forEach((item, index) => {
+        const productUrl = `${baseUrl}?id=${item.id}`;
+        message += `${index + 1}. *${item.title}*\n`;
+        message += `   Cantidad: ${item.qty} x ${item.price}\n`;
+        message += `   Enlace: ${productUrl}\n\n`;
+    });
+    
+    message += `*Total a pagar:* ${totalValueLabel}\n\n`;
+    message += `Quedo atento para coordinar el pago y envío.`;
+
+    const targetUrl = `https://wa.me/593987916568?text=${encodeURIComponent(message)}`;
+
+    const GOOGLE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx605AjAtyOZWihHgA-vQMCCtfzpgc_J5JA3l1O0Y0h2b35vWHq3O3oKzQJX7GPPVfw/exec'; 
+
+    fetch(GOOGLE_WEB_APP_URL, {
+        method: 'POST',
+        mode: 'no-cors', 
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderPayload)
+    })
+    .then(() => {
+        shoppingCart = [];
+        saveCartLocally();
+        closeCheckoutForm();
+        
+        document.getElementById('chk-name').value = '';
+        document.getElementById('chk-id').value = '';
+        document.getElementById('chk-phone').value = '';
+        document.getElementById('chk-city').value = '';
+        document.getElementById('chk-address').value = '';
+
+        showNeoChronosAlert(
+            "ORDEN REGISTRADA", 
+            "Tus datos de envío han sido guardados. Ahora serás redirigido a WhatsApp para confirmar tu pedido y coordinar el pago.", 
+            "IR A WHATSAPP",
+            function() {
+                window.location.href = targetUrl;
+            }
+        );
+    })
+    .catch(error => {
+        console.error("Error de red:", error);
+        showNeoChronosAlert("ERROR DE CONEXIÓN", "No pudimos enlazar la orden de forma automática. Inténtalo nuevamente por favor.", "REINTENTAR");
+    })
+    .finally(() => {
+        btnSubmit.innerText = originalText;
+        btnSubmit.disabled = false;
+    });
+}
+// --- LÓGICA DE COMPRA DIRECTA DESDE DETALLES ---
+// --- LÓGICA DE COMPRA DIRECTA DESDE DETALLES ---
+function buyNowFromDetail() {
+    // 1. Agrega el reloj que estamos viendo al carrito
+    addCurrentProductToCart();
+    
+    // 2. Llama a la función que cierra el carrito lateral y abre el modal de datos
+    openCheckoutForm();
+}
+
+// Función que faltaba para procesar el producto actual en la vista de detalles
+function addCurrentProductToCart() {
+    if (!currentProductId || !productsData[currentProductId]) return;
+    
+    const p = productsData[currentProductId];
+    
+    // Corrección del mensaje de alerta nativo por el Premium de la página
+    if (p && p.stock <= 0) {
+        showNeoChronosAlert(
+            "MODELO AGOTADO", 
+            "Lo sentimos, este modelo se acaba de agotar y no puede añadirse al carrito.", 
+            "ENTENDIDO"
+        );
+        return; 
+    }
+    
+    const existingItem = shoppingCart.find(item => item.id === currentProductId);
+    
+   // En la validación de si no existe en el carrito:
+    if (existingItem) {
+        existingItem.qty += 1;
+ // REEMPLAZA EL BLOQUE "ELSE" DENTRO DE addCurrentProductToCart():
+} else {
+    // Generamos la ruta segura exacta
+    let imgPath = `relojes/${p.title}/imagen_sin_fondo_4k.webp`;
+    if (p.images && p.images.length > 0 && p.images[0].trim() !== '') {
+        imgPath = obtenerImagenSegura(p.folder, p.images[0], p.title);
+    }
+    
+    shoppingCart.push({
+        id: currentProductId,
+        title: p.title,
+        price: p.price,
+        image: imgPath, // <-- Guardamos la ruta completa y limpia
+        folder: p.title,
+        qty: 1
+    });
+}
+    
+    saveCartLocally();
+    openCartDrawer(); 
+}
+function obtenerImagenSegura(folder, imagen, title) {
+    // 1. Si viene un link directo de Drive (empieza con http)
+    if (imagen && imagen.startsWith('http')) {
+        return imagen;
+    }
+    
+    // 2. Si viene un nombre de archivo local en la celda del Sheet (ej: "1.png" o "reloj.jpg")
+    if (imagen && imagen.trim() !== '') {
+        return `relojes/${title}/imagen_sin_fondo_4k.webp`;
+    }
+    
+    // 3. SI EL SHEET NO TIENE NADA EN LA COLUMNA IMAGE:
+    // Busca automáticamente en tu carpeta local usando el título del sheet y su ID (key)
+    // Puedes ajustar el nombre final ('1.png', 'imagen.png') según cómo guardes tus fotos locales
+    return `relojes/${title}/imagen_sin_fondo_4k.webp`; 
+}
+
+
+        document.addEventListener('DOMContentLoaded', loadInventoryFromSheets);
+    </script>
+    <footer class="footer">
+        <div class="footer-title">NEO CHRONOS
+            <p class="footer-text">
+                Ingeniería de precisión y <br> elegancia en tus manos.<br> 
+                Distribuidores autorizados<br> de las mejores marcas.
+                </p>
+        <div class="footer-title">ENVIOS
+            <p class="footer-text">
+                Costa/Sierra/Oriente<br>
+                GUAYAQUIL-ECUADOR</p>
+        
+        </div>
+            <div class="social-links">
+                <a href="https://tiktok.com/@neo._chronos" target="_blank">
+                <i class="fab fa-tiktok"></i> </a>                  
+                <a href="https://instagram.com/neo_chronos.ec" target="_blank">
+                <i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/593987916568" target="_blank">
+                <i class="fab fa-whatsapp"></i> </a>
+            </div>
+        </div>
+    </footer>
+ <!-- Busca este bloque dentro de tu HTML y modifícalo así -->
+<div id="checkout-modal" class="checkout-overlay">
+    <div class="checkout-form-container">
+        <h3>Datos de Envío</h3>
+        <p style="color: var(--text-gray); font-size: 0.75rem; margin-bottom: 20px;">
+            Ingresa tu información correctamente para realizar el envío, gracias.
+        </p>
+        <button class="btn-close-modal" onclick="cancelarYReiniciarFormulario()">&times;</button>
+        
+        
+        <div class="form-group">
+            <label>Nombre Completo</label>
+            <input type="text" id="chk-name" placeholder="Ej. Juan Pérez" required>
+        </div>
+        <div class="form-group">
+            <label>Cédula / RUC</label>
+            <input type="text" id="chk-id" placeholder="Ej. 0900000000" required>
+        </div>
+        <div class="form-group">
+            <label>Teléfono Celular</label>
+            <input type="text" id="chk-phone" placeholder="Ej. 0999999999" required>
+        </div>
+        <div class="form-group">
+            <label>Provincia y Ciudad</label>
+            <input type="text" id="chk-city" placeholder="Ej. Guayas, Guayaquil" required>
+        </div>
+        <div class="form-group">
+            <label>Dirección Exacta (con referencias)</label>
+            <input type="text" id="chk-address" placeholder="Ej. Cdla. Urdesa, calle..." required>
+        </div>
+        <div class="form-group">
+            <label>Correo electronico (opcional)</label>
+            <input type="email" id="chk-email" placeholder="Ej. juan.perez@example.com">
+        </div>
+        
+        <div id="paypal-button-container" style="margin-top: 25px; width: 100%; min-height: 110px;"></div>
+        
+        <!-- Cambia el botón de cancelar original para que use la nueva función de reinicio completo -->
+        <button class="btn-cancel" onclick="cancelarYReiniciarFormulario()">Cancelar</button>
+    </div>
+</div>
+</div>
+<script>
+    (function() {
+        document.addEventListener('DOMContentLoaded', () => {
+            const boton = document.getElementById('btn-toggle-marcas');
+            const contenedor = document.getElementById('brand-filters');
+            const flecha = document.getElementById('flecha-marcas');
+
+            if (boton && contenedor) {
+                boton.addEventListener('click', () => {
+                    if (contenedor.style.display === 'none' || contenedor.style.display === '') {
+                        // Al expandirse, se muestra y la flecha gira hacia arriba
+                        contenedor.style.display = 'flex';
+                        contenedor.style.flexDirection = 'column';
+                        contenedor.style.gap = '10px';
+                        if (flecha) flecha.style.transform = 'rotate(180deg)';
+                    } else {
+                        // Al contraerse, se oculta y la flecha regresa a su estado original
+                        contenedor.style.display = 'none';
+                        if (flecha) flecha.style.transform = 'rotate(0deg)';
+                    }
+                });
+            }
+        });
+        
+    })();
+    // Función blindada para inicializar PayPal sin romper los productos de la tienda
+function initPayPalSecure() {
+    // 1. Verificación preventiva de seguridad: si PayPal no responde, detenemos la función en silencio
+    if (typeof paypal === 'undefined') {
+        console.warn("PayPal SDK no está listo o el Client ID está vacío. Los productos cargan con normalidad.");
+        return;
+    }
+
+    // 2. Si no encuentra el div en el HTML, no continúa
+    const container = document.getElementById('paypal-button-container');
+    if (!container) return;
+
+    try {
+        paypal.Buttons({
+            // VALIDACIÓN PREVIO A PAGAR
+            onClick: function(data, actions) {
+                const name = document.getElementById('chk-name').value.trim();
+                const id = document.getElementById('chk-id').value.trim();
+                const phone = document.getElementById('chk-phone').value.trim();
+                const city = document.getElementById('chk-city').value.trim();
+                const address = document.getElementById('chk-address').value.trim();
+
+                if (!name || !id || !phone || !city || !address) {
+                    showNeoChronosAlert("CAMPOS INCOMPLETOS", "Por favor, completa todos los datos para poder gestionar tu envío.", "ENTENDIDO");
+                    return actions.reject();
+                }
+
+                if (!shoppingCart || shoppingCart.length === 0) {
+                    showNeoChronosAlert("CARRITO VACÍO", "Tu carrito no registra productos activos. Añade un modelo antes de procesar el pago.", "VOLVER");
+                    return actions.reject();
+                }
+
+                return actions.resolve();
+            },
+
+            // CALCULO DINÁMICO DEL MONTO TOTAL
+            createOrder: function(data, actions) {
+                let totalCalculado = 0;
+
+                shoppingCart.forEach(item => {
+                    // Limpieza nativa y directa del string del precio (ej: "$45.00" -> 45.00)
+                    let precioNumerico = parseFloat(String(item.price).replace(/[^0-9.]/g, ''));
+                    if (!isNaN(precioNumerico)) {
+                        totalCalculado += (precioNumerico * item.qty);
+                    }
+                });
+
+                return actions.order.create({
+                    purchase_units: [{
+                        description: "Pedido de Relojería Premium - Neo Chronos",
+                        amount: {
+                            currency_code: "USD",
+                            value: totalCalculado.toFixed(2)
+                        }
+                    }]
+                });
+            },
+
+            // CAPTURA DE PAGO Y ENVÍO DEL PAYLOAD A GOOGLE APPS SCRIPT
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    
+                    const name = document.getElementById('chk-name').value;
+                    const id = document.getElementById('chk-id').value;
+                    const phone = document.getElementById('chk-phone').value;
+                    const city = document.getElementById('chk-city').value;
+                    const address = document.getElementById('chk-address').value;
+                    const totalValueLabel = document.getElementById('cart-total-value').innerText;
+
+                    // Mantenemos la estructura exacta de tu JSON original para tu Web App
+                    const orderPayload = {
+                        name: name,
+                        id: id,
+                        phone: phone,
+                        city: city,
+                        address: address,
+                        cart: shoppingCart, 
+                        total: totalValueLabel,
+                        paypalTransactionId: details.id, // ID para tu control en Telegram
+                        paymentStatus: "CONFIRMADO_PAYPAL"
+                    };
+
+                    const GOOGLE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx605AjAtyOZWihHgA-vQMCCtfzpgc_J5JA3l1O0Y0h2b35vWHq3O3oKzQJX7GPPVfw/exec'; 
+
+                    fetch(GOOGLE_WEB_APP_URL, {
+                        method: 'POST',
+                        mode: 'no-cors', 
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(orderPayload)
+                    })
+                    .then(() => {
+                        // Resetear estados globales de la aplicación
+                        shoppingCart = [];
+                        if (typeof saveCartLocally === 'function') saveCartLocally();
+                        if (typeof updateCartUI === 'function') updateCartUI(); 
+                        closeCheckoutForm();
+                        
+                        // Limpieza de inputs
+                        document.getElementById('chk-name').value = '';
+                        document.getElementById('chk-id').value = '';
+                        document.getElementById('chk-phone').value = '';
+                        document.getElementById('chk-city').value = '';
+                        document.getElementById('chk-address').value = '';
+
+                        showNeoChronosAlert(
+                            "PAGO Y ORDEN PROCESADA", 
+                            `¡Muchas gracias por tu compra, ${details.payer.name.given_name}! Tu pago ha sido aprobado de forma segura y tus datos de envío han sido registrados.`, 
+                            "ENTENDIDO"
+                        );
+                    })
+                    .catch(error => {
+                        console.error("Error al reportar a Google Apps Script:", error);
+                        showNeoChronosAlert("PAGO EXITOSO", "Tu pago se procesó correctamente, pero hubo un problema al registrar la orden automáticamente. ID de pago: " + details.id, "ENTENDIDO");
+                    });
+                });
+            },
+
+            onCancel: function(data) {
+                showNeoChronosAlert("PAGO CANCELADO", "El proceso de pago fue cancelado. Los productos siguen en tu carrito.", "VOLVER");
+            },
+
+            onError: function(err) {
+                console.error("Error en pasarela:", err);
+                showNeoChronosAlert("ERROR DE TRANSACCIÓN", "No pudimos completar el cobro. Revisa tus fondos o tarjeta.", "REINTENTAR");
+            }
+        }).render('#paypal-button-container');
+    } catch (error) {
+        console.error("Error crítico inicializando los botones de PayPal: ", error);
+    }
+}
+
+// Disparar la inicialización de forma asíncrona una vez que el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(initPayPalSecure, 800); // Pequeño retraso táctico para que no choque con la carga de tus productos
+});
+// Función magistral para resetear el formulario y cerrar el modal
+function cancelarYReiniciarFormulario() {
+    // 1. Vaciamos todos los campos de texto
+    document.getElementById('chk-name').value = '';
+    document.getElementById('chk-id').value = '';
+    document.getElementById('chk-phone').value = '';
+    document.getElementById('chk-city').value = '';
+    document.getElementById('chk-address').value = '';
+    
+    // 2. REINICIO DE PAYPAL: Borramos los botones viejos / formulario expandido
+    const paypalContainer = document.getElementById('paypal-button-container');
+    if (paypalContainer) {
+        paypalContainer.innerHTML = ''; // Borra todo el rastro del formulario de tarjeta abierto
+    }
+
+    // 3. Volvemos a levantar el botón original por si acaso
+    const originalBtn = document.getElementById('btn-original-checkout');
+    if (originalBtn) {
+        originalBtn.style.display = 'block';
+    }
+    
+    // 4. Volvemos a renderizar los botones de PayPal limpiecitos
+    if (typeof verificarEInicializarPayPal === 'function') {
+        verificarEInicializarPayPal();
+    } else if (typeof initPayPalSecure === 'function') {
+        initPayPalSecure(); // Respaldo por si usas el nombre anterior
+    }
+    
+    // 5. Cerramos la ventana modal
+    if (typeof closeCheckoutForm === 'function') {
+        closeCheckoutForm();
+    } else {
+        const modal = document.getElementById('checkout-modal');
+        if (modal) modal.style.display = 'none';
+    }
+    
+    console.log("🧹 Formulario y pasarela de PayPal reseteados al 100%.");
+}
+    
+</script>
+
+</body>
+</html>
