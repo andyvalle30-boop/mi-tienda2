@@ -1409,6 +1409,7 @@
     align-items: center;
     overflow-y: auto;
     padding: 40px 20px;
+    overscroll-behavior: contain;
 }
 
 .checkout-form-container {
@@ -1416,7 +1417,7 @@
     max-width: 600px; /* Mantiene el formulario centrado y legible */
     height: auto; /* IMPORTANTE: Quitar alturas fijas como 464px */
     max-height: 85vh; /* Eliminar restricciones de altura */
-    overflow-y: visible; /* IMPORTANTE: Quita el scroll interno del cuadro */
+   /* IMPORTANTE: Quita el scroll interno del cuadro */
     background: transparent; /* Opcional: para que se funda con el fondo */
     padding: 0;
     border: none;
@@ -1428,6 +1429,11 @@
     text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: 300;
+}
+html.no-scroll, 
+body.no-scroll {
+    overflow: hidden !important;
+    height: 100vh !important;
 }
 .btn-close-modal {
     position: absolute;
@@ -2652,45 +2658,32 @@ body.appendChild(row);
         }
         // --- LÓGICA DEL FORMULARIO DE CHECKOUT ---
 
-function openCheckoutForm() {
-    // 1. Guardamos de dónde viene el cliente
-    const vistaDetalle = document.getElementById('product-detail-view');
-    if (vistaDetalle && vistaDetalle.style.display === 'block') {
-        vistaAntesDelCheckout = 'detalle';
-    } else {
-        vistaAntesDelCheckout = 'home';
+// Función para abrir el Checkout
+function openCheckoutForm(event) {
+    if (event) event.preventDefault();
+    
+    const modal = document.getElementById('checkout-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+        modal.scrollTop = 0; // Coloca el scroll del modal en el inicio
+        
+        // Bloquea el scroll del fondo por completo
+        document.documentElement.classList.add('no-scroll');
+        document.body.classList.add('no-scroll');
     }
-    
-    // 2. Ocultamos las pantallas traseras
-    document.getElementById('home-view').style.display = 'none';
-    if (vistaDetalle) vistaDetalle.style.display = 'none';
-    
-    // 3. Cerramos el carrito lateral si está abierto
-    if (typeof closeCartDrawer === 'function') {
-        closeCartDrawer();
-    }
-    
-    // 4. Mostramos la pantalla de Checkout
-    // <-- CORRECCIÓN: Cambiar 'block' por 'flex' para conservar el centrado -->
-    document.getElementById('checkout-modal').style.display = 'flex'; 
-    
-    // 5. Subimos al inicio de la pantalla
-    window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
-function closeCheckoutForm() {
-    // 1. Ocultamos la pantalla de Checkout
-    document.getElementById('checkout-modal').style.display = 'none';
+function closeCheckoutForm(event) {
+    if (event) event.preventDefault();
     
-    // 2. Devolvemos al cliente a la pantalla donde estaba
-    if (vistaAntesDelCheckout === 'detalle') {
-        document.getElementById('product-detail-view').style.display = 'block';
-    } else {
-        document.getElementById('home-view').style.display = 'block';
+    const modal = document.getElementById('checkout-modal');
+    if (modal) {
+        modal.style.display = 'none';
+        
+        // Restablece el scroll de la página
+        document.documentElement.classList.remove('no-scroll');
+        document.body.classList.remove('no-scroll');
     }
-    
-    // Subimos al inicio para evitar que aparezca a mitad de página
-    window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 // --- FUNCIÓN COMPLEMENTARIA: Alerta Premium Neo Chronos ---
