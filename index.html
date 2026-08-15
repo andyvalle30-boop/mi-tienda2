@@ -512,8 +512,23 @@
 
 /* Ocultar flechas en móviles para que prioricen el deslizar con el dedo (opcional) */
 @media (max-width: 768px) {
+    
+    /* 1. Traemos las flechas hacia ADENTRO del contenedor para que no se salgan */
+    .prev-btn {
+        left: 10px !important;
+    }
+
+    .next-btn {
+        right: 10px !important;
+    }
+
+    /* 2. Aseguramos que tengan un tamaño cómodo para tocar con el dedo y un fondo sutil si lo necesitas */
     .slider-btn {
-        display: none;
+        font-size: 28px;
+        padding: 12px;
+        z-index: 100;
+        /* background: rgba(0, 0, 0, 0.4); Opcional: ponle fondo si chocan mucho con el reloj */
+        /* border-radius: 50%; */
     }
 }
 /* --- ESTILOS DEL MODAL PREMIUM --- */
