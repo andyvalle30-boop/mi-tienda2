@@ -1399,28 +1399,27 @@
 }
 
 .checkout-overlay {
-    position: relative;
+    position: fixed; /* <-- CORRECCIÓN: Cambiado de relative a fixed */
     top: 0; left: 0; width: 100%; height: 100%;
     background-color: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(5px);
     z-index: 3000;
-    display: none; /* Oculto por defecto */
+    display: none; 
     justify-content: center;
     align-items: center;
-overflow-y: auto;
-    padding: 20px 0;
+    overflow-y: auto;
+    padding: 40px 20px;
 }
 
 .checkout-form-container {
-    background: #0e0f11;
-    border: 1px solid rgba(196, 139, 34, 0.3);
-    padding: 35px;
-    width: 90%;
-    max-width: 450px;
-    border-radius: 4px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.8);
-    max-height: 85vh;    /* No permite que la ventana pase del 85% del alto de la pantalla */
-    overflow-y: auto;    /* Si los campos de la tarjeta exceden ese espacio, activa el scroll */
+    margin: 0 auto;
+    max-width: 600px; /* Mantiene el formulario centrado y legible */
+    height: auto; /* IMPORTANTE: Quitar alturas fijas como 464px */
+    max-height: 85vh; /* Eliminar restricciones de altura */
+    overflow-y: visible; /* IMPORTANTE: Quita el scroll interno del cuadro */
+    background: transparent; /* Opcional: para que se funda con el fondo */
+    padding: 0;
+    border: none;
 }
 
 .checkout-form-container h3 {
@@ -2048,6 +2047,7 @@ let currentIndex = 0; // Usamos solo esta variable para rastrear la posición
 let totalBestsellers = 0;
 let touchStartX = 0;
 let touchEndX = 0;
+let vistaAntesDelCheckout = 'home';
 
 // === RENDERIZAR LOS RELOJES ===
 function renderBestSellers(inventarioObj) {
@@ -2653,17 +2653,44 @@ body.appendChild(row);
         // --- LÓGICA DEL FORMULARIO DE CHECKOUT ---
 
 function openCheckoutForm() {
-    if (shoppingCart.length === 0) {
-        alert("Tu carrito está vacío. Agrega modelos antes de pagar.");
-        return;
+    // 1. Guardamos de dónde viene el cliente
+    const vistaDetalle = document.getElementById('product-detail-view');
+    if (vistaDetalle && vistaDetalle.style.display === 'block') {
+        vistaAntesDelCheckout = 'detalle';
+    } else {
+        vistaAntesDelCheckout = 'home';
     }
-    // Cierra el carrito lateral y abre el modal
-    closeCartDrawer();
-    document.getElementById('checkout-modal').style.display = 'flex';
+    
+    // 2. Ocultamos las pantallas traseras
+    document.getElementById('home-view').style.display = 'none';
+    if (vistaDetalle) vistaDetalle.style.display = 'none';
+    
+    // 3. Cerramos el carrito lateral si está abierto
+    if (typeof closeCartDrawer === 'function') {
+        closeCartDrawer();
+    }
+    
+    // 4. Mostramos la pantalla de Checkout
+    // <-- CORRECCIÓN: Cambiar 'block' por 'flex' para conservar el centrado -->
+    document.getElementById('checkout-modal').style.display = 'flex'; 
+    
+    // 5. Subimos al inicio de la pantalla
+    window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function closeCheckoutForm() {
+    // 1. Ocultamos la pantalla de Checkout
     document.getElementById('checkout-modal').style.display = 'none';
+    
+    // 2. Devolvemos al cliente a la pantalla donde estaba
+    if (vistaAntesDelCheckout === 'detalle') {
+        document.getElementById('product-detail-view').style.display = 'block';
+    } else {
+        document.getElementById('home-view').style.display = 'block';
+    }
+    
+    // Subimos al inicio para evitar que aparezca a mitad de página
+    window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 // --- FUNCIÓN COMPLEMENTARIA: Alerta Premium Neo Chronos ---
