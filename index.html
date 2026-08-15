@@ -309,6 +309,365 @@
             margin-bottom: 90px; 
             padding-bottom: -5px; 
         }
+        /* --- ESTILOS DEL POPUP DE MÁS VENDIDOS --- */
+.bestsellers-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro general */
+    backdrop-filter: blur(5px); /* Efecto premium de desenfoque en la web */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 4000; /* Por encima de todo, incluso del checkout y header */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.bestsellers-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.bestsellers-modal {
+    background-color: rgba(14, 15, 17, 0.90); /* Fondo de la cajita casi negro y algo transparente */
+    border: 1px solid var(--gold-premium);
+    border-radius: 6px;
+    padding: 40px 30px;
+    width: 90%;
+    max-width: 600px; /* Un poco más ancho para que quepan bien los relojes */
+    text-align: center;
+    position: relative;
+    transform: translateY(-30px);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+}
+
+.bestsellers-overlay.active .bestsellers-modal {
+    transform: translateY(0);
+}
+
+.bestsellers-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #888888;
+    font-size: 30px;
+    font-weight: 300;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s;
+    line-height: 1;
+    z-index: 100; /* NUEVO: Asegura que el slider nunca lo tape */
+}
+
+.bestsellers-close:hover {
+    color: var(--gold-premium);
+    transform: scale(1.1);
+}
+
+.bestsellers-title {
+    color: var(--gold-premium);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    font-weight: 300;
+}
+
+.bestsellers-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-gray);
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.bestsellers-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap; /* Permite que los relojes bajen de línea en móviles */
+}
+/* --- ESTILOS DE LA TARJETA DEL BESTSELLER --- */
+.bestseller-card {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 4px;
+    width: 180px; /* Tamaño compacto para el popup */
+    padding: 10px;
+    text-align: center;
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+.bestseller-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold-premium); /* Usa tu variable de color dorado */
+}
+
+.bestseller-img-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.bestseller-brand {
+    font-size: 0.7rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.bestseller-name {
+    font-size: 0.9rem;
+    color: #fff;
+    margin: 5px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bestseller-price {
+    color: var(--gold-premium);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.btn-comprar {
+    background: transparent;
+    color: var(--gold-premium);
+    border: 1px solid var(--gold-premium);
+    padding: 5px 15px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-comprar:hover {
+    background: var(--gold-premium);
+    color: #000;
+}
+/* Contenedor principal relativo para posicionar las flechas */
+.bestseller-slider-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 320px; /* Ajusta este ancho según el tamaño ideal de tu tarjeta */
+    margin: 0 auto;
+}
+
+
+
+
+.bestseller-img-container {
+    width: 100%;
+    overflow: hidden; /* Evita que los relojes se salgan del modal */
+    position: relative;
+    padding: 20px 0;
+}
+
+.bestsellers-slider {
+    display: flex;
+    align-items: center;
+    /* La transición suave al cambiar de reloj */
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); 
+    width: 100%;
+}
+
+/* Ajuste a la tarjeta para que ocupe el 100% del envoltorio */
+.bestseller-card {
+    min-width: 100%; 
+    box-sizing: border-box;
+    /* Mantén aquí tus estilos anteriores de padding, bordes, colores, etc. */
+}
+
+/* Botones dorados de navegación */
+.slider-btn {
+    background: transparent;
+    color: #d4af37; /* Tono dorado elegante */
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    padding: 10px;
+    transition: color 0.3s;
+}
+
+.slider-btn:hover {
+    color: #fff; /* Brillo al pasar el mouse */
+}
+
+.prev-btn { left: -30px; }
+.next-btn { right: -30px; }
+
+/* Ocultar flechas en móviles para que prioricen el deslizar con el dedo (opcional) */
+@media (max-width: 768px) {
+    .slider-btn {
+        display: none;
+    }
+}
+/* --- ESTILOS DEL MODAL PREMIUM --- */
+.premium-dark {
+    background-color: #0d0d0d; /* Fondo casi negro */
+    color: #ffffff;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    height: 80vh; /* Altura similar a un móvil */
+    max-height: 800px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- LA ROCA (Pedestal) --- */
+.rock-pedestal {
+    position: absolute;
+    top: 50%; /* Ajusta esto según el tamaño de tu imagen de roca */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 200px;
+    /* Necesitarás buscar una imagen PNG de una roca sin fondo */
+    background-image: url('ruta-a-tu-imagen-de-roca.png'); 
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+/* --- CONTENEDOR DEL SLIDER Y TARJETAS --- */
+.premium-slider {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    position: relative;
+    z-index: 2; /* Los relojes van por encima de la roca */
+}
+
+.watch-slide {
+    flex: 0 0 50%;
+    min-width: 250px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    /* Efecto opaco y ligeramente más pequeño */
+    opacity: 0.3; 
+    transform: scale(0.85); 
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Animación fluida */
+}
+
+/* --- LA CLASE 'ACTIVE' (El reloj central) --- */
+/* Tu JS debe añadir la clase .active al elemento que esté en el centro */
+.watch-slide.active {
+    opacity: 1; /* Totalmente claro y visible */
+    transform: scale(1); /* Tamaño real */
+    z-index: 10; /* Asegura que resalte por encima del resto */
+}
+
+.watch-slide.active .watch-img {
+    filter: drop-shadow(0px 20px 15px rgba(0,0,0,0.8)); /* Sombra realista sobre la roca */
+}
+
+/* --- IMÁGENES E INFORMACIÓN --- */
+.watch-image-container {
+    height: 50%;
+    min-height: 200px; /* NUEVO: Previene que colapsen a 0px en pantallas pequeñas */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 20px;
+}
+
+.watch-img {
+    max-height: 250px;
+    width: auto;
+    transition: all 0.5s ease;
+}
+
+.watch-info {
+    text-align: center;
+    margin-top: 15px;
+    /* Ocultamos los textos de los relojes laterales para no saturar */
+    opacity: 0; 
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+
+
+.watch-slide.active .watch-info {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease 0.4s, visibility 0.5s ease 0.4s; /* Un ligero retraso para que aparezca después de que el reloj se centre */
+}
+
+/* Ajustes de estilo para tus textos y botón */
+.watch-info h4 {
+    color: #fff;
+    margin-bottom: 5px;
+}
+.watch-info p.price {
+    color: #d4af37; /* El dorado que ya usas */
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* --- TIPOGRAFÍA Y BOTÓN --- */
+.watch-sku {
+    color: #888;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.watch-info h4, 
+.watch-name {
+    white-space: normal; /* Asegura que el texto use todo el ancho antes de bajar de línea */
+    word-wrap: break-word;
+    line-height: 1.4;
+    margin-bottom: 8px;
+}
+
+.watch-price {
+    color: #aaa;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+.btn-buy-gold {
+    background-color: #d8c3a5; /* Color crema/dorado de la imagen */
+    color: #111;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px; /* Forma de píldora */
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    width: 100%;
+}
+.bestseller-slider-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    flex: 1; /* NUEVO: Permite que llene el alto disponible del modal */
+    height: 100%; /* NUEVO */
+}
 
         #search-bar {
             width: 100%;
@@ -1400,7 +1759,45 @@ overflow-y: auto;
             </div>
         </header>
     </div>
+    <!-- === POPUP DE RELOJES MÁS VENDIDOS === -->
+<!-- === POPUP DE RELOJES MÁS VENDIDOS === -->
+    <div id="bestsellers-popup" class="bestsellers-overlay">
+    <div class="bestsellers-modal premium-dark">
+        <!-- Botón de cerrar -->
+        <button class="bestsellers-close" onclick="closeBestSellers()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+        </button>
+        
+        <div class="bestseller-slider-container">
+            <!-- La roca estática de fondo -->
+            <div class="rock-pedestal"></div>
 
+            <button class="slider-btn prev-btn" onclick="prevBestseller()">&#10094;</button>
+            
+            <div class="bestseller-slider-wrapper" id="slider-wrapper">
+                <div id="bestsellers-grid" class="bestsellers-slider premium-slider">
+                    
+                    <!-- Ejemplo de cómo debe ser CADA TARJETA inyectada por tu JS -->
+                    <div class="watch-slide">
+                        <div class="watch-image-container">
+                            <img src="ruta-a-tu-reloj.png" alt="Reloj" class="watch-img">
+                        </div>
+                        <div class="watch-info-container">
+                            <span class="watch-sku">#NX-8427GL</span>
+                            <h2 class="watch-name">NOIR<br>CHRONO X</h2>
+                            <p class="watch-price">EUR 18,900</p>
+                            <button class="btn-buy-gold">Comprar Ahora</button>
+                        </div>
+                    </div>
+                    <!-- Fin de tarjeta -->
+
+                </div>
+            </div>
+
+            <button class="slider-btn next-btn" onclick="nextBestseller()">&#10095;</button>
+        </div>
+    </div>
+</div>
     <div id="home-view">
         <section class="hero">
             <img class="hero-bg" src="FONDO-RELOJES.jpg" alt="Fondo de relojes">
@@ -1565,7 +1962,6 @@ overflow-y: auto;
         const data = await response.text();
         
         // --- NUEVO LECTOR CSV ROBUSTO ---
-        // Este algoritmo respeta celdas vacías, comillas, comas internas y textos largos
         const rows = [];
         let quote = false;
         let rowIdx = 0, colIdx = 0;
@@ -1575,31 +1971,25 @@ overflow-y: auto;
             rows[rowIdx] = rows[rowIdx] || [];
             rows[rowIdx][colIdx] = rows[rowIdx][colIdx] || '';
 
-            // Si encuentra comillas dentro de comillas
             if (cc === '"' && quote && nc === '"') { rows[rowIdx][colIdx] += cc; ++c; continue; }
-            // Alternar estado de comillas
             if (cc === '"') { quote = !quote; continue; }
-            // Cambio de columna
             if (cc === ',' && !quote) { ++colIdx; continue; }
-            // Cambio de fila (soporta diferentes formatos de salto de línea)
             if (cc === '\r' && nc === '\n' && !quote) { ++rowIdx; colIdx = 0; ++c; continue; }
             if (cc === '\n' && !quote) { ++rowIdx; colIdx = 0; continue; }
             if (cc === '\r' && !quote) { ++rowIdx; colIdx = 0; continue; }
 
-            // Añadir carácter a la celda actual
             rows[rowIdx][colIdx] += cc;
         }
         // --------------------------------
 
         if (rows.length <= 1) return;
 
-        // Limpiamos los encabezados de espacios extra
         const headers = rows[0].map(h => h.trim());
         const newProducts = {};
 
         for (let i = 1; i < rows.length; i++) {
             const row = rows[i];
-            if (row.length === 0 || !row[0]) continue; // Evita que filas vacías rompan el código
+            if (row.length === 0 || !row[0]) continue; 
 
             const item = {};
             headers.forEach((header, index) => {
@@ -1616,12 +2006,16 @@ overflow-y: auto;
                     tag: item.tag,
                     whatsappText: item.whatsappText,
                     specs: item.specs ? item.specs.split(',').map(s => s.trim()) : [""],
-                    stock: parseInt(item.stock) || 0
+                    stock: parseInt(item.stock) || 0,
+                    bestseller: item.bestseller || '0' // <--- NUEVO: Guardamos el dato de la columna bestseller
                 };
             }
         }
 
         productsData = newProducts;
+        
+        // <--- NUEVO: Llamamos a la función para dibujar los más vendidos en el popup
+        renderBestSellers(productsData); 
         
         initFilters();
         updateCatalog();
@@ -1637,7 +2031,155 @@ overflow-y: auto;
         console.error("Error cargando inventario desde Google Sheets:", error);
     }
 }
+// === VARIABLES GLOBALES UNIFICADAS ===
+let currentIndex = 0; // Usamos solo esta variable para rastrear la posición
+let totalBestsellers = 0;
+let touchStartX = 0;
+let touchEndX = 0;
 
+// === RENDERIZAR LOS RELOJES ===
+function renderBestSellers(inventarioObj) {
+    const grid = document.getElementById('bestsellers-grid');
+    if (!grid) return;
+    
+    grid.innerHTML = ''; 
+    currentIndex = 0; // Reiniciamos al abrir el popup
+
+    const relojesTop = Object.entries(inventarioObj).filter(([id, reloj]) => reloj.bestseller == '1');
+    totalBestsellers = relojesTop.length;
+
+    relojesTop.forEach(([id, reloj]) => {
+        const card = document.createElement('div');
+        // Usamos la nueva clase para el Cover Flow
+        card.className = 'watch-slide'; 
+        
+        let imagenAUsar = 'placeholder.jpg';
+        if (reloj.images && reloj.images.length > 0 && reloj.images[0].trim() !== '') {
+            imagenAUsar = typeof obtenerImagenSegura === "function" 
+                ? obtenerImagenSegura(reloj.folder, reloj.images[0], reloj.title) 
+                : `${reloj.folder}/${reloj.images[0]}`;
+        } else {
+            imagenAUsar = `relojes/${reloj.title}/imagen_sin_fondo_4k.webp`;
+        }
+
+        // Estructura HTML actualizada para coincidir con tu nuevo CSS
+        card.innerHTML = `
+            <div class="watch-image-container">
+                <img src="${imagenAUsar}" alt="${reloj.title}" class="watch-img" style="width: 100%; max-width: 200px; object-fit: contain;">
+            </div>
+            <div class="watch-info">
+                <span class="watch-sku" style="color: #888; font-size: 0.8rem; letter-spacing: 1px;">${reloj.brand}</span>
+                <h4 class="watch-name">${reloj.title}</h4>
+                <p class="watch-price price">${reloj.price}</p>
+                <button class="btn-buy-gold" onclick="window.location.href='?id=${id}'">Ver Reloj</button>
+            </div>
+        `;
+        
+        grid.appendChild(card);
+    });
+
+    // Llamamos a la función de centrado y activamos el táctil
+    updateSliderPosition();
+    configurarSwipe();
+}
+
+// === MOTOR DEL COVER FLOW ===
+function updateSliderPosition() {
+    const slider = document.getElementById('bestsellers-grid'); 
+    const slides = document.querySelectorAll('.watch-slide');
+    
+    if (slides.length === 0 || !slider) return;
+
+    // Lógica matemática para centrar el elemento activo
+    const translateX = -(currentIndex * 50) + 25;
+    slider.style.transform = `translateX(${translateX}%)`;
+
+    // Actualizamos las clases para que el CSS cambie opacidades y escalas
+    slides.forEach((slide, index) => {
+        if (index === currentIndex) {
+            slide.classList.add('active');
+        } else {
+            slide.classList.remove('active');
+        }
+    });
+}
+
+// === BOTONES DE NAVEGACIÓN ===
+function nextBestseller() {
+    const slides = document.querySelectorAll('.watch-slide');
+    if (currentIndex < slides.length - 1) {
+        currentIndex++;
+        updateSliderPosition();
+    }
+}
+
+function prevBestseller() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        updateSliderPosition();
+    }
+}
+
+// === DESLIZAMIENTO TÁCTIL (SWIPE) ===
+function configurarSwipe() {
+    const wrapper = document.getElementById('slider-wrapper');
+    if(!wrapper) return;
+    
+    // Clonamos y reemplazamos el wrapper para evitar que los eventos "touchstart" se dupliquen 
+    // si renderBestSellers se ejecuta varias veces
+    const newWrapper = wrapper.cloneNode(true);
+    wrapper.parentNode.replaceChild(newWrapper, wrapper);
+
+    newWrapper.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, {passive: true});
+
+    newWrapper.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        manejarDeslizamiento();
+    }, {passive: true});
+}
+
+function manejarDeslizamiento() {
+    const umbral = 40; 
+    if (touchEndX < touchStartX - umbral) {
+        nextBestseller(); // Deslizó a la izquierda
+    }
+    if (touchEndX > touchStartX + umbral) {
+        prevBestseller(); // Deslizó a la derecha
+    }
+}
+
+// === CONTROL DEL POPUP ===
+function showBestSellers() {
+    const popup = document.getElementById('bestsellers-popup');
+    if(popup) {
+        popup.classList.add('active');
+        // Un pequeño retraso para asegurar que el DOM cargó y recalcule el centro visualmente
+        setTimeout(() => {
+            updateSliderPosition();
+        }, 10);
+    }
+}
+
+function closeBestSellers() {
+    const popup = document.getElementById('bestsellers-popup');
+    if(popup) {
+        popup.classList.remove('active');
+    }
+}
+
+// Mostrar el popup automáticamente al entrar a la página
+window.addEventListener('load', () => {
+    // Retrasamos el popup 2 segundos para que el cliente vea primero el banner principal
+    setTimeout(() => {
+        // Validación: Solo mostrar si estamos en la vista de inicio, no si venimos de un link de WhatsApp directo a un producto
+        const urlParams = new URLSearchParams(window.location.search);
+        if (!urlParams.get('id')) {
+            showBestSellers();
+        }
+    }, 2000); 
+});
        function updateCatalog() {
             const searchTerm = document.getElementById('search-bar').value.toLowerCase();
             
