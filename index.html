@@ -919,18 +919,15 @@
 
         /* VISTA DE DETALLE INTERNA */
         .product-detail-page {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background-color: var(--bg-dark);
-            z-index: 2000;
-            display: none; 
-            overflow-y: auto;
-            padding: 120px 60px 60px 60px;
-        }
-
+    position: relative; 
+    width: 100%;
+    min-height: calc(100vh - 300px); /* Ajusta para que el footer quepa en la pantalla */
+    background-color: var(--bg-dark);
+    z-index: 2000;
+    display: none; 
+    padding: 120px 60px 0px 60px; /* ¡Importante! El tercer valor (0px) quita el espacio de abajo */
+    margin-bottom: 0;
+}
         .btn-back {
             position: absolute;
             top: 40px;
@@ -1402,7 +1399,7 @@
 }
 
 .checkout-overlay {
-    position: fixed;
+    position: relative;
     top: 0; left: 0; width: 100%; height: 100%;
     background-color: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(5px);
@@ -2353,7 +2350,7 @@ pageItems.forEach(key => {
             header.classList.toggle('scrolled', window.scrollY > 50);
         });
 
-       function openProductDetail(id) {
+function openProductDetail(id) {
     if (!productsData[id]) return;
     
     currentProductId = id; 
@@ -2397,7 +2394,7 @@ pageItems.forEach(key => {
     // -----------------------------------------------------
     
     // Gestión del Stock (Bloqueo si está agotado)
-    const btnCheckout = document.querySelector('#product-detail-view .btn-checkout');
+   const btnCheckout = document.querySelector('#product-detail-view .btn-checkout');
     const btnCart = document.getElementById('detail-add-cart-btn');
     
     if (p.stock <= 0) {
@@ -2428,20 +2425,39 @@ pageItems.forEach(key => {
         }
     }
     
-    // Mostramos la vista de detalles
+ document.getElementById('home-view').style.display = 'none';
+
+    // 2. MOSTRAMOS LOS DETALLES
+    document.getElementById('product-detail-view').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'instant' }); // Subir al instante sin arrastrar el scroll
+
+    // 3. CREAMOS LA NUEVA URL PERSONALIZADA
+    // Formateamos el nombre del reloj para la URL (ej: Noir Chrono -> noir-chrono)
+    const nombreUrl = p.title.toLowerCase().replace(/\s+/g, '-');
+    const nuevaUrl = window.location.pathname + '?producto=' + nombreUrl + '&id=' + id;
+    
+    // Cambiamos la URL en el navegador sin recargar la página
+    window.history.pushState({ vista: 'detalle', id: id }, p.title, nuevaUrl);
+}   // Mostramos la vista de detalles
     document.getElementById('product-detail-view').style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
-}
 
-        function closeProductDetail() {
-            document.getElementById('product-detail-view').style.display = 'none';
-            document.getElementById('home-view').style.display = 'block';
-            document.getElementById('header-container').style.display = 'block';
-            document.getElementById('coleccion').scrollIntoView();
-            
-            const baseUrl = window.location.href.split('?')[0];
-            window.history.pushState({}, document.title, baseUrl);
-        }
+
+      function closeProductDetail(vieneDelBotonAtras = false) {
+    // 1. Ocultar detalles y mostrar el Home
+    document.getElementById('product-detail-view').style.display = 'none';
+    document.getElementById('home-view').style.display = 'block';
+    document.getElementById('header-container').style.display = 'block';
+    
+    // 2. Hacer scroll suave a la sección del catálogo
+    document.getElementById('coleccion').scrollIntoView();
+    
+    // 3. Restaurar la URL principal (solo si el usuario hizo clic en "Volver")
+    if (!vieneDelBotonAtras) {
+        const baseUrl = window.location.pathname;
+        window.history.pushState({ vista: 'home' }, document.title, baseUrl);
+    }
+}
 
         function moveSlide(direction) {
             const p = productsData[currentProductId];
@@ -2906,6 +2922,18 @@ function obtenerImagenSegura(folder, imagen, title) {
     // Puedes ajustar el nombre final ('1.png', 'imagen.png') según cómo guardes tus fotos locales
     return `relojes/${title}/imagen_sin_fondo_4k.webp`; 
 }
+// Detectar cuando el usuario usa el botón "Atrás" del navegador o celular
+window.addEventListener('popstate', function(event) {
+    const vistaDetalle = document.getElementById('product-detail-view');
+    
+    // Si la vista de detalle está abierta y el usuario vuelve atrás
+    if (vistaDetalle.style.display === 'block') {
+        closeProductDetail(true); // true indica que la acción viene del botón Atrás
+    } else if (event.state && event.state.vista === 'detalle') {
+        // Si el usuario presiona "Adelante" para volver al producto
+        openProductDetail(event.state.id);
+    }
+});
 
 
         document.addEventListener('DOMContentLoaded', loadInventoryFromSheets);
