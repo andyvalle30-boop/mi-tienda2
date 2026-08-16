@@ -521,6 +521,10 @@
     .next-btn {
         right: 10px !important;
     }
+    .promo-bar {
+        font-size: 0.65rem;
+        padding: 6px 15px;
+    }
 
     /* 2. Aseguramos que tengan un tamaño cómodo para tocar con el dedo y un fondo sutil si lo necesitas */
     .slider-btn {
@@ -659,7 +663,18 @@
     font-size: 0.9rem;
     margin-bottom: 20px;
 }
+/* Cuando el overlay NO tiene la clase .active... */
+.bestsellers-overlay:not(.active) {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important; /* Desactiva el contenedor padre */
+}
 
+/* ...obligamos a TODOS sus elementos hijos a desactivarse también */
+.bestsellers-overlay:not(.active) * {
+    pointer-events: none !important;
+    visibility: hidden !important;
+}
 .btn-buy-gold {
     background-color: #d8c3a5; /* Color crema/dorado de la imagen */
     color: #111;
@@ -1411,6 +1426,10 @@
     padding: 40px 20px;
     overscroll-behavior: contain;
 }
+.form-group input {
+    position: relative;
+    z-index: 10; /* Asegura que el campo sea clickeable por encima de todo */
+}
 
 .checkout-form-container {
     margin: 0 auto;
@@ -1421,6 +1440,13 @@
     background: transparent; /* Opcional: para que se funda con el fondo */
     padding: 0;
     border: none;
+    display: flex;
+    flex-direction: column;
+}
+.checkout-form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaciado uniforme entre cada campo */
 }
 
 .checkout-form-container h3 {
@@ -1457,7 +1483,13 @@ body.no-scroll {
 }
 
 .form-group {
-    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+.btn-buy-gold, .btn-checkout {
+    position: relative !important;
+    margin-top: 15px;
+    width: 100%;
 }
 
 .form-group label {
@@ -1550,6 +1582,7 @@ body.no-scroll {
     justify-content: center;
     align-items: stretch; /* Iguala la altura de ambos elementos */
 }
+
 
 /* Ajuste al buscador existente para que encaje en el nuevo flexbox */
 #search-bar {
@@ -1781,9 +1814,11 @@ body.no-scroll {
     <div id="bestsellers-popup" class="bestsellers-overlay">
     <div class="bestsellers-modal premium-dark">
         <!-- Botón de cerrar -->
-        <button class="bestsellers-close" onclick="closeBestSellers()">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"></path></svg>
-        </button>
+       <button class="bestsellers-close" aria-label="Cerrar ventana">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"></path>
+    </svg>
+</button>
         
         <div class="bestseller-slider-container">
             <!-- La roca estática de fondo -->
@@ -2101,6 +2136,7 @@ function renderBestSellers(inventarioObj) {
     configurarSwipe();
 }
 
+
 // === MOTOR DEL COVER FLOW ===
 function updateSliderPosition() {
     const slider = document.getElementById('bestsellers-grid'); 
@@ -2169,30 +2205,56 @@ function manejarDeslizamiento() {
 }
 
 // === CONTROL DEL POPUP ===
-function showBestSellers() {
-    const popup = document.getElementById('bestsellers-popup');
-    if(popup) {
-        popup.classList.add('active');
-        // Un pequeño retraso para asegurar que el DOM cargó y recalcule el centro visualmente
-        setTimeout(() => {
-            updateSliderPosition();
-        }, 10);
-    }
-}
-
+// 1. Funciones principales (las mantenemos fuera para que estén disponibles)
 function closeBestSellers() {
     const popup = document.getElementById('bestsellers-popup');
-    if(popup) {
+    if (popup) {
         popup.classList.remove('active');
     }
 }
 
-// Mostrar el popup automáticamente al entrar a la página
+// (Asumo que ya tienes esta función, la pongo aquí como referencia para evitar errores)
+function showBestSellers() {
+    const popup = document.getElementById('bestsellers-popup');
+    if (popup) {
+        popup.classList.add('active');
+    }
+}
+
+// 2. Esperamos a que el HTML (DOM) esté completamente listo
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // Ahora es seguro buscar los elementos
+    const popupFondo = document.getElementById('bestsellers-popup');
+    const botonCerrar = document.querySelector('.bestsellers-close');
+
+    // Lógica para cerrar si hacen clic en el fondo oscuro
+    if (popupFondo) {
+        popupFondo.addEventListener('click', function(evento) {
+            if (evento.target === this) {
+                closeBestSellers();
+            }
+        });
+    }
+
+    // Lógica para cerrar si hacen clic específicamente en la "X"
+    if (botonCerrar) {
+        botonCerrar.addEventListener('click', function() {
+            closeBestSellers();
+        });
+    }
+});
+
+// 3. Mostrar el popup automáticamente usando 'load'
+// Usamos 'load' en lugar de 'DOMContentLoaded' porque 'load' espera a que 
+// también carguen las imágenes y estilos, ideal para no interrumpir el banner inicial
 window.addEventListener('load', () => {
-    // Retrasamos el popup 2 segundos para que el cliente vea primero el banner principal
+    
+    // Retrasamos el popup 2 segundos
     setTimeout(() => {
-        // Validación: Solo mostrar si estamos en la vista de inicio, no si venimos de un link de WhatsApp directo a un producto
+        // Validación: Solo mostrar si no venimos directo a un producto (sin ?id=...)
         const urlParams = new URLSearchParams(window.location.search);
+        
         if (!urlParams.get('id')) {
             showBestSellers();
         }
@@ -2683,6 +2745,8 @@ function closeCheckoutForm(event) {
         // Restablece el scroll de la página
         document.documentElement.classList.remove('no-scroll');
         document.body.classList.remove('no-scroll');
+        document.getElementById('checkout-modal').style.display = 'none'; 
+    document.body.classList.remove('modal-abierto');
     }
 }
 
@@ -2773,10 +2837,7 @@ function showNeoChronosAlert(title, message, buttonText, onConfirm) {
     document.body.appendChild(overlay);
 }
 
-// --- FUNCIÓN PRINCIPAL DE CHECKOUT ACTUALIZADA ---
-// --- FUNCIÓN PRINCIPAL DE CHECKOUT ACTUALIZADA ---
-// --- FUNCIÓN PRINCIPAL DE CHECKOUT ACTUALIZADA ---
-// --- FUNCIÓN PRINCIPAL DE CHECKOUT ACTUALIZADA (SIN EMOJIS TOTALMENTE COMPATIBLE) ---
+
 function submitCheckout() {
     const name = document.getElementById('chk-name').value;
     const id = document.getElementById('chk-id').value;
@@ -2835,7 +2896,7 @@ function submitCheckout() {
 
     const targetUrl = `https://wa.me/593987916568?text=${encodeURIComponent(message)}`;
 
-    const GOOGLE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx605AjAtyOZWihHgA-vQMCCtfzpgc_J5JA3l1O0Y0h2b35vWHq3O3oKzQJX7GPPVfw/exec'; 
+    const GOOGLE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwflt_GG--12GYJHJiRFXYcK26mZ-SnLGcKhg6kamLFI_ipOEvUy9HVGEVoIGxvwkCt/exec'; 
 
     fetch(GOOGLE_WEB_APP_URL, {
         method: 'POST',
@@ -2943,17 +3004,26 @@ function obtenerImagenSegura(folder, imagen, title) {
     return `relojes/${title}/imagen_sin_fondo_4k.webp`; 
 }
 // Detectar cuando el usuario usa el botón "Atrás" del navegador o celular
+// Detectar cuando el usuario usa el botón "Atrás" del navegador o celular
 window.addEventListener('popstate', function(event) {
     const vistaDetalle = document.getElementById('product-detail-view');
+    const modalCheckout = document.getElementById('checkout-modal');
     
+    // Si el checkout está abierto, ciérralo al volver atrás
+    if (modalCheckout && modalCheckout.style.display === 'flex') {
+        closeCheckoutForm();
+        return;
+    }
+
     // Si la vista de detalle está abierta y el usuario vuelve atrás
-    if (vistaDetalle.style.display === 'block') {
-        closeProductDetail(true); // true indica que la acción viene del botón Atrás
-    } else if (event.state && event.state.vista === 'detalle') {
-        // Si el usuario presiona "Adelante" para volver al producto
-        openProductDetail(event.state.id);
+    if (vistaDetalle && vistaDetalle.style.display === 'block') {
+        closeProductDetail(true);
     }
 });
+// Agrega esto en tu JavaScript
+function stopProp(event) {
+    event.stopPropagation();
+}
 
 
         document.addEventListener('DOMContentLoaded', loadInventoryFromSheets);
@@ -2981,46 +3051,53 @@ window.addEventListener('popstate', function(event) {
         </div>
     </footer>
  <!-- Busca este bloque dentro de tu HTML y modifícalo así -->
-<div id="checkout-modal" class="checkout-overlay">
-    <div class="checkout-form-container">
+<!-- Agregamos un onclick al fondo para que se cierre si tocan fuera del recuadro (opcional pero recomendado) -->
+<div id="checkout-modal" class="checkout-overlay" onclick="cancelarYReiniciarFormulario()">
+    
+    <!-- Agregamos event.stopPropagation() para que tocar aquí adentro NO active el onclick del fondo -->
+    <div class="checkout-form-container" onclick="event.stopPropagation()">
         <h3>Datos de Envío</h3>
         <p style="color: var(--text-gray); font-size: 0.75rem; margin-bottom: 20px;">
             Ingresa tu información correctamente para realizar el envío, gracias.
         </p>
-        <button class="btn-close-modal" onclick="cancelarYReiniciarFormulario()">&times;</button>
         
+        <!-- Es vital que los botones tengan type="button" para que no intenten enviar el formulario -->
+        <button type="button" class="btn-close-modal" onclick="cancelarYReiniciarFormulario()">&times;</button>
         
-        <div class="form-group">
-            <label>Nombre Completo</label>
-            <input type="text" id="chk-name" placeholder="Ej. Juan Pérez" required>
-        </div>
-        <div class="form-group">
-            <label>Cédula / RUC</label>
-            <input type="text" id="chk-id" placeholder="Ej. 0900000000" required>
-        </div>
-        <div class="form-group">
-            <label>Teléfono Celular</label>
-            <input type="text" id="chk-phone" placeholder="Ej. 0999999999" required>
-        </div>
-        <div class="form-group">
-            <label>Provincia y Ciudad</label>
-            <input type="text" id="chk-city" placeholder="Ej. Guayas, Guayaquil" required>
-        </div>
-        <div class="form-group">
-            <label>Dirección Exacta (con referencias)</label>
-            <input type="text" id="chk-address" placeholder="Ej. Cdla. Urdesa, calle..." required>
-        </div>
-        <div class="form-group">
-            <label>Correo electronico (opcional)</label>
-            <input type="email" id="chk-email" placeholder="Ej. juan.perez@example.com">
-        </div>
-        
-        <div id="paypal-button-container" style="margin-top: 25px; width: 100%; min-height: 110px;"></div>
-        
-        <!-- Cambia el botón de cancelar original para que use la nueva función de reinicio completo -->
-        <button class="btn-cancel" onclick="cancelarYReiniciarFormulario()">Cancelar</button>
+        <!-- Envolvemos todo en un form y cancelamos su envío por defecto con preventDefault -->
+        <form onsubmit="event.preventDefault();">
+            <div class="form-group">
+                <label>Nombre Completo</label>
+                <input type="text" id="chk-name" placeholder="Ej. Juan Pérez" required>
+            </div>
+            <div class="form-group">
+                <label>Cédula / RUC</label>
+                <input type="text" id="chk-id" placeholder="Ej. 0900000000" required>
+            </div>
+            <div class="form-group">
+                <label>Teléfono Celular</label>
+                <input type="text" id="chk-phone" placeholder="Ej. 0999999999" required>
+            </div>
+            <div class="form-group">
+                <label>Provincia y Ciudad</label>
+                <input type="text" id="chk-city" placeholder="Ej. Guayas, Guayaquil" required>
+            </div>
+            <div class="form-group">
+                <label>Dirección Exacta (con referencias)</label>
+                <input type="text" id="chk-address" placeholder="Ej. Cdla. Urdesa, calle..." required>
+            </div>
+            <div class="form-group">
+                <label>Correo electrónico (opcional)</label>
+                <input type="email" id="chk-email" placeholder="Ej. juan.perez@example.com">
+            </div>
+            </form>
+            
+            <!-- Agregamos onclick="event.stopPropagation()" al contenedor de PayPal -->
+<div id="paypal-button-container" style="margin-top: 25px; width: 100%; min-height: 110px;" onclick="event.stopPropagation()"></div>
+            
+            <!-- Nuevamente, type="button" es crucial aquí -->
+            <button type="button" class="btn-cancel" onclick="cancelarYReiniciarFormulario()">Cancelar</button>
     </div>
-</div>
 </div>
 <script>
     (function() {
@@ -3047,6 +3124,9 @@ window.addEventListener('popstate', function(event) {
         });
         
     })();
+    function cancelarYReiniciarFormulario() {
+            closeCheckoutForm();
+        }
     // Función blindada para inicializar PayPal sin romper los productos de la tienda
 function initPayPalSecure() {
     // 1. Verificación preventiva de seguridad: si PayPal no responde, detenemos la función en silencio
@@ -3060,119 +3140,135 @@ function initPayPalSecure() {
     if (!container) return;
 
     try {
-        paypal.Buttons({
-            // VALIDACIÓN PREVIO A PAGAR
-            onClick: function(data, actions) {
-                const name = document.getElementById('chk-name').value.trim();
-                const id = document.getElementById('chk-id').value.trim();
-                const phone = document.getElementById('chk-phone').value.trim();
-                const city = document.getElementById('chk-city').value.trim();
-                const address = document.getElementById('chk-address').value.trim();
+       paypal.Buttons({
+    // VALIDACIÓN PREVIO A PAGAR
+    onClick: function(data, actions) {
+        // Capturar y limpiar los campos del formulario
+        const name = document.getElementById('chk-name') ? document.getElementById('chk-name').value.trim() : '';
+        const id = document.getElementById('chk-id') ? document.getElementById('chk-id').value.trim() : '';
+        const phone = document.getElementById('chk-phone') ? document.getElementById('chk-phone').value.trim() : '';
+        const city = document.getElementById('chk-city') ? document.getElementById('chk-city').value.trim() : '';
+        const address = document.getElementById('chk-address') ? document.getElementById('chk-address').value.trim() : '';
 
-                if (!name || !id || !phone || !city || !address) {
-                    showNeoChronosAlert("CAMPOS INCOMPLETOS", "Por favor, completa todos los datos para poder gestionar tu envío.", "ENTENDIDO");
-                    return actions.reject();
-                }
+        // Validar campos vacíos
+        if (!name || !id || !phone || !city || !address) {
+            showNeoChronosAlert(
+                "CAMPOS INCOMPLETOS", 
+                "Por favor, completa todos los datos para poder gestionar tu envío.", 
+                "ENTENDIDO"
+            );
+            return actions.reject(); // Cancela la apertura de la ventana de PayPal
+        }
 
-                if (!shoppingCart || shoppingCart.length === 0) {
-                    showNeoChronosAlert("CARRITO VACÍO", "Tu carrito no registra productos activos. Añade un modelo antes de procesar el pago.", "VOLVER");
-                    return actions.reject();
-                }
+        // Validar carrito
+        if (!shoppingCart || shoppingCart.length === 0) {
+            showNeoChronosAlert(
+                "CARRITO VACÍO", 
+                "Tu carrito no registra productos activos. Añade un modelo antes de procesar el pago.", 
+                "VOLVER"
+            );
+            return actions.reject();
+        }
 
-                return actions.resolve();
-            },
+        // Si todo está correcto, autoriza la apertura del popup
+        return actions.resolve();
+    },
 
-            // CALCULO DINÁMICO DEL MONTO TOTAL
-            createOrder: function(data, actions) {
-                let totalCalculado = 0;
+    // CÁLCULO DINÁMICO DEL MONTO TOTAL
+    createOrder: function(data, actions) {
+        let totalCalculado = 0;
 
-                shoppingCart.forEach(item => {
-                    // Limpieza nativa y directa del string del precio (ej: "$45.00" -> 45.00)
-                    let precioNumerico = parseFloat(String(item.price).replace(/[^0-9.]/g, ''));
-                    if (!isNaN(precioNumerico)) {
-                        totalCalculado += (precioNumerico * item.qty);
-                    }
-                });
-
-                return actions.order.create({
-                    purchase_units: [{
-                        description: "Pedido de Relojería Premium - Neo Chronos",
-                        amount: {
-                            currency_code: "USD",
-                            value: totalCalculado.toFixed(2)
-                        }
-                    }]
-                });
-            },
-
-            // CAPTURA DE PAGO Y ENVÍO DEL PAYLOAD A GOOGLE APPS SCRIPT
-            onApprove: function(data, actions) {
-                return actions.order.capture().then(function(details) {
-                    
-                    const name = document.getElementById('chk-name').value;
-                    const id = document.getElementById('chk-id').value;
-                    const phone = document.getElementById('chk-phone').value;
-                    const city = document.getElementById('chk-city').value;
-                    const address = document.getElementById('chk-address').value;
-                    const totalValueLabel = document.getElementById('cart-total-value').innerText;
-
-                    // Mantenemos la estructura exacta de tu JSON original para tu Web App
-                    const orderPayload = {
-                        name: name,
-                        id: id,
-                        phone: phone,
-                        city: city,
-                        address: address,
-                        cart: shoppingCart, 
-                        total: totalValueLabel,
-                        paypalTransactionId: details.id, // ID para tu control en Telegram
-                        paymentStatus: "CONFIRMADO_PAYPAL"
-                    };
-
-                    const GOOGLE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx605AjAtyOZWihHgA-vQMCCtfzpgc_J5JA3l1O0Y0h2b35vWHq3O3oKzQJX7GPPVfw/exec'; 
-
-                    fetch(GOOGLE_WEB_APP_URL, {
-                        method: 'POST',
-                        mode: 'no-cors', 
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(orderPayload)
-                    })
-                    .then(() => {
-                        // Resetear estados globales de la aplicación
-                        shoppingCart = [];
-                        if (typeof saveCartLocally === 'function') saveCartLocally();
-                        if (typeof updateCartUI === 'function') updateCartUI(); 
-                        closeCheckoutForm();
-                        
-                        // Limpieza de inputs
-                        document.getElementById('chk-name').value = '';
-                        document.getElementById('chk-id').value = '';
-                        document.getElementById('chk-phone').value = '';
-                        document.getElementById('chk-city').value = '';
-                        document.getElementById('chk-address').value = '';
-
-                        showNeoChronosAlert(
-                            "PAGO Y ORDEN PROCESADA", 
-                            `¡Muchas gracias por tu compra, ${details.payer.name.given_name}! Tu pago ha sido aprobado de forma segura y tus datos de envío han sido registrados.`, 
-                            "ENTENDIDO"
-                        );
-                    })
-                    .catch(error => {
-                        console.error("Error al reportar a Google Apps Script:", error);
-                        showNeoChronosAlert("PAGO EXITOSO", "Tu pago se procesó correctamente, pero hubo un problema al registrar la orden automáticamente. ID de pago: " + details.id, "ENTENDIDO");
-                    });
-                });
-            },
-
-            onCancel: function(data) {
-                showNeoChronosAlert("PAGO CANCELADO", "El proceso de pago fue cancelado. Los productos siguen en tu carrito.", "VOLVER");
-            },
-
-            onError: function(err) {
-                console.error("Error en pasarela:", err);
-                showNeoChronosAlert("ERROR DE TRANSACCIÓN", "No pudimos completar el cobro. Revisa tus fondos o tarjeta.", "REINTENTAR");
+        shoppingCart.forEach(item => {
+            let precioNumerico = parseFloat(String(item.price).replace(/[^0-9.]/g, ''));
+            if (!isNaN(precioNumerico)) {
+                totalCalculado += (precioNumerico * (item.qty || 1));
             }
-        }).render('#paypal-button-container');
+        });
+
+        return actions.order.create({
+            purchase_units: [{
+                description: "Pedido de Relojería Premium - Neo Chronos",
+                amount: {
+                    currency_code: "USD",
+                    value: totalCalculado.toFixed(2)
+                }
+            }]
+        });
+    },
+
+    // CAPTURA DE PAGO Y ENVÍO DEL PAYLOAD A GOOGLE APPS SCRIPT
+    onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+            
+            const name = document.getElementById('chk-name').value;
+            const id = document.getElementById('chk-id').value;
+            const phone = document.getElementById('chk-phone').value;
+            const city = document.getElementById('chk-city').value;
+            const address = document.getElementById('chk-address').value;
+            const email = document.getElementById('chk-email') ? document.getElementById('chk-email').value : '';
+            
+            const totalLabel = document.getElementById('cart-total-value');
+            const totalValueLabel = totalLabel ? totalLabel.innerText : '0.00';
+
+            const orderPayload = {
+                name: name,
+                id: id,
+                phone: phone,
+                city: city,
+                address: address,
+                email: email,
+                cart: shoppingCart, 
+                total: totalValueLabel,
+                paypalTransactionId: details.id,
+                paymentStatus: "CONFIRMADO_PAYPAL"
+            };
+
+            const GOOGLE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwflt_GG--12GYJHJiRFXYcK26mZ-SnLGcKhg6kamLFI_ipOEvUy9HVGEVoIGxvwkCt/exec'; 
+
+            fetch(GOOGLE_WEB_APP_URL, {
+                method: 'POST',
+                mode: 'no-cors', 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orderPayload)
+            })
+            .then(() => {
+                shoppingCart = [];
+                if (typeof saveCartLocally === 'function') saveCartLocally();
+                if (typeof updateCartUI === 'function') updateCartUI(); 
+                if (typeof closeCheckoutForm === 'function') closeCheckoutForm();
+                
+                // Limpieza de campos
+                ['chk-name', 'chk-id', 'chk-phone', 'chk-city', 'chk-address', 'chk-email'].forEach(inputId => {
+                    const el = document.getElementById(inputId);
+                    if (el) el.value = '';
+                });
+
+                showNeoChronosAlert(
+                    "PAGO Y ORDEN PROCESADA", 
+                    `¡Muchas gracias por tu compra, ${details.payer.name.given_name}! Tu pago ha sido aprobado de forma segura y tus datos de envío han sido registrados.`, 
+                    "ENTENDIDO"
+                );
+            })
+            .catch(error => {
+                console.error("Error al reportar a Google Apps Script:", error);
+                showNeoChronosAlert(
+                    "PAGO EXITOSO", 
+                    "Tu pago se procesó correctamente, pero hubo un problema al registrar la orden automáticamente. ID de pago: " + details.id, 
+                    "ENTENDIDO"
+                );
+            });
+        });
+    },
+
+    onCancel: function(data) {
+        showNeoChronosAlert("PAGO CANCELADO", "El proceso de pago fue cancelado. Los productos siguen en tu carrito.", "VOLVER");
+    },
+
+    onError: function(err) {
+        console.error("Error en pasarela:", err);
+        showNeoChronosAlert("ERROR DE TRANSACCIÓN", "No pudimos completar el cobro. Revisa tus fondos o tarjeta.", "REINTENTAR");
+    }
+}).render('#paypal-button-container');
     } catch (error) {
         console.error("Error crítico inicializando los botones de PayPal: ", error);
     }
@@ -3190,6 +3286,8 @@ function cancelarYReiniciarFormulario() {
     document.getElementById('chk-phone').value = '';
     document.getElementById('chk-city').value = '';
     document.getElementById('chk-address').value = '';
+    document.getElementById('checkout-modal').style.display = 'none';
+    document.body.classList.remove('modal-abierto');
     
     // 2. REINICIO DE PAYPAL: Borramos los botones viejos / formulario expandido
     const paypalContainer = document.getElementById('paypal-button-container');
