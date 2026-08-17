@@ -1632,11 +1632,74 @@ body.no-scroll {
     border-top: none;
     z-index: 100;
     padding: 15px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.543);
     max-height: 300px;
     overflow-y: auto;
 }
-        
+/* Estilos de la ventana */
+/* Estilos de la ventana principal */
+.modal-estilo {
+    background-color: #19181bc3; /* Fondo negro como tu página */
+    color: #ffffff; /* Texto en blanco para contraste */
+    border: 1px solid #c5a059; /* Borde dorado para mantener la elegancia */
+    border-radius:10px 10px; /* Bordes un poco más rectos y formales */
+    padding: 40px;
+    max-width: 600px;
+    width: 90%;
+    
+    /* Centrado absoluto en la pantalla */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.9); /* Sombra más profunda */
+}
+
+
+/* Fondo oscuro detrás de la ventana */
+.modal-estilo::backdrop {
+    background-color: rgba(0, 0, 0, 0.85); /* Fondo casi negro para que resalte el texto */
+}
+
+/* Estilos para el título para que coincida con tu tipografía */
+.modal-estilo h2 {
+    color: #c5a059; /* Color dorado similar al texto "ENVIOS" de tu página */
+    text-align: center;
+    letter-spacing: 3px; /* Letras espaciadas */
+    text-transform: uppercase;
+    font-weight: normal;
+    margin-bottom: 20px;
+}
+
+/* Estilos para el texto del párrafo */
+.modal-estilo p {
+    text-align: center;
+    line-height: 1.8;
+    letter-spacing: 1px;
+    font-size: 8px;
+}
+
+/* Estilo para el botón de cerrar */
+.cerrar-btn {
+    margin: 30px auto 0;
+    display: block; /* Permite que el botón se centre */
+    padding: 10px 30px;
+    background-color: transparent;
+    color: #c5a059;
+    border: 1px solid #c5a059;
+    border-radius: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Efecto al pasar el mouse sobre el botón de cerrar */
+.cerrar-btn:hover {
+    background-color: #c5a059;
+    color: #000000;
+}  
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
@@ -1768,6 +1831,22 @@ body.no-scroll {
             line-height: 1.5;
             margin-top: 5px;
         }
+        .politicas-btn {
+                font-size: 0.65rem;
+                padding: 4px 12px;
+                background-color:transparent;
+                border: 1px solid var(--gold-premium);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                color: white;
+                transition: all 0.3s ease;
+                border-radius: 10px 10px;
+                position: relative;
+                top: 10px;
+            cursor: pointer;
+                text-align: left;
+                
+            }
         
         @media (max-width: 480px) {
             .cart-drawer {
@@ -1783,6 +1862,19 @@ body.no-scroll {
             }
             .pay-card i {
                 font-size: 1.5rem;
+            }
+            .politicas-btn {
+                font-size: 0.65rem;
+                padding: 4px 12px;
+                background-color:transparent;
+                border: 1px solid var(--gold-premium);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                color: white;
+                transition: all 0.3s ease;
+                border-radius: 10px 10px;
+                text-align: left;
+                
             }
         }
         
@@ -3131,6 +3223,54 @@ function stopProp(event) {
                 <a href="https://wa.me/593987916568" target="_blank">
                 <i class="fab fa-whatsapp"></i> </a>
             </div>
+           <!-- Tu botón modificado (sin el onclick) -->
+<button class="politicas-btn" id="btn-abrir-politicas">
+    Políticas de Privacidad
+</button>
+
+<!-- La ventana emergente (Modal) -->
+<dialog id="modal-politicas" class="modal-estilo">
+    <div class="modal-contenido">
+        <h2>Políticas de Privacidad</h2>
+        <h3>POLÍTICAS DE PRIVACIDAD Y TÉRMINOS DE SERVICIO – NEO CHRONOS</h3>
+        <h4>Última actualización: 16 de agosto de 2026</h4>
+
+<p>En NEO CHRONOS valoramos tu confianza y nos comprometemos a proteger tu privacidad. Las presentes Políticas de Privacidad y Términos de Servicio detallan cómo recopilamos, utilizamos y protegemos tu información personal, así como las condiciones bajo las cuales realizamos nuestras ventas y envíos de relojes.</p>
+
+
+<h3>1. Política de Privacidad y Uso de Datos</h3>
+<p>Al realizar una compra o solicitar nuestros productos en NEO CHRONOS, solicitamos únicamente los datos estrictamente necesarios para completar el proceso de entrega de manera exitosa (tales como nombre, número de contacto, dirección de envío y ciudad).
+
+Uso exclusivo para envíos: La información proporcionada jamás será utilizada, comercializada ni almacenada para fines distintos a gestionar el envío de tu pedido y mantener comunicación directa contigo exclusivamente sobre el estado de tu compra.
+
+Confidencialidad: Tus datos están seguros con nosotros y no serán compartidos con terceros ajenos al proceso logístico de entrega.</p>  
+
+<h3>2. Disponibilidad de Stock y Modalidades de Compra</h3>
+<p>Todos los modelos presentados en la página web de NEO CHRONOS se rigen bajo las siguientes modalidades de disponibilidad:
+
+Entrega Inmediata: Modelos que se encuentran físicamente en stock en Ecuador listos para ser despachados.
+
+Compra por Importación: En caso de que el stock disponible se agote o el cliente desee un modelo bajo pedido, se puede coordinar previamente a través de nuestros canales de contacto oficial. El tiempo estimado de importación y entrega es de 13 días hábiles.
+
+Agotamiento de Stock: Si un producto se agota después de haber sido adquirido sin previo aviso de importación, el cliente podrá optar por esperar los 13 días hábiles que toma la importación, o solicitar la devolución íntegra de su dinero, la cual se hará efectiva en un plazo de 3 días hábiles.</p>
+
+<h3>3. Control de Calidad y Empaque</h3>
+<p>Revisión previa: Cada uno de nuestros relojes es rigurosamente inspeccionado para verificar su calidad y funcionamiento óptimo antes de ser despachado, garantizando que llegue en perfectas condiciones.
+
+Embalaje seguro: Los productos son cuidadosamente empaquetados con materiales protectores adecuados para resistir el transporte y evitar cualquier daño durante el trayecto.</p>
+
+<h3>4. Garantía por Daños de Fábrica</h3>
+<p>Si el producto adquirido presenta algún daño de fábrica comprobable, el cliente deberá contactarse con nosotros de manera inmediata para realizar un reporte previo y coordinar la revisión y solución correspondiente según aplique.</p>
+
+<h3>5. Recepción de Envíos y Seguridad del Paquete</h3>
+<p>Paquetes sellados: Todos nuestros envíos viajan totalmente sellados con los cinturones y seguridades de la empresa de transporte.
+
+Incidencias en la entrega: Si al momento de recibir tu pedido notas que el paquete se encuentra abierto, adulterado o violentado, debes notificarlo de inmediato a nuestros canales de contacto oficiales para poder procesar el reclamo formal ante el servicio de entrega (courier).</p>
+        
+        <!-- Botón para cerrar la ventana -->
+        <button id="btn-cerrar-politicas" class="cerrar-btn">Cerrar</button>
+    </div>
+</dialog>
         </div>
     </footer>
  <!-- Busca este bloque dentro de tu HTML y modifícalo así -->
@@ -3401,6 +3541,19 @@ function cancelarYReiniciarFormulario() {
     
     console.log("🧹 Formulario y pasarela de PayPal reseteados al 100%.");
 }
+const btnAbrir = document.getElementById('btn-abrir-politicas');
+    const btnCerrar = document.getElementById('btn-cerrar-politicas');
+    const modal = document.getElementById('modal-politicas');
+
+    // Cuando se hace clic en "Políticas de Privacidad", se abre el modal
+    btnAbrir.addEventListener('click', () => {
+        modal.showModal();
+    });
+
+    // Cuando se hace clic en "Cerrar", se oculta el modal
+    btnCerrar.addEventListener('click', () => {
+        modal.close();
+    });
     
 </script>
 
