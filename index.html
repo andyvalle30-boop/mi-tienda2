@@ -523,7 +523,7 @@
     }
     .promo-bar {
         font-size: 0.65rem;
-        padding: 6px 15px;
+        padding: 4px 12px;
     }
 
     /* 2. Aseguramos que tengan un tamaño cómodo para tocar con el dedo y un fondo sutil si lo necesitas */
@@ -721,7 +721,7 @@
             text-transform: uppercase;
             margin-bottom: 15px;
         }
-
+ 
         .section-divider {
             width: 50px;
             height: 1px;
@@ -1896,67 +1896,68 @@ body.no-scroll {
 </section>
     </div>
 
-    <div id="product-detail-view" class="product-detail-page">
-        <a class="btn-back" onclick="closeProductDetail()">← Volver al catálogo</a>
+   <!-- Agregamos style="display: none;" aquí -->
+   <div id="product-detail-view" class="product-detail-page" style="display: none;">
+    <a class="btn-back" onclick="closeProductDetail()">← Volver al catálogo</a>
+    
+    <div class="detail-container">
+        <div class="detail-gallery">
+            <button class="nav-btn prev" onclick="moveSlide(-1)">&#10094;</button>
+            <div id="gallery-container"></div>
+            <button class="nav-btn next" onclick="moveSlide(1)">&#10095;</button>
+        </div>
         
-        <div class="detail-container">
-           <div class="detail-gallery">
-                <button class="nav-btn prev" onclick="moveSlide(-1)">&#10094;</button>
-                <div id="gallery-container"></div>
-                <button class="nav-btn next" onclick="moveSlide(1)">&#10095;</button>
-            </div>
+        <div class="detail-info">
+            <h2 id="detail-title">Nombre del Reloj</h2>
+            <div id="detail-price" class="detail-price">$0.00</div>
             
-            <div class="detail-info">
-                <h2 id="detail-title">Nombre del Reloj</h2>
-                <div id="detail-price" class="detail-price">$0.00</div>
-                
-                <h3 class="specs-title">Acerca de este artículo</h3>
-                <ul class="specs-list" id="detail-specs">
-                </ul>
-                
-                <!-- NUEVO BOTÓN PAGAR AHORA EN DETALLES -->
-<button class="btn-checkout" onclick="buyNowFromDetail()" style="margin-bottom: 12px; margin-top: 15px;">
-    Pagar Ahora
-</button>
+            <h3 class="specs-title">Acerca de este artículo</h3>
+            <ul class="specs-list" id="detail-specs">
+            </ul>
+            
+            <!-- NUEVO BOTÓN PAGAR AHORA EN DETALLES -->
+            <button class="btn-checkout" onclick="buyNowFromDetail()" style="margin-bottom: 12px; margin-top: 15px;">
+                Pagar Ahora
+            </button>
+        </div>
+    </div> <!-- Cierre de detail-container -->
 
-<div class="detail-actions-wrapper">
-    <a id="detail-wa-link" href="" class="btn-action-whatsapp" target="_blank">Continuar compra en WhatsApp</a>
-    <button id="detail-add-cart-btn" class="btn-action-cart-detail" onclick="addCurrentProductToCart()" title="Añadir al carrito">
-        <img src="logo-carrito.png" alt="Carrito" class="cart-icon-btn-img">
-    </button>
-</div>
-<!-- Justo debajo del <div class="detail-actions-wrapper">...</div> -->
-                
-    <div class="payment-methods-info">
-    <h4 class="payment-title">Pago 100% Seguro</h4>
-    <div class="payment-cards-grid">
-        <!-- PayPal -->
-        <div class="pay-card" title="PayPal">
-            <i class="fab fa-paypal" style="color: #003087;"></i>
-        </div>
-        <!-- Mastercard -->
-        <div class="pay-card" title="Mastercard">
-            <i class="fab fa-cc-mastercard" style="color: #eb0000a3;"></i>
-        </div>
-        <!-- Visa -->
-        <div class="pay-card" title="Visa">
-            <i class="fab fa-cc-visa" style="color: #1a1f71;"></i>
-        </div>
-        <!-- Binance Pay -->
-        <div class="pay-card" title="Binance Pay">
-            <img src="binance.png" alt="Binance Pay" style="width: 100px; height: 75px; object-fit: contain;">
-        </div>
-        <!-- Transferencia (Ícono de Banco) -->
-        <div class="pay-card" title="Transferencia Bancaria">
-            <i class="fas fa-university" style="color: #333333;"></i>
-        </div>
-        
+    <!-- Estos elementos ahora están DENTRO del product-detail-view -->
+    <div class="detail-actions-wrapper">
+        <a id="detail-wa-link" href="" class="btn-action-whatsapp" target="_blank">Continuar compra en WhatsApp</a>
+        <button id="detail-add-cart-btn" class="btn-action-cart-detail" onclick="addCurrentProductToCart()" title="Añadir al carrito">
+            <img src="logo-carrito.png" alt="Carrito" class="cart-icon-btn-img">
+        </button>
     </div>
-    <p class="payment-note">* Tu pago se coordina de forma totalmente segura a través de WhatsApp.</p>
-</div>
+    
+    <div class="payment-methods-info">
+        <h4 class="payment-title">Pago 100% Seguro</h4>
+        <div class="payment-cards-grid">
+            <!-- PayPal -->
+            <div class="pay-card" title="PayPal">
+                <i class="fab fa-paypal" style="color: #003087;"></i>
+            </div>
+            <!-- Mastercard -->
+            <div class="pay-card" title="Mastercard">
+                <i class="fab fa-cc-mastercard" style="color: #eb0000a3;"></i>
+            </div>
+            <!-- Visa -->
+            <div class="pay-card" title="Visa">
+                <i class="fab fa-cc-visa" style="color: #1a1f71;"></i>
+            </div>
+            <!-- Binance Pay -->
+            <div class="pay-card" title="Binance Pay">
+                <img src="binance.png" alt="Binance Pay" style="width: 100px; height: 75px; object-fit: contain;">
+            </div>
+            <!-- Transferencia (Ícono de Banco) -->
+            <div class="pay-card" title="Transferencia Bancaria">
+                <i class="fas fa-university" style="color: #333333;"></i>
             </div>
         </div>
+        <p class="payment-note">* Tu pago se coordina de forma totalmente segura a través de WhatsApp.</p>
     </div>
+</div> <!-- ESTE ES EL ÚNICO CIERRE FINAL DEL product-detail-view -->
+
     
 
     <div id="cart-overlay" class="cart-drawer-overlay" onclick="closeCartDrawer()"></div>
@@ -2089,6 +2090,93 @@ let totalBestsellers = 0;
 let touchStartX = 0;
 let touchEndX = 0;
 let vistaAntesDelCheckout = 'home';
+
+// 1. FUNCIÓN PARA MOSTRAR SOLO EL INICIO
+function showHomeView() {
+    // Mostramos la página principal
+    document.getElementById('home-view').style.display = 'block';
+
+    // Ocultamos la vista de detalles del producto
+    let productView = document.getElementById('product-detail-view');
+    if (productView) {
+        productView.style.display = 'none';
+    }
+
+    // Ocultamos la vista del checkout/carrito (asegúrate de que tu div tenga id="checkout-view")
+    let checkoutView = document.getElementById('checkout-view');
+    if (checkoutView) {
+        checkoutView.style.display = 'none';
+    }
+
+    // Opcional: Hacemos que la página vuelva hacia arriba del todo
+    window.scrollTo(0, 0);
+}
+
+// 2. EJECUTAR AL CARGAR LA PÁGINA
+// Esto asegura que cuando el cliente entre por primera vez, 
+// se ejecute la función y solo vea el Home.
+document.addEventListener('DOMContentLoaded', function() {
+    showHomeView();
+});
+// 1. FUNCIÓN MAESTRA QUE CAMBIA DE PANTALLA Y GUARDA EL HISTORIAL
+function cambiarVista(idVista, guardarEnHistorial = true) {
+    // a. Ocultar todas las pantallas
+    let home = document.getElementById('home-view');
+    let detalles = document.getElementById('product-detail-view');
+    let checkout = document.getElementById('checkout-view');
+
+    if (home) home.style.display = 'none';
+    if (detalles) detalles.style.display = 'none';
+    if (checkout) checkout.style.display = 'none';
+
+    // b. Mostrar solo la pantalla que pedimos
+    let vistaActiva = document.getElementById(idVista);
+    if (vistaActiva) {
+        vistaActiva.style.display = 'block';
+    }
+
+    // c. Subir la pantalla arriba
+    window.scrollTo(0, 0);
+
+    // d. ¡LA MAGIA DEL BOTÓN ATRÁS! Guardar en el historial del navegador
+    if (guardarEnHistorial) {
+        // Agrega un # con el nombre de la vista a la URL (ej. misitio.com/#checkout-view)
+        history.pushState({ vista: idVista }, '', '#' + idVista);
+    }
+}
+
+// 2. TUS FUNCIONES PARA LOS BOTONES (Ahora usan la función maestra)
+function showHomeView() {
+    cambiarVista('home-view');
+}
+
+function showCheckoutView() {
+    cambiarVista('checkout-view');
+}
+
+// Asegúrate de usar esto cuando abras un reloj
+function openProductDetailView() { 
+    cambiarVista('product-detail-view');
+}
+
+// 3. DETECTAR CUANDO EL USUARIO TOCA LA FLECHA "ATRÁS" DEL NAVEGADOR O CELULAR
+window.addEventListener('popstate', function(event) {
+    // Si el navegador recuerda en qué vista estábamos, regresamos a ella
+    if (event.state && event.state.vista) {
+        // Le pasamos "false" para que no vuelva a guardar esto en el historial
+        cambiarVista(event.state.vista, false); 
+    } else {
+        // Si no hay recuerdo (llegó al inicio), mostramos el home
+        cambiarVista('home-view', false);
+    }
+});
+
+// 4. CONFIGURAR LA PRIMERA VEZ QUE CARGA LA PÁGINA
+document.addEventListener('DOMContentLoaded', function() {
+    // Registramos que empezamos en el "Home"
+    history.replaceState({ vista: 'home-view' }, '', '#home-view');
+    cambiarVista('home-view', false);
+});
 
 // === RENDERIZAR LOS RELOJES ===
 function renderBestSellers(inventarioObj) {
@@ -2427,6 +2515,10 @@ function openProductDetail(id) {
     const p = productsData[id];
     
     // Actualizamos los textos de la interfaz
+    document.getElementById('home-view').style.display = 'none';
+    
+    // 2. Mostrar la vista de detalles
+    document.getElementById('product-detail-view').style.display = 'block';
     document.getElementById('detail-title').innerText = p.title;
     document.getElementById('detail-price').innerText = p.price;
     
@@ -3006,21 +3098,12 @@ function obtenerImagenSegura(folder, imagen, title) {
 // Detectar cuando el usuario usa el botón "Atrás" del navegador o celular
 // Detectar cuando el usuario usa el botón "Atrás" del navegador o celular
 window.addEventListener('popstate', function(event) {
-    const vistaDetalle = document.getElementById('product-detail-view');
-    const modalCheckout = document.getElementById('checkout-modal');
-    
-    // Si el checkout está abierto, ciérralo al volver atrás
-    if (modalCheckout && modalCheckout.style.display === 'flex') {
-        closeCheckoutForm();
-        return;
-    }
-
-    // Si la vista de detalle está abierta y el usuario vuelve atrás
-    if (vistaDetalle && vistaDetalle.style.display === 'block') {
+    if (event.state && event.state.vista === 'detalle') {
+        openProductDetail(event.state.id);
+    } else {
         closeProductDetail(true);
     }
 });
-// Agrega esto en tu JavaScript
 function stopProp(event) {
     event.stopPropagation();
 }
