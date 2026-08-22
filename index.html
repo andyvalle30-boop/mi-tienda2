@@ -326,9 +326,33 @@
     --neo-text-muted: #888888;
 }
 
-/* =========================================
-   OVERLAY (Fondo difuminado)
-========================================= */
+.bestsellers-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-top: 10px;
+}
+
+.bestsellers-title {
+    font-size: 24px;
+    color: #ffffff; /* Letras blancas o un tono gris muy claro */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+.fire-icon {
+    /* Un degradado naranja/rojo o un dorado premium para el fuego */
+    color: #e5a93d; /* Dorado tipo reloj de lujo */
+    margin-right: 8px;
+    animation: flicker 2s infinite alternate; /* Opcional: una pequeña animación de parpadeo */
+}
+
+/* Opcional: Pequeña animación para que el fuego se vea vivo */
+@keyframes flicker {
+    0% { opacity: 0.8; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.1); }
+}
 .bestsellers-overlay {
     position: fixed;
     top: 0;
@@ -559,73 +583,74 @@
 
 
 @media (max-width: 768px) {
-    /* 1. Maximizamos el espacio del modal en la pantalla del celular */
-    .bestsellers-modal.premium-dark {
-        padding: 2rem 10px; /* Reducimos el padding lateral para ganar ancho */
-        width: 95%;
-    }
-    
-    /* 2. Apilamos los elementos y les damos margen para las flechas */
-    .watch-slide {
-        flex-direction: column;
-        text-align: center;
-        gap: 0.5rem; /* Reducimos un poco el gap para que no sea tan alto */
-        padding: 0 25px; /* Damos un margen lateral interno para que el texto no toque las flechas */
-    }
+        /* 1. Maximizamos el espacio del modal en la pantalla del celular */
+            .bestsellers-modal.premium-dark {
+                    padding: 2rem 10px; /* Reducimos el padding lateral para ganar ancho */
+                            width: 95%;
+                                }
+                                    
+                                        /* 2. Apilamos los elementos y les damos margen para las flechas */
+                                            .watch-slide {
+                                                    flex-direction: column;
+                                                            text-align: center;
+                                                                    gap: 0.5rem; /* Reducimos un poco el gap para que no sea tan alto */
+                                                                            padding: 0 25px; /* Damos un margen lateral interno para que el texto no toque las flechas */
+                                                                                }
 
-    .watch-image-container, .watch-info {
-        flex: 1 1 100%;
-        width: 100%;
-        align-items: center;
-    }
-    
-    /* 3. Ajuste de imagen */
-    .watch-img {
-        max-height: 180px; /* Un poco más pequeña para dejar espacio al botón */
-        margin-bottom: 10px;
-    }
+                                                                                    .watch-image-container, .watch-info {
+                                                                                            flex: 1 1 100%;
+                                                                                                    width: 100%;
+                                                                                                            align-items: center;
+                                                                                                                }
+                                                                                                                    
+                                                                                                                        /* 3. Ajuste de imagen */
+                                                                                                                            .watch-img {
+                                                                                                                                    max-height: 180px; /* Un poco más pequeña para dejar espacio al botón */
+                                                                                                                                            margin-bottom: 10px;
+                                                                                                                                                }
 
-    /* 4. Reducimos la tipografía para que nombres largos como el Invicta quepan bien */
-    .watch-name { 
-        position:center;
-        font-size: 1.35rem; 
-        line-height: 1.2;
-        margin-bottom: 0.5rem;
-    }
+                                                                                                                                                    /* 4. Reducimos la tipografía para que nombres largos como el Invicta quepan bien */
+                                                                                                                                                        .watch-name { 
+                                                                                                                                                                position:center;
+                                                                                                                                                                        font-size: 1.35rem; 
+                                                                                                                                                                                line-height: 1.2;
+                                                                                                                                                                                        margin-bottom: 0.5rem;
+                                                                                                                                                                                            }
 
-    .watch-sku {
-        font-size: 0.75rem;
-        margin-bottom: 0.2rem;
-    }
+                                                                                                                                                                                                .watch-sku {
+                                                                                                                                                                                                        font-size: 0.75rem;
+                                                                                                                                                                                                                margin-bottom: 0.2rem;
+                                                                                                                                                                                                                    }
 
-    .watch-price {
-        font-size: 1.1rem;
-        margin-bottom: 1.2rem;
-    }
+                                                                                                                                                                                                                        .watch-price {
+                                                                                                                                                                                                                                font-size: 1.1rem;
+                                                                                                                                                                                                                                        margin-bottom: 1.2rem;
+                                                                                                                                                                                                                                            }
 
-    .btn-buy-gold {
-        align-self: center;
-        width: 90%; /* Botón más ancho y táctil en móviles */
-        max-width: 300px;
-    }
-    
-    /* 5. EL TRUCO CLAVE: Subimos las flechas para que flanqueen el reloj y no pisen el texto */
-  .slider-btn {
-        position: center;
-        top: 35%; /* Centradas a la altura de la imagen */
-        width: 35px;
-        height: 35px;
-        font-size: 1rem;
-        z-index: 20;
-  }
-}
-    /* Pegamos las flechas a los bordes */
- .prev-btn { 
-        left: 10px; 
-    }
-    .next-btn { 
-        right: 10px; 
-    }
+                                                                                                                                                                                                                                                .btn-buy-gold {
+                                                                                                                                                                                                                                                        align-self: center;
+                                                                                                                                                                                                                                                                width: 90%; /* Botón más ancho y táctil en móviles */
+                                                                                                                                                                                                                                                                        max-width: 300px;
+                                                                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                    /* 5. EL TRUCO CLAVE: Subimos las flechas para que flanqueen el reloj y no pisen el texto */
+                                                                                                                                                                                                                                                                                      .slider-btn {
+                                                                                                                                                                                                                                                                                              position: center;
+                                                                                                                                                                                                                                                                                                      top: 35%; /* Centradas a la altura de la imagen */
+                                                                                                                                                                                                                                                                                                              width: 35px;
+                                                                                                                                                                                                                                                                                                                      height: 35px;
+                                                                                                                                                                                                                                                                                                                              font-size: 1rem;
+                                                                                                                                                                                                                                                                                                                                      z-index: 20;
+                                                                                                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                                                                                                            /* Pegamos las flechas a los bordes */
+                                                                                                                                                                                                                                                                                                                                             .prev-btn { 
+                                                                                                                                                                                                                                                                                                                                                     left: 10px; 
+                                                                                                                                                                                                                                                                                                                                                         }
+                                                                                                                                                                                                                                                                                                                                                             .next-btn { 
+                                                                                                                                                                                                                                                                                                                                                                     right: 10px; 
+                                                                                                                                                                                                                                                                                                                                                                         }
+                                                                                                                                                                                                                                                                                                                                                                         
 
 
 
@@ -1875,32 +1900,39 @@ body.no-scroll {
         </header>
     </div>
     <!-- === POPUP DE RELOJES MÁS VENDIDOS === -->
-<!-- === POPUP DE RELOJES MÁS VENDIDOS === -->
-    <div id="bestsellers-popup" class="bestsellers-overlay">
+<!<!-- === POPUP DE RELOJES MÁS VENDIDOS === -->
+<div id="bestsellers-popup" class="bestsellers-overlay">
     <div class="bestsellers-modal premium-dark">
         <!-- Botón de cerrar -->
-       <button class="bestsellers-close" aria-label="Cerrar ventana">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M18 6L6 18M6 6l12 12"></path>
-    </svg>
-</button>
+        <button class="bestsellers-close" aria-label="Cerrar ventana">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6l12 12"></path>
+            </svg>
+        </button>
+        
+        <!-- NUEVO: Título de Los Más Vendidos con ícono de fuego -->
+        <div class="bestsellers-header">
+            <h2 class="bestsellers-title">
+                <i class="fas fa-fire fire-icon"></i> Los Más Vendidos
+            </h2>
+        </div>
         
         <div class="bestseller-slider-container">
-            <!-- La roca estática de fondo -->
+            <!-- La roca estática de fondo (si tienes una imagen aquí) -->
 
             <button class="slider-btn prev-btn" onclick="prevBestseller()">&#10094;</button>
             
             <div class="bestseller-slider-wrapper" id="slider-wrapper">
                 <div id="bestsellers-grid" class="bestsellers-slider premium-slider">
                     
-                    <!-- Ejemplo de cómo debe ser CADA TARJETA inyectada por tu JS -->
+                    <!-- Ejemplo de CADA TARJETA inyectada por tu JS -->
                     <div class="watch-slide">
                         <div class="watch-image-container">
                             <img src="ruta-a-tu-reloj.png" alt="Reloj" class="watch-img">
                         </div>
                         <div class="watch-info-container">
                             <span class="watch-sku">#NX-8427GL</span>
-                            <h2 class="watch-name">NOIR<br>CHRONO X</h2>
+                            <h3 class="watch-name">NOIR<br>CHRONO X</h3>
                             <p class="watch-price">EUR 18,900</p>
                             <button class="btn-buy-gold">Comprar Ahora</button>
                         </div>
